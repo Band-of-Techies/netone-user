@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                       width: 20,
                     ),
                     Text(
-                      'ASSET LOAN APPLICATION FORM',
+                      '- ASSET LOAN APPLICATION FORM',
                       style: GoogleFonts.poppins(
                           color: Color(0xFFff7300),
                           fontSize: 21,
