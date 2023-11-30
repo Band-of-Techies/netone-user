@@ -513,7 +513,7 @@ class _SectionOneState extends State<SectionOne>
               Expanded(
                   child: CustomTextFormField(
                 controller: applicant.postalAddressController,
-                labelText: 'Postal Address',
+                labelText: 'Postal Address ',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Postal Address';
