@@ -417,7 +417,7 @@ class _SectionFourState extends State<SectionFour>
               children: [
                 CustomText(
                   text:
-                      'Employemnt Type: ${myTabController.employmentDetailsList[i].employmentType}',
+                      'Employemn t Type: ${myTabController.employmentDetailsList[i].employmentType}',
                 ),
                 SizedBox(
                   width: 30,
