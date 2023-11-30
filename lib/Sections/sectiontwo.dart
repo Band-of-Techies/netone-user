@@ -20,13 +20,15 @@ class SectionTwo extends StatefulWidget {
   State<SectionTwo> createState() => _SectionTwoState();
 }
 
-class _SectionTwoState extends State<SectionTwo> {
+class _SectionTwoState extends State<SectionTwo>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
 
   List<EmployemntandKlinDetails> applicantDetailsList =
       List.generate(4, (_) => EmployemntandKlinDetails());
 
   List<String> employemnttypelist = ['Permanent', 'Temporary'];
+
   @override
   Widget build(BuildContext context) {
     final numberOfPersons = widget.myTabController.numberOfPersons;

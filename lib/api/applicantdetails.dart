@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-//for section two
 class EmployemntandKlinDetails {
   TextEditingController jobTitleController = TextEditingController();
   TextEditingController ministryController = TextEditingController();
@@ -31,16 +30,11 @@ class EmployemntandKlinDetails {
   TextEditingController preferredYearOfRetirementController =
       TextEditingController();
 
-  // Add more controllers as needed for additional fields
-
-  // Function to dispose of controllers when they are no longer needed
   void dispose() {
-    expiryDateController.dispose();
     jobTitleController.dispose();
     ministryController.dispose();
-    temperoryexpirydate.dispose();
-    physicalAddressControllernextofkin.dispose();
     physicalAddressControlleremployment.dispose();
+    physicalAddressControllernextofkin.dispose();
     postalAddressControllerEmployment.dispose();
     postalAddressControllerforKline.dispose();
     townController.dispose();
@@ -51,15 +45,13 @@ class EmployemntandKlinDetails {
     retirementYearController.dispose();
     employeeNumberController.dispose();
     yearsInEmploymentController.dispose();
-
+    expiryDateController.dispose();
     nameController.dispose();
     otherNamesController.dispose();
     cellNumberController.dispose();
     emailAddressController.dispose();
-
     currentNetSalaryController.dispose();
+    temperoryexpirydate.dispose();
     preferredYearOfRetirementController.dispose();
-
-    // Dispose of additional controllers as needed
   }
 }

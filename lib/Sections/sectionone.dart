@@ -19,7 +19,8 @@ class SectionOne extends StatefulWidget {
   _SectionOneState createState() => _SectionOneState();
 }
 
-class _SectionOneState extends State<SectionOne> {
+class _SectionOneState extends State<SectionOne>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers for text fields

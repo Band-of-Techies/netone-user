@@ -23,7 +23,8 @@ class SectionThree extends StatefulWidget {
   State<SectionThree> createState() => _SectionThreeState();
 }
 
-class _SectionThreeState extends State<SectionThree> {
+class _SectionThreeState extends State<SectionThree>
+    with SingleTickerProviderStateMixin {
   LoanDetails loadndetails = LoanDetails();
   final _formKey = GlobalKey<FormState>();
   bool canAgreePersonOne = false;
@@ -85,7 +86,7 @@ class _SectionThreeState extends State<SectionThree> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                 ),*/
-                    //DocumentTable(),
+                    DocumentTable(),
                   ],
                 ),
               ),

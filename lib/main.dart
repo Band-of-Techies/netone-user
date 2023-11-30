@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             appBar: AppBar(
               leadingWidth: 200,
               leading: Image.asset(
-                'logo.png',
+                'assets/netone.png',
                 height: 60,
                 width: 200,
                 fit: BoxFit.contain,
@@ -117,6 +117,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     myTabController.tabController = TabController(length: 4, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    myTabController.tabController.dispose(); // Dispose of the TabController
+    super.dispose();
   }
 }
 
