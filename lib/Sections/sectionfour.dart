@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_final_fields, unused_field
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -277,15 +277,14 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
-                text:
-                    'Town: ${myTabController.applicants[i].townController.text}',
+                text: 'Town: ${myTabController.applicants[i].selectedTown}',
               ),
               SizedBox(
                 width: 30,
               ),
               CustomText(
                 text:
-                    'Province: ${myTabController.applicants[i].provinceController.text}',
+                    'Province: ${myTabController.applicants[i].selectedProvince}',
               ),
             ],
           ),
@@ -352,14 +351,14 @@ class _SectionFourState extends State<SectionFour>
               children: [
                 CustomText(
                   text:
-                      'Town: ${myTabController.employmentDetailsList[i].townController.text}',
+                      'Town: ${myTabController.employmentDetailsList[i].townController}',
                 ),
                 SizedBox(
                   width: 30,
                 ),
                 CustomText(
                   text:
-                      'Province: ${myTabController.employmentDetailsList[i].provinceController.text}',
+                      'Province: ${myTabController.employmentDetailsList[i].provinceController}',
                 ),
               ],
             ),
@@ -381,7 +380,7 @@ class _SectionFourState extends State<SectionFour>
                 ),
                 CustomText(
                   text:
-                      'Salary Scale: ${myTabController.employmentDetailsList[i].salaryScaleController.text}',
+                      'Salary Scale: ${myTabController.employmentDetailsList[i].salaryScaleController.toString()}',
                 ),
               ],
             ),
@@ -406,7 +405,7 @@ class _SectionFourState extends State<SectionFour>
                 ),
                 CustomText(
                   text:
-                      'Years in Employemnt: ${myTabController.employmentDetailsList[i].yearsInEmploymentController.text}',
+                      'Years in Employemnt: ${myTabController.employmentDetailsList[i].yearsInEmploymentController}',
                 ),
               ],
             ),

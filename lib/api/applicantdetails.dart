@@ -11,14 +11,14 @@ class EmployemntandKlinDetails {
       TextEditingController();
   TextEditingController postalAddressControllerforKline =
       TextEditingController();
-  TextEditingController townController = TextEditingController();
-  TextEditingController provinceController = TextEditingController();
+  String? townController;
+  String? provinceController;
   TextEditingController grossSalaryController = TextEditingController();
   TextEditingController netSalaryController = TextEditingController();
-  TextEditingController salaryScaleController = TextEditingController();
+  String? salaryScaleController;
   TextEditingController retirementYearController = TextEditingController();
   TextEditingController employeeNumberController = TextEditingController();
-  TextEditingController yearsInEmploymentController = TextEditingController();
+  String? yearsInEmploymentController;
   String employmentType = '';
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -37,14 +37,11 @@ class EmployemntandKlinDetails {
     physicalAddressControllernextofkin.dispose();
     postalAddressControllerEmployment.dispose();
     postalAddressControllerforKline.dispose();
-    townController.dispose();
-    provinceController.dispose();
     grossSalaryController.dispose();
     netSalaryController.dispose();
-    salaryScaleController.dispose();
+
     retirementYearController.dispose();
     employeeNumberController.dispose();
-    yearsInEmploymentController.dispose();
     expiryDateController.dispose();
     nameController.dispose();
     otherNamesController.dispose();

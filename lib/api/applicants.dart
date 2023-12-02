@@ -14,8 +14,10 @@ class ApplicantDetails {
   TextEditingController residentialAddressController = TextEditingController();
   TextEditingController postalAddressController = TextEditingController();
   TextEditingController howlongthisplaceController = TextEditingController();
-  TextEditingController townController = TextEditingController();
-  TextEditingController provinceController = TextEditingController();
+  String? townController;
+  String? provinceController;
+  String? selectedProvince;
+  String? selectedTown;
   String? gender;
   String? ownership;
 
@@ -33,7 +35,5 @@ class ApplicantDetails {
     residentialAddressController.dispose();
     postalAddressController.dispose();
     howlongthisplaceController.dispose();
-    townController.dispose();
-    provinceController.dispose();
   }
 }
