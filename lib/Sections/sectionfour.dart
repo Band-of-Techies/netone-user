@@ -45,7 +45,7 @@ class _SectionFourState extends State<SectionFour>
         child: ListView(
           children: [
             CustomText(
-              text: 'Part 1',
+              text: 'Part 1 ',
               color: blackfont,
               fontSize: 16,
               fontWeight: FontWeight.w700,
