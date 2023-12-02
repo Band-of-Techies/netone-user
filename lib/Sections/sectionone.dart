@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, avoid_print, prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,158 @@ class _SectionOneState extends State<SectionOne>
   List<String> genders = ['Male', 'Female'];
   bool isJointApplication = false;
   int numberOfPersons = 1;
+  String? selectedProvince;
+  String? selectedTown;
+  List<String> provinces = [
+    'Central',
+    'Copperbelt',
+    'Eastern',
+    'Luapula',
+    'Lusaka',
+    'Northern',
+    'Muchinga',
+    'North-Western',
+    'Southern',
+    'Western',
+  ];
+  Map<String, List<String>> townsByProvince = {
+    'Central': [
+      'Chibombo District',
+      'Chisamba District',
+      'Chitambo District',
+      'Kabwe District',
+      'Kapiri Mposhi District',
+      'Luano District',
+      'Mkushi District',
+      'Mumbwa District',
+      'Ngabwe District',
+      'Serenje District',
+      'Shibuyunji District',
+    ],
+    'Copperbelt': [
+      'Chililabombwe District',
+      'Chingola District',
+      'Kalulushi District',
+      'Kitwe District',
+      'Luanshya District',
+      'Lufwanyama District',
+      'Masaiti District',
+      'Mpongwe District',
+      'Mufulira District',
+      'Ndola District',
+    ],
+    'Eastern': [
+      'Chadiza District',
+      'Chama District',
+      'Chasefu District',
+      'Chipangali District',
+      'Chipata District',
+      'Kasenengwa District',
+      'Katete District',
+      'Lumezi District',
+      'Lundazi District',
+      'Lusangazi District',
+      'Mambwe District',
+      'Nyimba District',
+      'Petauke District',
+      'Sinda District',
+      'Vubwi District',
+    ],
+    'Luapula': [
+      'Chembe District',
+      'Chiengi District',
+      'Chifunabuli District',
+      'Chipili District',
+      'Kawambwa District',
+      'Lunga District',
+      'Mansa District',
+      'Milenge District',
+      'Mwansabombwe District',
+      'Mwense District',
+      'Nchelenge District',
+      'Samfya District',
+    ],
+    'Lusaka': [
+      'Chilanga District',
+      'Chongwe District',
+      'Kafue District',
+      'Luangwa District',
+      'Lusaka District',
+      'Rufunsa District',
+    ],
+    'Muchinga': [
+      'Chinsali District',
+      'Isoka District',
+      'Mafinga District',
+      'Mpika District',
+      'Nakonde District',
+      'Shiwangandu District',
+      'Kanchibiya District',
+      'Lavushimanda District',
+    ],
+    'Northern': [
+      'Kasama District',
+      'Chilubi District',
+      'Kaputa District',
+      'Luwingu District',
+      'Mbala District',
+      'Mporokoso District',
+      'Mpulungu District',
+      'Mungwi District',
+      'Nsama District',
+      'Lupososhi District',
+      'Lunte District',
+      'Senga Hill District',
+    ],
+    'North-Western': [
+      'Chavuma District',
+      'Ikelenge District',
+      'Kabompo District',
+      'Kalumbila District',
+      'Kasempa District',
+      'Manyinga District',
+      'Mufumbwe District',
+      'Mushindamo District',
+      'Mwinilunga District',
+      'Solwezi District',
+      'Zambezi District',
+    ],
+    'Southern': [
+      'Chikankata District',
+      'Chirundu District',
+      'Choma District',
+      'Gwembe District',
+      'Itezhi-Tezhi District',
+      'Kalomo District',
+      'Kazungula District',
+      'Livingstone District',
+      'Mazabuka District',
+      'Monze District',
+      'Namwala District',
+      'Pemba District',
+      'Siavonga District',
+      'Sinazongwe District',
+      'Zimba District',
+    ],
+    'Western': [
+      'Kalabo District',
+      'Kaoma District',
+      'Limulunga District',
+      'Luampa District',
+      'Lukulu District',
+      'Mitete District',
+      'Mongu District',
+      'Mulobezi District',
+      'Mwandi District',
+      'Nalolo District',
+      'Nkeyema District',
+      'Senanga District',
+      'Sesheke District',
+      'Shangombo District',
+      'Sikongo District',
+      'Sioma District',
+    ]
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -513,7 +666,7 @@ class _SectionOneState extends State<SectionOne>
               Expanded(
                   child: CustomTextFormField(
                 controller: applicant.postalAddressController,
-                labelText: 'Postal Address',
+                labelText: 'Postal Address ',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Postal Address';
@@ -522,29 +675,156 @@ class _SectionOneState extends State<SectionOne>
                 },
               )),
               SizedBox(width: 20),
-              Expanded(
-                  child: CustomTextFormField(
-                controller: applicant.townController,
-                labelText: 'Town',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Town';
-                  }
-                  return null;
-                },
-              )),
+              SizedBox(
+                width: 350,
+                child: DropdownButtonFormField2<String>(
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    labelText: 'Choose Province',
+                    labelStyle: GoogleFonts.dmSans(
+                      color: Colors.black,
+                      height: 0.5,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    focusColor: blackfont,
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: blackfont, width: .5)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: blackfont, width: .5)),
+                    // Add Horizontal padding using menuItemStyleData.padding so it matches
+                    // the menu padding when button's width is not specified.
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: blackfont,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    // Add more decoration..
+                  ),
+                  hint: Text(
+                    applicant.selectedProvince == null
+                        ? 'Choose Province'
+                        : applicant.selectedProvince.toString(),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: blackfont,
+                    ),
+                  ),
+                  items: provinces
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: CustomText(
+                              fontSize: 14,
+                              color: blackfont,
+                              fontWeight: FontWeight.w500,
+                              text: item,
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    //Do something when selected item is changed.
+                    print(selectedTown);
+                    setState(() {
+                      selectedProvince = value.toString();
+                      applicant.selectedProvince = value.toString();
+                      applicant.selectedTown = null;
+                      selectedTown = null;
+                    });
+                  },
+                  buttonStyleData: const ButtonStyleData(
+                    padding: EdgeInsets.only(right: 8),
+                  ),
+                  iconStyleData: IconStyleData(
+                    icon: Icon(Icons.arrow_drop_down, color: blackfont),
+                    iconSize: 24,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                ),
+              ),
               SizedBox(width: 20),
-              Expanded(
-                  child: CustomTextFormField(
-                controller: applicant.townController,
-                labelText: 'Province',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Province';
-                  }
-                  return null;
-                },
-              )),
+              SizedBox(
+                width: 350,
+                child: DropdownButtonFormField2<String>(
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    labelText: 'Choose Town',
+                    labelStyle: GoogleFonts.dmSans(
+                      color: Colors.black,
+                      height: 0.5,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    focusColor: blackfont,
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: blackfont, width: .5)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: blackfont, width: .5)),
+                    // Add Horizontal padding using menuItemStyleData.padding so it matches
+                    // the menu padding when button's width is not specified.
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: blackfont,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    // Add more decoration..
+                  ),
+                  hint: Text(
+                    selectedTown == null
+                        ? 'Choose Town'
+                        : applicant.selectedTown.toString(),
+                    style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                        color: blackfont,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  items: townsByProvince[selectedProvince]
+                          ?.map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: CustomText(
+                                  fontSize: 14,
+                                  color: blackfont,
+                                  text: item,
+                                ),
+                              ))
+                          .toList() ??
+                      [],
+                  onChanged: (value) {
+                    setState(() {
+                      selectedTown = value;
+                      applicant.selectedTown = value.toString();
+                    });
+                  },
+                  buttonStyleData: const ButtonStyleData(
+                    padding: EdgeInsets.only(right: 8),
+                  ),
+                  iconStyleData: IconStyleData(
+                    icon: Icon(Icons.arrow_drop_down, color: blackfont),
+                    iconSize: 24,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                ),
+              ),
             ],
           ),
         ],
@@ -596,8 +876,8 @@ class _SectionOneState extends State<SectionOne>
       print('Ownership: ${applicants[i].ownership}');
 
       print('Postal Address: ${applicants[i].postalAddressController.text}');
-      print('Town: ${applicants[i].townController.text}');
-      print('Province: ${applicants[i].provinceController.text}');
+      print('Town: ${applicants[i].townController}');
+      print('Province: ${applicants[i].provinceController}');
       print('\n');
     }
   }

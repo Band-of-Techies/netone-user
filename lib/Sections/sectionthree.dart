@@ -39,6 +39,7 @@ class _SectionThreeState extends State<SectionThree>
   @override
   Widget build(BuildContext context) {
     final myTabController = Provider.of<MyTabController>(context);
+    loadndetails = myTabController.loanDetails;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -133,15 +134,18 @@ class _SectionThreeState extends State<SectionThree>
                             padding:
                                 MaterialStateProperty.all(EdgeInsets.all(15))),
                         onPressed: () {
-                          myTabController.loanDetails = loadndetails;
-                          //printApplicantDetails();
-                          if (widget._tabController.index <
-                              widget._tabController.length - 1) {
-                            widget._tabController
-                                .animateTo(widget._tabController.index + 1);
-                          } else {
-                            // Handle the case when the last tab is reached
+                          if (_formKey.currentState!.validate()) {
+                            myTabController.loanDetails = loadndetails;
+                            //printApplicantDetails();
+                            if (widget._tabController.index <
+                                widget._tabController.length - 1) {
+                              widget._tabController
+                                  .animateTo(widget._tabController.index + 1);
+                            } else {
+                              // Handle the case when the last tab is reached
+                            }
                           }
+
                           //widget.myTabController.updateNumberOfPersons(numberOfPersons);
                           //  DefaultTabController.of(context)?.animateTo(1);
                           // if (_formKey.currentState!.validate()) {
@@ -216,7 +220,7 @@ class _SectionThreeState extends State<SectionThree>
                           fontWeight: FontWeight.w500),
                     ),
                   )
-                : Image.file(File(pickedImage!.path)),
+                : Image.file(File(pickedImage.path)),
           ],
         ),
         SizedBox(height: 40),
@@ -524,6 +528,12 @@ class _SectionThreeState extends State<SectionThree>
         )
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadndetails = LoanDetails();
   }
 
   Widget buildCheckBox(String option) {
