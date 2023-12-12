@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, avoid_print, prefer_const_constructors, use_key_in_widget_constructors
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,158 @@ class _SectionOneState extends State<SectionOne>
   List<String> genders = ['Male', 'Female'];
   bool isJointApplication = false;
   int numberOfPersons = 1;
+  String? selectedProvince;
+  String? selectedTown;
+  List<String> provinces = [
+    'Central',
+    'Copperbelt',
+    'Eastern',
+    'Luapula',
+    'Lusaka',
+    'Northern',
+    'Muchinga',
+    'North-Western',
+    'Southern',
+    'Western',
+  ];
+  Map<String, List<String>> townsByProvince = {
+    'Central': [
+      'Chibombo District',
+      'Chisamba District',
+      'Chitambo District',
+      'Kabwe District',
+      'Kapiri Mposhi District',
+      'Luano District',
+      'Mkushi District',
+      'Mumbwa District',
+      'Ngabwe District',
+      'Serenje District',
+      'Shibuyunji District',
+    ],
+    'Copperbelt': [
+      'Chililabombwe District',
+      'Chingola District',
+      'Kalulushi District',
+      'Kitwe District',
+      'Luanshya District',
+      'Lufwanyama District',
+      'Masaiti District',
+      'Mpongwe District',
+      'Mufulira District',
+      'Ndola District',
+    ],
+    'Eastern': [
+      'Chadiza District',
+      'Chama District',
+      'Chasefu District',
+      'Chipangali District',
+      'Chipata District',
+      'Kasenengwa District',
+      'Katete District',
+      'Lumezi District',
+      'Lundazi District',
+      'Lusangazi District',
+      'Mambwe District',
+      'Nyimba District',
+      'Petauke District',
+      'Sinda District',
+      'Vubwi District',
+    ],
+    'Luapula': [
+      'Chembe District',
+      'Chiengi District',
+      'Chifunabuli District',
+      'Chipili District',
+      'Kawambwa District',
+      'Lunga District',
+      'Mansa District',
+      'Milenge District',
+      'Mwansabombwe District',
+      'Mwense District',
+      'Nchelenge District',
+      'Samfya District',
+    ],
+    'Lusaka': [
+      'Chilanga District',
+      'Chongwe District',
+      'Kafue District',
+      'Luangwa District',
+      'Lusaka District',
+      'Rufunsa District',
+    ],
+    'Muchinga': [
+      'Chinsali District',
+      'Isoka District',
+      'Mafinga District',
+      'Mpika District',
+      'Nakonde District',
+      'Shiwangandu District',
+      'Kanchibiya District',
+      'Lavushimanda District',
+    ],
+    'Northern': [
+      'Kasama District',
+      'Chilubi District',
+      'Kaputa District',
+      'Luwingu District',
+      'Mbala District',
+      'Mporokoso District',
+      'Mpulungu District',
+      'Mungwi District',
+      'Nsama District',
+      'Lupososhi District',
+      'Lunte District',
+      'Senga Hill District',
+    ],
+    'North-Western': [
+      'Chavuma District',
+      'Ikelenge District',
+      'Kabompo District',
+      'Kalumbila District',
+      'Kasempa District',
+      'Manyinga District',
+      'Mufumbwe District',
+      'Mushindamo District',
+      'Mwinilunga District',
+      'Solwezi District',
+      'Zambezi District',
+    ],
+    'Southern': [
+      'Chikankata District',
+      'Chirundu District',
+      'Choma District',
+      'Gwembe District',
+      'Itezhi-Tezhi District',
+      'Kalomo District',
+      'Kazungula District',
+      'Livingstone District',
+      'Mazabuka District',
+      'Monze District',
+      'Namwala District',
+      'Pemba District',
+      'Siavonga District',
+      'Sinazongwe District',
+      'Zimba District',
+    ],
+    'Western': [
+      'Kalabo District',
+      'Kaoma District',
+      'Limulunga District',
+      'Luampa District',
+      'Lukulu District',
+      'Mitete District',
+      'Mongu District',
+      'Mulobezi District',
+      'Mwandi District',
+      'Nalolo District',
+      'Nkeyema District',
+      'Senanga District',
+      'Sesheke District',
+      'Shangombo District',
+      'Sikongo District',
+      'Sioma District',
+    ],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -331,6 +484,14 @@ class _SectionOneState extends State<SectionOne>
                   if (value == null || value.isEmpty) {
                     return 'Please enter NRC Number';
                   }
+
+                  // Define a regex pattern for NRC validation
+                  RegExp nrcPattern = RegExp(r'^[0-9/ ]+$');
+
+                  if (!nrcPattern.hasMatch(value)) {
+                    return 'NRC Number can only contain numbers, space, and "/"';
+                  }
+
                   return null;
                 },
               )),
@@ -349,6 +510,9 @@ class _SectionOneState extends State<SectionOne>
                   if (value == null || value.isEmpty) {
                     return 'Please enter your Telephone';
                   }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    return 'Please enter only numeric digits';
+                  }
                   return null;
                 },
               )),
@@ -361,6 +525,9 @@ class _SectionOneState extends State<SectionOne>
                   // You might want to add more comprehensive mobile validation
                   if (value == null || value.isEmpty) {
                     return 'Please enter your Mobile Number';
+                  }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    return 'Please enter only numeric digits';
                   }
                   return null;
                 },
@@ -378,6 +545,11 @@ class _SectionOneState extends State<SectionOne>
               if (value == null || value.isEmpty) {
                 return 'Please enter your Email Address';
               }
+              // Basic email validation using a regular expression
+
+              if (!value.contains('@') || !value.contains('.com')) {
+                return 'Please enter a valid Email Address';
+              }
               return null;
             },
           ),
@@ -390,12 +562,6 @@ class _SectionOneState extends State<SectionOne>
                   child: CustomTextFormField(
                 controller: applicant.licenseNumberController,
                 labelText: 'Driver License Number',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter License Number';
-                  }
-                  return null;
-                },
               )),
               SizedBox(width: 20),
               Expanded(
@@ -429,12 +595,6 @@ class _SectionOneState extends State<SectionOne>
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please choose DOB';
-                      }
-                      return null;
-                    },
                   ),
                 ),
               )),
@@ -495,12 +655,6 @@ class _SectionOneState extends State<SectionOne>
                   child: CustomTextFormField(
                 controller: applicant.howlongthisplaceController,
                 labelText: 'How Long at this Place',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'How long this place';
-                  }
-                  return null;
-                },
               )),
             ],
           ),
@@ -523,28 +677,109 @@ class _SectionOneState extends State<SectionOne>
               )),
               SizedBox(width: 20),
               Expanded(
-                  child: CustomTextFormField(
-                controller: applicant.townController,
-                labelText: 'Town',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Town';
-                  }
-                  return null;
-                },
-              )),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    isExpanded: true,
+                    hint: Text(
+                      applicant.provinceController == null
+                          ? 'Select Province'
+                          : applicant.provinceController.toString(),
+                      style: GoogleFonts.dmSans(
+                        fontSize: 15,
+                        color: blackfont,
+                        height: .5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    items: provinces
+                        .map((String item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: GoogleFonts.dmSans(
+                                    fontWeight: FontWeight.w500,
+                                    height: .5,
+                                    fontSize: 15,
+                                    color: blackfont),
+                              ),
+                            ))
+                        .toList(),
+                    value: selectedProvince,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedProvince = value;
+                        applicant.provinceController = value;
+                        applicant.townController = null;
+                        selectedTown = null;
+                      });
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: applicant.provinceController == null &&
+                                      selectedProvince == null
+                                  ? Colors.red
+                                  : Colors.grey,
+                              width: 1),
+                          borderRadius: BorderRadius.circular(4)),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(width: 20),
               Expanded(
-                  child: CustomTextFormField(
-                controller: applicant.townController,
-                labelText: 'Province',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Province';
-                  }
-                  return null;
-                },
-              )),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    isExpanded: true,
+                    hint: Text(
+                      applicant.townController != null
+                          ? applicant.townController.toString()
+                          : 'Select Town',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 15,
+                        color: blackfont,
+                        height: .5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    items: selectedProvince != null
+                        ? townsByProvince[selectedProvince!]!
+                            .map((String item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: GoogleFonts.dmSans(
+                                      fontWeight: FontWeight.w500,
+                                      height: .5,
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ))
+                            .toList()
+                        : [],
+                    value: selectedTown,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedTown = value;
+                        applicant.townController = value;
+                      });
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: applicant.townController == null &&
+                                      selectedTown == null
+                                  ? Colors.red
+                                  : Colors.grey,
+                              width: 1),
+                          borderRadius: BorderRadius.circular(4)),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ],
@@ -560,19 +795,31 @@ class _SectionOneState extends State<SectionOne>
 
   Future<void> _selectDate(
       BuildContext context, ApplicantDetails applicant) async {
+    final DateTime currentDate = DateTime.now();
+    final DateTime lastAllowedDate =
+        currentDate.subtract(Duration(days: 18 * 365));
+
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: lastAllowedDate,
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
+      lastDate: lastAllowedDate,
     );
 
-    if (picked != null && picked != DateTime.now()) {
-      setState(() {
-        // if backend requires time and date in another format use staring in applicant details and assign here, controller in textfield
-        String formattedDate = DateFormat('dd MMMM yyyy').format(picked);
-        applicant.dobController.text = formattedDate;
-      });
+    if (picked != null) {
+      if (picked.isAfter(lastAllowedDate)) {
+        setState(() {
+          String formattedDate = DateFormat('dd MMMM yyyy').format(picked);
+          applicant.dobController.text = formattedDate;
+        });
+      } else {
+        // Handle the case where the selected date is not within the allowed range
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please select a date within the last 18 years.'),
+          ),
+        );
+      }
     }
   }
 
@@ -596,8 +843,8 @@ class _SectionOneState extends State<SectionOne>
       print('Ownership: ${applicants[i].ownership}');
 
       print('Postal Address: ${applicants[i].postalAddressController.text}');
-      print('Town: ${applicants[i].townController.text}');
-      print('Province: ${applicants[i].provinceController.text}');
+      print('Town: ${applicants[i].townController}');
+      print('Province: ${applicants[i].provinceController}');
       print('\n');
     }
   }

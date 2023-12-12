@@ -179,7 +179,9 @@ class _SectionFourState extends State<SectionFour>
           Wrap(
             children: [
               CustomText(
-                text: 'Gender: ${myTabController.applicants[i].gender}',
+                text: myTabController.applicants[i].gender == null
+                    ? 'Gender:'
+                    : 'Gender: ${myTabController.applicants[i].gender}',
               ),
               SizedBox(
                 width: 30,
@@ -253,7 +255,9 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
-                text: 'Ownership: ${myTabController.applicants[i].ownership}',
+                text: myTabController.applicants[i].ownership == null
+                    ? 'Ownership:'
+                    : 'Ownership: ${myTabController.applicants[i].ownership}',
               ),
               SizedBox(
                 width: 30,
@@ -277,15 +281,17 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
-                text:
-                    'Town: ${myTabController.applicants[i].townController.text}',
+                text: myTabController.applicants[i].townController == null
+                    ? 'Town:'
+                    : 'Town: ${myTabController.applicants[i].townController}',
               ),
               SizedBox(
                 width: 30,
               ),
               CustomText(
-                text:
-                    'Province: ${myTabController.applicants[i].provinceController.text}',
+                text: myTabController.applicants[i].provinceController == null
+                    ? 'Province'
+                    : 'Province: ${myTabController.applicants[i].provinceController}',
               ),
             ],
           ),
@@ -351,15 +357,21 @@ class _SectionFourState extends State<SectionFour>
             Wrap(
               children: [
                 CustomText(
-                  text:
-                      'Town: ${myTabController.employmentDetailsList[i].townController.text}',
+                  text: myTabController
+                              .employmentDetailsList[i].townController ==
+                          null
+                      ? 'Town:'
+                      : 'Town: ${myTabController.employmentDetailsList[i].townController}',
                 ),
                 SizedBox(
                   width: 30,
                 ),
                 CustomText(
-                  text:
-                      'Province: ${myTabController.employmentDetailsList[i].provinceController.text}',
+                  text: myTabController
+                              .employmentDetailsList[i].provinceController ==
+                          null
+                      ? 'Province:'
+                      : 'Province: ${myTabController.employmentDetailsList[i].provinceController}',
                 ),
               ],
             ),
@@ -376,12 +388,21 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
-                  text:
-                      'Current Net Salary: ${myTabController.employmentDetailsList[i].currentNetSalaryController.text}',
+                  text: myTabController.employmentDetailsList[i]
+                              .currentNetSalaryController.text ==
+                          null
+                      ? 'Current Net Salary:'
+                      : 'Current Net Salary: ${myTabController.employmentDetailsList[i].currentNetSalaryController.text}',
+                ),
+                SizedBox(
+                  width: 30,
                 ),
                 CustomText(
-                  text:
-                      'Salary Scale: ${myTabController.employmentDetailsList[i].salaryScaleController.text}',
+                  text: myTabController
+                              .employmentDetailsList[i].salaryScaleController ==
+                          null
+                      ? 'Salary Scale:'
+                      : 'Salary Scale: ${myTabController.employmentDetailsList[i].salaryScaleController}',
                 ),
               ],
             ),
@@ -391,8 +412,11 @@ class _SectionFourState extends State<SectionFour>
             Wrap(
               children: [
                 CustomText(
-                  text:
-                      'Preferred Year of Retirement: ${myTabController.employmentDetailsList[i].preferredYearOfRetirementController.text}',
+                  text: myTabController.employmentDetailsList[i]
+                              .preferredYearOfRetirementController ==
+                          null
+                      ? 'Preferred Year of Retirement'
+                      : 'Preferred Year of Retirement: ${myTabController.employmentDetailsList[i].preferredYearOfRetirementController}',
                 ),
                 SizedBox(
                   width: 30,
@@ -405,8 +429,11 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
-                  text:
-                      'Years in Employemnt: ${myTabController.employmentDetailsList[i].yearsInEmploymentController.text}',
+                  text: myTabController.employmentDetailsList[i]
+                              .yearsInEmploymentController ==
+                          null
+                      ? 'Years in Employemnt'
+                      : 'Years in Employemnt: ${myTabController.employmentDetailsList[i].yearsInEmploymentController}',
                 ),
               ],
             ),
@@ -417,7 +444,7 @@ class _SectionFourState extends State<SectionFour>
               children: [
                 CustomText(
                   text:
-                      'Employemn t Type: ${myTabController.employmentDetailsList[i].employmentType}',
+                      'Employemnt Type: ${myTabController.employmentDetailsList[i].employmentType}',
                 ),
                 SizedBox(
                   width: 30,
@@ -446,8 +473,9 @@ class _SectionFourState extends State<SectionFour>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text:
-                'Loan Product Applied for: ${myTabController.loanDetails.selectedLoanOption}',
+            text: myTabController.loanDetails.selectedLoanOption == null
+                ? 'Loan Product Applied for:'
+                : 'Loan Product Applied for: ${myTabController.loanDetails.selectedLoanOption}',
           ),
           SizedBox(
             height: 20,
@@ -490,7 +518,9 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
-                text: 'Tenure: ${myTabController.loanDetails.tenure.text}',
+                text: myTabController.loanDetails.tenure == null
+                    ? 'Tenure:'
+                    : 'Tenure: ${myTabController.loanDetails.tenure}',
               ),
             ],
           ),
@@ -574,17 +604,17 @@ class _SectionFourState extends State<SectionFour>
     final requestData = {
       'loan_request': {
         'description': 'Sample description',
-        'cost_of_asset': 40000.0,
-        'insurance_cost': 4000.0,
-        'advance_payment': 2000.0,
-        'loan_amount': 45000.0,
+        'cost_of_asset': 90000.0,
+        'insurance_cost': 7000.0,
+        'advance_payment': 6000.0,
+        'loan_amount': 35000.0,
         'loan_tenure': 12,
-        'applicants_attributes':
-            List.generate(widget.myTabController.numberOfPersons, (index) {
+        'product_id': 2,
+        'applicants_attributes': List.generate(2, (index) {
           // Sample data for each applicant
           return {
-            'surname': 'New$index',
-            'first_name': 'New$index',
+            'surname': 'Test$index',
+            'first_name': 'Tets$index',
             'middle_name': 'SampleMiddleName$index',
             'email': 'sample@.com',
             'dob': '01/01/1990',
@@ -604,8 +634,8 @@ class _SectionFourState extends State<SectionFour>
               'postal_address': 'Sample Postal Address $index',
               'town': 'Sample Town $index',
               'province': 'Sample Province $index',
-              'gross_salary': 60000.0,
-              'net_salary': 50000.0,
+              'gross_salary': 40000.0,
+              'net_salary': 20000.0,
               'salary_scale': 'Sample Salary Scale $index',
               'retirement_year': '2030',
               'employer_number': '12345$index',

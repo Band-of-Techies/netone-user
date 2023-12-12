@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class LoanDetails {
-  String selectedLoanOption = '';
+  int? selectedLoanOption;
   TextEditingController descriptionController = TextEditingController();
   TextEditingController costofasset = TextEditingController();
   TextEditingController insurancecost = TextEditingController();
   TextEditingController advancepayment = TextEditingController();
   TextEditingController loanamaountapplied = TextEditingController();
-  TextEditingController tenure = TextEditingController();
+  String? tenure;
   TextEditingController firstapplicantproportion = TextEditingController();
   TextEditingController secondapplicantpropotion = TextEditingController();
   TextEditingController thirdapplicantpropotion = TextEditingController();
@@ -23,7 +23,7 @@ class LoanDetails {
     insurancecost.dispose();
     advancepayment.dispose();
     loanamaountapplied.dispose();
-    tenure.dispose();
+
     firstapplicantproportion.dispose();
     secondapplicantpropotion.dispose();
     thirdapplicantpropotion.dispose();

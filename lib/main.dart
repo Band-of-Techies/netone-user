@@ -145,6 +145,17 @@ class MyTabController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateEMplymentandKlin(
+      List<EmployemntandKlinDetails> updatedEmploymentandKlin) {
+    employmentDetailsList = updatedEmploymentandKlin;
+    notifyListeners();
+  }
+
+  void updateLoanInfo(LoanDetails updateLoaninfo) {
+    loanDetails = updateLoaninfo;
+    notifyListeners();
+  }
+
   void updateNumberOfPersons(int value) {
     if (value > numberOfPersons) {
       // Increase the number of persons
