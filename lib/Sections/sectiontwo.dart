@@ -27,8 +27,6 @@ class _SectionTwoState extends State<SectionTwo>
   List<String> prefyearsList =
       List.generate(61, (index) => (DateTime.now().year + index).toString());
   List<EmployemntandKlinDetails> applicantDetailsLists = [];
-  String? selectedProvince;
-  String? selectedTown;
   String? selectedLetter;
   List<String> employemnttypelist = ['Permanent', 'Contract'];
   List<String> letters = List.generate(
@@ -594,22 +592,19 @@ class _SectionTwoState extends State<SectionTwo>
                               ),
                             ))
                         .toList(),
-                    value: selectedProvince,
+                    value: applicantDetailsList.provinceController,
                     onChanged: (String? value) {
                       setState(() {
-                        selectedProvince = value;
                         applicantDetailsList.provinceController = value;
                         print(applicantDetailsList.provinceController);
                         applicantDetailsList.townController = null;
-                        selectedTown = null;
                       });
                     },
                     buttonStyleData: ButtonStyleData(
                       decoration: BoxDecoration(
                           border: Border.all(
                               color: applicantDetailsList.provinceController ==
-                                          null &&
-                                      selectedProvince == null
+                                      null
                                   ? Colors.red
                                   : Colors.grey,
                               width: 1),
@@ -635,8 +630,9 @@ class _SectionTwoState extends State<SectionTwo>
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    items: selectedProvince != null
-                        ? townsByProvince[selectedProvince!]!
+                    items: applicantDetailsList.provinceController != null
+                        ? townsByProvince[
+                                applicantDetailsList.provinceController!]!
                             .map((String item) => DropdownMenuItem<String>(
                                   value: item,
                                   child: Text(
@@ -651,21 +647,18 @@ class _SectionTwoState extends State<SectionTwo>
                                 ))
                             .toList()
                         : [],
-                    value: selectedTown,
+                    value: applicantDetailsList.townController,
                     onChanged: (String? value) {
                       setState(() {
-                        selectedTown = value;
                         applicantDetailsList.townController = value;
                       });
                     },
                     buttonStyleData: ButtonStyleData(
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color:
-                                  applicantDetailsList.townController == null &&
-                                          selectedTown == null
-                                      ? Colors.red
-                                      : Colors.grey,
+                              color: applicantDetailsList.townController == null
+                                  ? Colors.red
+                                  : Colors.grey,
                               width: 1),
                           borderRadius: BorderRadius.circular(4)),
                       padding: EdgeInsets.symmetric(horizontal: 16),

@@ -119,7 +119,7 @@ class _SectionFourState extends State<SectionFour>
                     backgroundColor: MaterialStateProperty.all(primary),
                     padding: MaterialStateProperty.all(EdgeInsets.all(15))),
                 onPressed: () {
-                  submitForm();
+                  submitForm(myTabController);
                 },
                 child: CustomText(
                   text: 'Submit',
@@ -593,7 +593,7 @@ class _SectionFourState extends State<SectionFour>
     );
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm(MyTabController myTabController) async {
     // Prepare the API endpoint URL
     final apiUrl = 'https://loan-managment.onrender.com/loan_requests';
 
@@ -603,14 +603,14 @@ class _SectionFourState extends State<SectionFour>
     // Prepare the request data based on the provided API format
     final requestData = {
       'loan_request': {
-        'description': 'Sample description',
-        'cost_of_asset': 90000.0,
-        'insurance_cost': 7000.0,
-        'advance_payment': 6000.0,
-        'loan_amount': 35000.0,
-        'loan_tenure': 12,
-        'product_id': 2,
-        'applicants_attributes': List.generate(2, (index) {
+        'description': 'Description here',
+        'cost_of_asset': 2000,
+        'insurance_cost': 3000,
+        'advance_payment': 4000,
+        'loan_amount': 5000,
+        'loan_tenure': '3Months',
+        'product_id': 3,
+        'applicants_attributes': List.generate(3, (index) {
           // Sample data for each applicant
           return {
             'surname': 'Test$index',
@@ -680,17 +680,10 @@ class _SectionFourState extends State<SectionFour>
       print('Error sending request: $error');
     }
   }
-}
 
-
-
-  /*
-
-  Future<void> submitForm() async {
-    final myTabController = Provider.of<MyTabController>(context);
-
+  Future<void> submitForsm(MyTabController myTabController) async {
     // Prepare the API endpoint URL
-    final apiUrl = ' https://loan-managment.onrender.com/loan_requests';
+    final apiUrl = 'https://loan-managment.onrender.com/loan_requests';
 
     // Prepare the headers (bearer token)
     final headers = {'Authorization': 'Bearer your_bearer_token_here'};
@@ -699,11 +692,12 @@ class _SectionFourState extends State<SectionFour>
     final requestData = {
       'loan_request': {
         'description': myTabController.loanDetails.descriptionController.text,
-        'cost_of_asset': myTabController.loanDetails.costofasset,
-        'insurance_cost': myTabController.loanDetails.insurancecost,
-        'advance_payment': myTabController.loanDetails.advancepayment,
-        'loan_amount': myTabController.loanDetails.loanamaountapplied,
+        'cost_of_asset': myTabController.loanDetails.costofasset.text,
+        'insurance_cost': myTabController.loanDetails.insurancecost.text,
+        'advance_payment': myTabController.loanDetails.advancepayment.text,
+        'loan_amount': myTabController.loanDetails.loanamaountapplied.text,
         'loan_tenure': myTabController.loanDetails.tenure,
+        'product_id': myTabController.loanDetails.selectedLoanOption,
         'applicants_attributes':
             List.generate(myTabController.numberOfPersons, (index) {
           final applicant = myTabController.applicants[index];
@@ -724,8 +718,8 @@ class _SectionFourState extends State<SectionFour>
             'license_expiry': applicant.licenseExpiryController.text,
             'residential_address': applicant.residentialAddressController.text,
             'postal_address': applicant.postalAddressController.text,
-            'province': applicant.provinceController.text,
-            'town': applicant.townController.text,
+            'province': applicant.provinceController,
+            'town': applicant.townController,
 
             'occupation_attributes': {
               //employment
@@ -735,17 +729,16 @@ class _SectionFourState extends State<SectionFour>
                   employmentDetails.physicalAddressControlleremployment.text,
               'postal_address':
                   employmentDetails.postalAddressControllerEmployment.text,
-              'town': employmentDetails.townController.text,
-              'province': employmentDetails.provinceController.text,
+              'town': employmentDetails.townController,
+              'province': employmentDetails.provinceController,
               'gross_salary': employmentDetails.grossSalaryController.text,
               'net_salary': employmentDetails.currentNetSalaryController.text,
-              'salary_scale': employmentDetails.salaryScaleController.text,
+              'salary_scale': employmentDetails.salaryScaleController,
               'retirement_year':
-                  employmentDetails.preferredYearOfRetirementController.text,
+                  employmentDetails.preferredYearOfRetirementController,
               'employer_number':
                   employmentDetails.employeeNumberController.text,
-              'years_of_service':
-                  employmentDetails.yearsInEmploymentController.text,
+              'years_of_service': employmentDetails.yearsInEmploymentController,
               'employment_type': employmentDetails.employmentType,
               'expiry_date': employmentDetails.expiryDateController.text,
 
@@ -760,7 +753,7 @@ class _SectionFourState extends State<SectionFour>
                   employmentDetails.currentNetSalaryController.text,
               'temp_expiry_date': employmentDetails.temperoryexpirydate.text,
               'preferred_retirement_year':
-                  employmentDetails.preferredYearOfRetirementController.text,
+                  employmentDetails.preferredYearOfRetirementController,
             },
           };
         }),
@@ -791,7 +784,4 @@ class _SectionFourState extends State<SectionFour>
       print('Error sending request: $error');
     }
   }
-
-*/
-
- 
+}

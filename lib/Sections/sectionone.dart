@@ -30,8 +30,7 @@ class _SectionOneState extends State<SectionOne>
   List<String> genders = ['Male', 'Female'];
   bool isJointApplication = false;
   int numberOfPersons = 1;
-  String? selectedProvince;
-  String? selectedTown;
+
   List<String> provinces = [
     'Central',
     'Copperbelt',
@@ -301,24 +300,22 @@ class _SectionOneState extends State<SectionOne>
                       backgroundColor: MaterialStateProperty.all(primary),
                       padding: MaterialStateProperty.all(EdgeInsets.all(15))),
                   onPressed: () {
-                    if (validateGender(applicants) &&
-                        validateOwnership(applicants)) {
-                      myTabController.applicants = applicants;
-                      myTabController.updateApplicants(applicants);
-                      widget._tabController
-                          .animateTo(widget._tabController.index + 1);
-                      widget.myTabController
-                          .updateNumberOfPersons(numberOfPersons);
-                      DefaultTabController.of(context)?.animateTo(1);
-                    }
-
                     if (_formKey.currentState!.validate()) {
                       // Form is valid, move to the next section
+                      if (validateGender(applicants) &&
+                          validateOwnership(applicants)) {
+                        //printApplicantDetails();
+                        if (widget._tabController.index <
+                            widget._tabController.length - 1) {
+                          myTabController.applicants = applicants;
+                          myTabController.updateApplicants(applicants);
+                          widget._tabController
+                              .animateTo(widget._tabController.index + 1);
 
-                      //printApplicantDetails();
-                      if (widget._tabController.index <
-                          widget._tabController.length - 1) {
+                          DefaultTabController.of(context)?.animateTo(1);
+                        }
                       } else {
+                        warning('Complete Gender and Ownership');
                         // Handle the case when the last tab is reached
                       }
                     }
@@ -704,20 +701,17 @@ class _SectionOneState extends State<SectionOne>
                               ),
                             ))
                         .toList(),
-                    value: selectedProvince,
+                    value: applicant.provinceController,
                     onChanged: (String? value) {
                       setState(() {
-                        selectedProvince = value;
                         applicant.provinceController = value;
                         applicant.townController = null;
-                        selectedTown = null;
                       });
                     },
                     buttonStyleData: ButtonStyleData(
                       decoration: BoxDecoration(
                           border: Border.all(
-                              color: applicant.provinceController == null &&
-                                      selectedProvince == null
+                              color: applicant.provinceController == null
                                   ? Colors.red
                                   : Colors.grey,
                               width: 1),
@@ -743,8 +737,8 @@ class _SectionOneState extends State<SectionOne>
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    items: selectedProvince != null
-                        ? townsByProvince[selectedProvince!]!
+                    items: applicant.provinceController != null
+                        ? townsByProvince[applicant.provinceController!]!
                             .map((String item) => DropdownMenuItem<String>(
                                   value: item,
                                   child: Text(
@@ -759,10 +753,9 @@ class _SectionOneState extends State<SectionOne>
                                 ))
                             .toList()
                         : [],
-                    value: selectedTown,
+                    value: applicant.townController,
                     onChanged: (String? value) {
                       setState(() {
-                        selectedTown = value;
                         applicant.townController = value;
                       });
                     },
@@ -770,7 +763,7 @@ class _SectionOneState extends State<SectionOne>
                       decoration: BoxDecoration(
                           border: Border.all(
                               color: applicant.townController == null &&
-                                      selectedTown == null
+                                      applicant.townController == null
                                   ? Colors.red
                                   : Colors.grey,
                               width: 1),
@@ -790,7 +783,13 @@ class _SectionOneState extends State<SectionOne>
   @override
   void initState() {
     super.initState();
-    applicants = List.generate(numberOfPersons, (index) => ApplicantDetails());
+    if (widget.myTabController.numberOfPersons != null) {
+      applicants = List.generate(widget.myTabController.numberOfPersons,
+          (index) => ApplicantDetails());
+    } else {
+      applicants =
+          List.generate(numberOfPersons, (index) => ApplicantDetails());
+    }
   }
 
   Future<void> _selectDate(
@@ -807,19 +806,17 @@ class _SectionOneState extends State<SectionOne>
     );
 
     if (picked != null) {
-      if (picked.isAfter(lastAllowedDate)) {
-        setState(() {
-          String formattedDate = DateFormat('dd MMMM yyyy').format(picked);
-          applicant.dobController.text = formattedDate;
-        });
-      } else {
-        // Handle the case where the selected date is not within the allowed range
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Please select a date within the last 18 years.'),
-          ),
-        );
-      }
+      setState(() {
+        String formattedDate = DateFormat('dd MMMM yyyy').format(picked!);
+        applicant.dobController.text = formattedDate;
+      });
+    } else {
+      // Handle the case where the selected date is not within the allowed range
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please select a date within the last 18 years.'),
+        ),
+      );
     }
   }
 
@@ -865,32 +862,48 @@ class _SectionOneState extends State<SectionOne>
       });
     }
   }
-}
 
-bool validateOwnership(List<ApplicantDetails> applicants) {
-  for (int i = 0; i < applicants.length; i++) {
-    String? ownership = applicants[i].ownership;
+  bool validateOwnership(List<ApplicantDetails> applicants) {
+    for (int i = 0; i < numberOfPersons; i++) {
+      String? ownership = applicants[i].ownership;
 
-    if (ownership != 'Owned' && ownership != 'Lease') {
-      // Ownership is not a valid value (neither "Owned" nor "Lease")
-      return false;
+      if (ownership != 'Owned' && ownership != 'Lease') {
+        // Ownership is not a valid value (neither "Owned" nor "Lease")
+        return false;
+      }
     }
+
+    // All ownership values are either "Owned" or "Lease"
+    return true;
   }
 
-  // All ownership values are either "Owned" or "Lease"
-  return true;
-}
+  bool validateGender(List<ApplicantDetails> applicants) {
+    for (int i = 0; i < numberOfPersons; i++) {
+      String? gender = applicants[i].gender;
 
-bool validateGender(List<ApplicantDetails> applicants) {
-  for (int i = 0; i < applicants.length; i++) {
-    String? gender = applicants[i].gender;
-
-    if (gender == null || (gender != 'Male' && gender != 'Female')) {
-      // Gender is either null or not a valid value (neither "Male" nor "Female")
-      return false;
+      if (gender == null || (gender != 'Male' && gender != 'Female')) {
+        // Gender is either null or not a valid value (neither "Male" nor "Female")
+        return false;
+      }
     }
+
+    // All genders are either "Male" or "Female"
+    return true;
   }
 
-  // All genders are either "Male" or "Female"
-  return true;
+  warning(String message) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        width: MediaQuery.of(context).size.width * .7,
+        backgroundColor: whitefont,
+        duration: Duration(seconds: 3),
+        shape: StadiumBorder(),
+        behavior: SnackBarBehavior.floating,
+        content: Center(
+          child: CustomText(
+              text: message,
+              fontSize: 13,
+              color: primary,
+              fontWeight: FontWeight.w500),
+        )));
+  }
 }

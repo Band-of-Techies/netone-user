@@ -198,16 +198,12 @@ class _SectionThreeState extends State<SectionThree>
 
   void fetchProducts() async {
     final String apiUrl = 'https://loan-managment.onrender.com/products';
-    final String bearerToken =
-        'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHBpcmVzIjoxNzAyNjYwNzk3fQ.aNgcnhSk31oF3CP_72Aiy38hKiNYIuhrNrxcGk6jp7Y';
 
     try {
       final dio = Dio();
       final response = await dio.get(
         apiUrl,
-        options: Options(
-          headers: {'Authorization': 'Bearer $bearerToken'},
-        ),
+        options: Options(),
       );
 
       if (response.statusCode == 200) {
@@ -481,7 +477,8 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.thirdapplicant,
                 labelText: 'Third Applicant (Agric Asset ONLY)',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if ((value == null || value.isEmpty) &&
+                      widget.myTabController.numberOfPersons > 2) {
                     return 'Please enter third applicant';
                   }
                   return null;
@@ -507,7 +504,8 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.thirdapplicantpropotion,
                 labelText: 'Third Applicant Proportion of loan (%))',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if ((value == null || value.isEmpty) &&
+                      widget.myTabController.numberOfPersons > 2) {
                     return 'Third Applicant Proportion of loan (%)';
                   }
                   return null;
@@ -537,7 +535,8 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.secondapplicant,
                 labelText: 'Second Applicant',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if ((value == null || value.isEmpty) &&
+                      widget.myTabController.numberOfPersons > 1) {
                     return 'Second Applicant';
                   }
                   return null;
@@ -550,7 +549,8 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.fourthapplicant,
                 labelText: 'Fourth Applicant (Agric Asset ONLY)',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if ((value == null || value.isEmpty) &&
+                      widget.myTabController.numberOfPersons > 3) {
                     return 'Fourth Applicant (Agric Asset ONLY)';
                   }
                   return null;
@@ -563,7 +563,8 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.secondapplicantpropotion,
                 labelText: 'Second Applicant Proportion of loan (%)',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if ((value == null || value.isEmpty) &&
+                      widget.myTabController.numberOfPersons > 1) {
                     return 'Second Applicant Proportion of loan (%)';
                   }
                   return null;
@@ -574,9 +575,10 @@ class _SectionThreeState extends State<SectionThree>
               ),
               CustomTextFormField(
                 controller: loadndetails.fourthapplicantpropotion,
-                labelText: 'SFourth Applicant Proportion of loan (%)',
+                labelText: 'Fourth Applicant Proportion of loan (%)',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if ((value == null || value.isEmpty) &&
+                      widget.myTabController.numberOfPersons > 3) {
                     return 'Fourth Applicant Proportion of loan (%)';
                   }
                   return null;
