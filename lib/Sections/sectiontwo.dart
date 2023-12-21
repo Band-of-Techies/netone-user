@@ -28,7 +28,7 @@ class _SectionTwoState extends State<SectionTwo>
       List.generate(61, (index) => (DateTime.now().year + index).toString());
   List<EmployemntandKlinDetails> applicantDetailsLists = [];
   String? selectedLetter;
-  List<String> employemnttypelist = ['Permanent', 'Contract'];
+  List<String> employemnttypelist = ['permanent', 'contract'];
   List<String> letters = List.generate(
       26, (index) => String.fromCharCode('A'.codeUnitAt(0) + index));
   List<String> provinces = [
@@ -275,17 +275,19 @@ class _SectionTwoState extends State<SectionTwo>
                           //  DefaultTabController.of(context)?.animateTo(1);
                           if (_formKey.currentState!.validate()) {
                             // Form is valid, move to the next section
-                            myTabController.employmentDetailsList =
-                                applicantDetailsLists;
-                            myTabController
-                                .updateEMplymentandKlin(applicantDetailsLists);
-                            // printApplicantDetails();
-                            if (widget._tabController.index <
-                                widget._tabController.length - 1) {
-                              widget._tabController
-                                  .animateTo(widget._tabController.index + 1);
+                            if (validateLocation(applicantDetailsLists)) {
+                              myTabController.employmentDetailsList =
+                                  applicantDetailsLists;
+                              myTabController.updateEMplymentandKlin(
+                                  applicantDetailsLists);
+                              // printApplicantDetails();
+                              if (widget._tabController.index <
+                                  widget._tabController.length - 1) {
+                                widget._tabController
+                                    .animateTo(widget._tabController.index + 1);
+                              }
                             } else {
-                              // Handle the case when the last tab is reached
+                              warning('Complete Details');
                             }
                           }
                         },
@@ -353,6 +355,18 @@ class _SectionTwoState extends State<SectionTwo>
 
       print('\n');
     }
+  }
+
+  bool validateLocation(List<EmployemntandKlinDetails> applicants) {
+    for (int i = 0; i < widget.myTabController.numberOfPersons; i++) {
+      String? town = applicants[i].townController;
+      String? province = applicants[i].provinceController;
+      if (province == null || town == null) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   Container kinInformation(
@@ -464,7 +478,9 @@ class _SectionTwoState extends State<SectionTwo>
                         return 'Please enter your Email Address';
                       }
                       // Basic email validation using a regular expression
-
+                      if (!isValidEmail(value)) {
+                        return 'Please enter a valid Email Address';
+                      }
                       if (!value.contains('@') || !value.contains('.com')) {
                         return 'Please enter a valid Email Address';
                       }
@@ -476,6 +492,30 @@ class _SectionTwoState extends State<SectionTwo>
         ],
       ),
     );
+  }
+
+  bool isValidEmail(String email) {
+    // Regular expression for a basic email validation
+    final RegExp emailRegex =
+        RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+
+    return emailRegex.hasMatch(email);
+  }
+
+  warning(String message) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        width: MediaQuery.of(context).size.width * .7,
+        backgroundColor: whitefont,
+        duration: Duration(seconds: 3),
+        shape: StadiumBorder(),
+        behavior: SnackBarBehavior.floating,
+        content: Center(
+          child: CustomText(
+              text: message,
+              fontSize: 13,
+              color: blackfont,
+              fontWeight: FontWeight.w500),
+        )));
   }
 
   Container employmentDetails(

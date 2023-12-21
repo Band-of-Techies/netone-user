@@ -1,13 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, use_key_in_widget_constructors, sort_child_properties_last
 
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
+import 'dart:js' as js;
+
+import 'package:netone_enquiry_management/api/applicants.dart';
 import 'package:netone_enquiry_management/api/loandetails.dart';
 import 'package:netone_enquiry_management/api/products.dart';
 import 'package:netone_enquiry_management/constants/colors.dart';
@@ -15,6 +19,7 @@ import 'package:netone_enquiry_management/constants/text.dart';
 import 'package:netone_enquiry_management/constants/textfield.dart';
 import 'package:netone_enquiry_management/main.dart';
 import 'package:provider/provider.dart';
+import 'dart:html' as html;
 
 class SectionThree extends StatefulWidget {
   final MyTabController myTabController;
@@ -31,16 +36,8 @@ class _SectionThreeState extends State<SectionThree>
   LoanDetails loadndetails = LoanDetails();
   final _formKey = GlobalKey<FormState>();
 
-  bool canAgreePersonOne = false;
-  bool canAgreePersonTwo = false;
-  bool canAgreePersonThree = false;
-  bool canAgreePersonFour = false;
-  XFile? pickedImageOne;
-  XFile? pickedImageTwo;
-  XFile? pickedImageThree;
-  XFile? pickedImageFour;
   List<Product> products = [];
-  final ImagePicker _imagePicker = ImagePicker();
+
   List<String> tenureOptions = [
     '3 months',
     '6 months',
@@ -56,6 +53,7 @@ class _SectionThreeState extends State<SectionThree>
   Widget build(BuildContext context) {
     final myTabController = Provider.of<MyTabController>(context);
     loadndetails = myTabController.loanDetails;
+    List<ApplicantDetails> applicants = myTabController.applicants;
     return Scaffold(
       body: products.isEmpty || products == null
           ? Center(
@@ -76,7 +74,7 @@ class _SectionThreeState extends State<SectionThree>
                           SizedBox(
                             height: 30,
                           ),
-                          loandetails(),
+                          loandetails(applicants),
                           SizedBox(
                             height: 30,
                           ),
@@ -88,17 +86,17 @@ class _SectionThreeState extends State<SectionThree>
                                 fontWeight: FontWeight.w700),
                           ),
                           SizedBox(height: 20),
-                          affirmationsection(canAgreePersonOne, pickedImageOne,
-                              'For First Applicant'),
+                          affirmationsection(
+                              'For First Applicant', applicants, 0),
                           if (widget.myTabController.numberOfPersons > 1)
-                            affirmationsection(canAgreePersonTwo,
-                                pickedImageTwo, 'For Second Applicant'),
+                            affirmationsection(
+                                'For Second Applicant', applicants, 1),
                           if (widget.myTabController.numberOfPersons > 2)
-                            affirmationsection(canAgreePersonThree,
-                                pickedImageThree, 'For Third Applicant'),
+                            affirmationsection(
+                                'For Third Applicant', applicants, 2),
                           if (widget.myTabController.numberOfPersons > 3)
-                            affirmationsection(canAgreePersonFour,
-                                pickedImageFour, 'For Fourth Applicant'),
+                            affirmationsection(
+                                'For Fourth Applicant', applicants, 4),
                           SizedBox(height: 40),
                           /*  Text(
                   'Supporting Documentation Submitted, loadndetails are advised to attach the following documents',
@@ -128,7 +126,7 @@ class _SectionThreeState extends State<SectionThree>
                                 if (widget._tabController.index <
                                     widget._tabController.length - 1) {
                                   widget._tabController.animateTo(
-                                      widget._tabController.index + 1);
+                                      widget._tabController.index - 1);
                                 } else {
                                   // Handle the case when the last tab is reached
                                 }
@@ -156,14 +154,18 @@ class _SectionThreeState extends State<SectionThree>
                                       EdgeInsets.all(15))),
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  myTabController.loanDetails = loadndetails;
-                                  //printApplicantDetails();
-                                  if (widget._tabController.index <
-                                      widget._tabController.length - 1) {
-                                    widget._tabController.animateTo(
-                                        widget._tabController.index + 1);
+                                  if (validateTenure(loadndetails)) {
+                                    myTabController.loanDetails = loadndetails;
+                                    //printApplicantDetails();
+                                    if (widget._tabController.index <
+                                        widget._tabController.length - 1) {
+                                      widget._tabController.animateTo(
+                                          widget._tabController.index + 1);
+                                    } else {
+                                      // Handle the case when the last tab is reached
+                                    }
                                   } else {
-                                    // Handle the case when the last tab is reached
+                                    warning('Select Tenure');
                                   }
                                 }
 
@@ -196,6 +198,18 @@ class _SectionThreeState extends State<SectionThree>
     fetchProducts();
   }
 
+  bool validateTenure(LoanDetails loanDetails) {
+    for (int i = 0; i < widget.myTabController.numberOfPersons; i++) {
+      String? tenure = loanDetails.tenure;
+
+      if (tenure == null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   void fetchProducts() async {
     final String apiUrl = 'https://loan-managment.onrender.com/products';
 
@@ -224,7 +238,24 @@ class _SectionThreeState extends State<SectionThree>
     }
   }
 
-  Column affirmationsection(bool canagree, XFile? pickedImage, String message) {
+  warning(String message) {
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        width: MediaQuery.of(context).size.width * .7,
+        backgroundColor: whitefont,
+        duration: Duration(seconds: 3),
+        shape: StadiumBorder(),
+        behavior: SnackBarBehavior.floating,
+        content: Center(
+          child: CustomText(
+              text: message,
+              fontSize: 13,
+              color: blackfont,
+              fontWeight: FontWeight.w500),
+        )));
+  }
+
+  Column affirmationsection(
+      String message, List<ApplicantDetails> applicants, int i) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -241,68 +272,213 @@ class _SectionThreeState extends State<SectionThree>
           style: GoogleFonts.dmSans(
               color: blackfont, fontSize: 14, fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 10),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'Upload Image',
-              style: GoogleFonts.dmSans(
-                  color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
-            ),
-            SizedBox(width: 30),
-            pickedImage == null
-                ? ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(primary),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(15))),
-                    onPressed: () async {
-                      final XFile? image = await _imagePicker.pickImage(
-                          source: ImageSource.gallery);
+        SizedBox(height: 30),
+        Text(
+          'Upload Signature, Bank Details and Other Proof here (All 3 Files Required)',
+          style: GoogleFonts.dmSans(
+              color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+        ),
+        SizedBox(height: 20),
+        SizedBox(height: 20),
+        if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
+          Container(
+              width: MediaQuery.of(context).size.width * .7,
+              height: 120,
+              child: Row(
+                children: List.generate(
+                  widget.myTabController.applicants[i].selectedFiles.length,
+                  (index) {
+                    var fileBytes = widget
+                        .myTabController.applicants[i].selectedFiles[index];
+                    var fileName = widget.myTabController.applicants[i]
+                        .selectedFilesnames[index];
+                    String fileExtension =
+                        fileName.split('.').last.toLowerCase();
 
-                      if (image != null) {
-                        setState(() {
-                          pickedImage = image;
-                        });
-                      }
-                    },
-                    child: Text(
-                      'Pick Image',
-                      style: GoogleFonts.dmSans(
-                          color: whitefont,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )
-                : Image.file(File(pickedImage!.path)),
-          ],
-        ),
-        SizedBox(height: 40),
-        Row(
-          children: [
-            Checkbox(
-              value: canagree,
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    canagree = value;
-                  });
-                }
-              },
-            ),
-            Text(
-              'I agree to all the information provided',
-              style: GoogleFonts.dmSans(
-                  color: blackfont, fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
+                    return Container(
+                      margin: EdgeInsets.all(10),
+                      width: 300,
+                      height: 60,
+                      child: Stack(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Display Image for image files
+
+                              (fileExtension != 'pdf')
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        // Open image in a new tab
+                                        final blob =
+                                            html.Blob([fileBytes], 'image/*');
+                                        final url =
+                                            html.Url.createObjectUrlFromBlob(
+                                                blob);
+                                        html.window.open(url, '_blank');
+                                      },
+                                      child: Container(
+                                        width: 300,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: blackfont),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: whitefont,
+                                        ),
+                                        child: Image.memory(
+                                          fileBytes,
+                                          width:
+                                              300, // Set the width of the image as per your requirement
+                                          height:
+                                              50, // Set the height of the image as per your requirement
+                                          fit: BoxFit
+                                              .cover, // Adjust this based on your image requirements
+                                        ),
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        // Open PDF in a new tab
+                                        final blob = html.Blob(
+                                            [Uint8List.fromList(fileBytes)],
+                                            'application/pdf');
+                                        final url =
+                                            html.Url.createObjectUrlFromBlob(
+                                                blob);
+                                        html.window.open(url, '_blank');
+                                      },
+                                      child: Container(
+                                        width: 300,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: blackfont),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: whitefont,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Icon(
+                                              Icons.picture_as_pdf,
+                                              color: Colors.red,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                              SizedBox(
+                                  height:
+                                      8.0), // Add spacing between image and text
+
+                              // Display file name with overflow handling
+                              Flexible(
+                                child: Text(
+                                  fileName,
+                                  overflow: TextOverflow.ellipsis,
+                                  // Adjust the maximum lines based on your UI requirements
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            top: 12,
+                            right: 5,
+                            child: GestureDetector(
+                              onTap: () {
+                                // Handle the close icon tap
+                                setState(() {
+                                  widget.myTabController.applicants[i]
+                                      .selectedFiles
+                                      .removeAt(index);
+                                  widget.myTabController.applicants[i]
+                                      .selectedFilesnames
+                                      .removeAt(index);
+                                });
+                              },
+                              child: CircleAvatar(
+                                radius: 12,
+                                backgroundColor: primary,
+                                child: Icon(
+                                  Icons.close,
+                                  size: 15,
+                                  color: whitefont,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              )),
+        SizedBox(height: 20),
+        if (widget.myTabController.applicants[i].selectedFiles.length < 3)
+          Row(
+            children: [
+              ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(primary),
+                    padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(
+                    allowMultiple: false,
+                    type: FileType.custom,
+                    allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+                  );
+
+                  if (result != null) {
+                    if (result.files.first.size > 1024 * 1024) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('The file size exceeds limit'),
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        widget.myTabController.applicants[i].selectedFiles
+                            .addAll(result.files.map((file) => file.bytes!));
+                        widget.myTabController.applicants[i].selectedFilesnames
+                            .addAll(result.files.map((file) => file.name));
+                      });
+                    }
+                  }
+                },
+                child: Text(
+                  'Pick Files',
+                  style: GoogleFonts.dmSans(
+                      color: whitefont,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                '** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
+                style: GoogleFonts.dmSans(
+                    color: blackfont,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
       ],
     );
   }
 
-  Row loandetails() {
+  Row loandetails(List<ApplicantDetails> applicants) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -451,7 +627,7 @@ class _SectionThreeState extends State<SectionThree>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Share of loadn applied (only asset and agriclute loan',
+                'Share of loan applied (only asset and agriclute loan)',
                 style: GoogleFonts.dmSans(
                     color: blackfont,
                     fontSize: 14,
@@ -461,7 +637,7 @@ class _SectionThreeState extends State<SectionThree>
                 height: 20,
               ),
               CustomTextFormField(
-                controller: loadndetails.firstapplicant,
+                controller: applicants[0].loanapplicantname,
                 labelText: 'First Applicant',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -473,44 +649,53 @@ class _SectionThreeState extends State<SectionThree>
               SizedBox(
                 height: 30,
               ),
+              if (widget.myTabController.numberOfPersons > 2)
+                CustomTextFormField(
+                  controller: applicants[2].loanapplicantname,
+                  labelText: 'Third Applicant (Agric Asset ONLY)',
+                  validator: (value) {
+                    if ((value == null || value.isEmpty) &&
+                        widget.myTabController.numberOfPersons > 2) {
+                      return 'Please enter third applicant';
+                    }
+                    return null;
+                  },
+                ),
+              if (widget.myTabController.numberOfPersons > 2)
+                SizedBox(
+                  height: 30,
+                ),
               CustomTextFormField(
-                controller: loadndetails.thirdapplicant,
-                labelText: 'Third Applicant (Agric Asset ONLY)',
-                validator: (value) {
-                  if ((value == null || value.isEmpty) &&
-                      widget.myTabController.numberOfPersons > 2) {
-                    return 'Please enter third applicant';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              CustomTextFormField(
-                controller: loadndetails.firstapplicantproportion,
+                controller: applicants[0].loanapplicantpercentage,
                 labelText: 'First Applicant Proportion of loan (%)',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'First Applicant Proportion of loan (%)';
                   }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    return 'Please enter only numeric digits';
+                  }
                   return null;
                 },
               ),
               SizedBox(
                 height: 30,
               ),
-              CustomTextFormField(
-                controller: loadndetails.thirdapplicantpropotion,
-                labelText: 'Third Applicant Proportion of loan (%))',
-                validator: (value) {
-                  if ((value == null || value.isEmpty) &&
-                      widget.myTabController.numberOfPersons > 2) {
-                    return 'Third Applicant Proportion of loan (%)';
-                  }
-                  return null;
-                },
-              ),
+              if (widget.myTabController.numberOfPersons > 2)
+                CustomTextFormField(
+                  controller: applicants[2].loanapplicantpercentage,
+                  labelText: 'Third Applicant Proportion of loan (%))',
+                  validator: (value) {
+                    if ((value == null || value.isEmpty) &&
+                        widget.myTabController.numberOfPersons > 2) {
+                      return 'Third Applicant Proportion of loan (%)';
+                    }
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
+                      return 'Please enter only numeric digits';
+                    }
+                    return null;
+                  },
+                ),
             ],
           ),
         ),
@@ -522,7 +707,7 @@ class _SectionThreeState extends State<SectionThree>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Loan Amount applied',
+                '',
                 style: GoogleFonts.dmSans(
                     color: blackfont,
                     fontSize: 14,
@@ -531,59 +716,70 @@ class _SectionThreeState extends State<SectionThree>
               SizedBox(
                 height: 20,
               ),
-              CustomTextFormField(
-                controller: loadndetails.secondapplicant,
-                labelText: 'Second Applicant',
-                validator: (value) {
-                  if ((value == null || value.isEmpty) &&
-                      widget.myTabController.numberOfPersons > 1) {
-                    return 'Second Applicant';
-                  }
-                  return null;
-                },
-              ),
+              if (widget.myTabController.numberOfPersons > 1)
+                CustomTextFormField(
+                  controller: applicants[1].loanapplicantname,
+                  labelText: 'Second Applicant',
+                  validator: (value) {
+                    if ((value == null || value.isEmpty) &&
+                        widget.myTabController.numberOfPersons > 1) {
+                      return 'Second Applicant';
+                    }
+                    return null;
+                  },
+                ),
               SizedBox(
                 height: 30,
               ),
-              CustomTextFormField(
-                controller: loadndetails.fourthapplicant,
-                labelText: 'Fourth Applicant (Agric Asset ONLY)',
-                validator: (value) {
-                  if ((value == null || value.isEmpty) &&
-                      widget.myTabController.numberOfPersons > 3) {
-                    return 'Fourth Applicant (Agric Asset ONLY)';
-                  }
-                  return null;
-                },
-              ),
+              if (widget.myTabController.numberOfPersons > 3)
+                CustomTextFormField(
+                  controller: applicants[3].loanapplicantname,
+                  labelText: 'Fourth Applicant (Agric Asset ONLY)',
+                  validator: (value) {
+                    if ((value == null || value.isEmpty) &&
+                        widget.myTabController.numberOfPersons > 3) {
+                      return 'Fourth Applicant (Agric Asset ONLY)';
+                    }
+                    return null;
+                  },
+                ),
+              if (widget.myTabController.numberOfPersons > 3)
+                SizedBox(
+                  height: 30,
+                ),
+              if (widget.myTabController.numberOfPersons > 1)
+                CustomTextFormField(
+                  controller: applicants[1].loanapplicantpercentage,
+                  labelText: 'Second Applicant Proportion of loan (%)',
+                  validator: (value) {
+                    if ((value == null || value.isEmpty) &&
+                        widget.myTabController.numberOfPersons > 1) {
+                      return 'Second Applicant Proportion of loan (%)';
+                    }
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
+                      return 'Please enter only numeric digits';
+                    }
+                    return null;
+                  },
+                ),
               SizedBox(
                 height: 30,
               ),
-              CustomTextFormField(
-                controller: loadndetails.secondapplicantpropotion,
-                labelText: 'Second Applicant Proportion of loan (%)',
-                validator: (value) {
-                  if ((value == null || value.isEmpty) &&
-                      widget.myTabController.numberOfPersons > 1) {
-                    return 'Second Applicant Proportion of loan (%)';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              CustomTextFormField(
-                controller: loadndetails.fourthapplicantpropotion,
-                labelText: 'Fourth Applicant Proportion of loan (%)',
-                validator: (value) {
-                  if ((value == null || value.isEmpty) &&
-                      widget.myTabController.numberOfPersons > 3) {
-                    return 'Fourth Applicant Proportion of loan (%)';
-                  }
-                  return null;
-                },
-              ),
+              if (widget.myTabController.numberOfPersons > 3)
+                CustomTextFormField(
+                  controller: applicants[3].loanapplicantpercentage,
+                  labelText: 'Fourth Applicant Proportion of loan (%)',
+                  validator: (value) {
+                    if ((value == null || value.isEmpty) &&
+                        widget.myTabController.numberOfPersons > 3) {
+                      return 'Fourth Applicant Proportion of loan (%)';
+                    }
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
+                      return 'Please enter only numeric digits';
+                    }
+                    return null;
+                  },
+                ),
             ],
           ),
         ),

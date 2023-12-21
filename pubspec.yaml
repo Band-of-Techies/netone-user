@@ -42,6 +42,9 @@ dependencies:
   intl: ^0.18.1
   dio: ^5.3.4
   dropdown_button2: ^2.3.9
+  http: ^1.1.2
+  pdf_render: ^1.4.5
+  advance_pdf_viewer2: ^2.0.5+1
 
 dev_dependencies:
   flutter_test:

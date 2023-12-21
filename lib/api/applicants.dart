@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class ApplicantDetails {
@@ -14,11 +16,14 @@ class ApplicantDetails {
   TextEditingController residentialAddressController = TextEditingController();
   TextEditingController postalAddressController = TextEditingController();
   TextEditingController howlongthisplaceController = TextEditingController();
+  TextEditingController loanapplicantname = TextEditingController();
+  TextEditingController loanapplicantpercentage = TextEditingController();
   String? townController;
   String? provinceController;
   String? gender;
   String? ownership;
-
+  List<Uint8List> selectedFiles = [];
+  List<String> selectedFilesnames = [];
   void dispose() {
     surnameController.dispose();
     middleNameController.dispose();

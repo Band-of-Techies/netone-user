@@ -1,11 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:netone_enquiry_management/constants/colors.dart';
 import 'package:netone_enquiry_management/constants/text.dart';
 import 'package:provider/provider.dart';
 import 'package:netone_enquiry_management/main.dart';
+
+import 'package:http_parser/http_parser.dart';
 
 class SectionFour extends StatefulWidget {
   final MyTabController myTabController;
@@ -114,19 +120,56 @@ class _SectionFourState extends State<SectionFour>
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(primary),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(15))),
-                onPressed: () {
-                  submitForm(myTabController);
-                },
-                child: CustomText(
-                  text: 'Submit',
-                  color: whitefont,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .48,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(buttondarkbg),
+                          padding:
+                              MaterialStateProperty.all(EdgeInsets.all(15))),
+                      onPressed: () {
+                        //printApplicantDetails();
+
+                        widget._tabController
+                            .animateTo(widget._tabController.index - 1);
+
+                        //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                        //  DefaultTabController.of(context)?.animateTo(1);
+                        // if (_formKey.currentState!.validate()) {
+                        //   // Form is valid, move to the next section
+
+                        // }
+                      },
+                      child: CustomText(
+                        text: 'Previous',
+                        color: whitefont,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      )),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * .48,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(primary),
+                          padding:
+                              MaterialStateProperty.all(EdgeInsets.all(15))),
+                      onPressed: () {
+                        sendLoanRequest(myTabController.numberOfPersons);
+                      },
+                      child: CustomText(
+                        text: 'Submit',
+                        color: whitefont,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      )),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -141,178 +184,11 @@ class _SectionFourState extends State<SectionFour>
           color: Color.fromARGB(80, 252, 227, 194),
           borderRadius: BorderRadius.circular(20)),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomText(
-            text: 'Applicant ${i + 1}',
-            fontWeight: FontWeight.w700,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            children: [
-              CustomText(
-                text:
-                    'Surname: ${myTabController.applicants[i].surnameController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'Middle Name: ${myTabController.applicants[i].middleNameController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'First Name: ${myTabController.applicants[i].firstNameController.text}',
-              )
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            children: [
-              CustomText(
-                text: myTabController.applicants[i].gender == null
-                    ? 'Gender:'
-                    : 'Gender: ${myTabController.applicants[i].gender}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'Date of Birth: ${myTabController.applicants[i].dobController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'NRC Number: ${myTabController.applicants[i].nrcController.text}',
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            children: [
-              CustomText(
-                text:
-                    'Telephone: ${myTabController.applicants[i].telephoneController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'Mobile: ${myTabController.applicants[i].mobileController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'Email: ${myTabController.applicants[i].emailController.text}',
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            children: [
-              CustomText(
-                text:
-                    'Driving Licnese Number: ${myTabController.applicants[i].licenseNumberController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'Licnese Exp Date: ${myTabController.applicants[i].licenseExpiryController.text}',
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            children: [
-              CustomText(
-                text:
-                    'Resedential Address: ${myTabController.applicants[i].residentialAddressController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text: myTabController.applicants[i].ownership == null
-                    ? 'Ownership:'
-                    : 'Ownership: ${myTabController.applicants[i].ownership}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text:
-                    'How long this place: ${myTabController.applicants[i].howlongthisplaceController.text}',
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Wrap(
-            children: [
-              CustomText(
-                text:
-                    'Postal Address: ${myTabController.applicants[i].postalAddressController.text}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text: myTabController.applicants[i].townController == null
-                    ? 'Town:'
-                    : 'Town: ${myTabController.applicants[i].townController}',
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CustomText(
-                text: myTabController.applicants[i].provinceController == null
-                    ? 'Province'
-                    : 'Province: ${myTabController.applicants[i].provinceController}',
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container employmentDetals(MyTabController myTabController, int i) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
-      decoration: BoxDecoration(
-          color: Color.fromARGB(80, 242, 254, 187),
-          borderRadius: BorderRadius.circular(20)),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              text: 'Employment Details Applicant: ${i + 1}',
+              text: 'Applicant ${i + 1}',
               fontWeight: FontWeight.w700,
             ),
             SizedBox(
@@ -322,14 +198,47 @@ class _SectionFourState extends State<SectionFour>
               children: [
                 CustomText(
                   text:
-                      'Job Title: ${myTabController.employmentDetailsList[i].jobTitleController.text}',
+                      'Surname: ${myTabController.applicants[i].surnameController.text}',
                 ),
                 SizedBox(
                   width: 30,
                 ),
                 CustomText(
                   text:
-                      'Ministry: ${myTabController.employmentDetailsList[i].ministryController.text}',
+                      'Middle Name: ${myTabController.applicants[i].middleNameController.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'First Name: ${myTabController.applicants[i].firstNameController.text}',
+                )
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Wrap(
+              children: [
+                CustomText(
+                  text: myTabController.applicants[i].gender == null
+                      ? 'Gender:'
+                      : 'Gender: ${myTabController.applicants[i].gender}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'Date of Birth: ${myTabController.applicants[i].dobController.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'NRC Number: ${myTabController.applicants[i].nrcController.text}',
                 ),
               ],
             ),
@@ -340,14 +249,21 @@ class _SectionFourState extends State<SectionFour>
               children: [
                 CustomText(
                   text:
-                      'Physical Address: ${myTabController.employmentDetailsList[i].physicalAddressControlleremployment.text}',
+                      'Telephone: ${myTabController.applicants[i].telephoneController.text}',
                 ),
                 SizedBox(
                   width: 30,
                 ),
                 CustomText(
                   text:
-                      'Postal Address: ${myTabController.employmentDetailsList[i].postalAddressControllerEmployment.text}',
+                      'Mobile: ${myTabController.applicants[i].mobileController.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'Email: ${myTabController.applicants[i].emailController.text}',
                 ),
               ],
             ),
@@ -357,108 +273,344 @@ class _SectionFourState extends State<SectionFour>
             Wrap(
               children: [
                 CustomText(
-                  text: myTabController
-                              .employmentDetailsList[i].townController ==
-                          null
+                  text:
+                      'Driving Licnese Number: ${myTabController.applicants[i].licenseNumberController.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'Licnese Exp Date: ${myTabController.applicants[i].licenseExpiryController.text}',
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Wrap(
+              children: [
+                CustomText(
+                  text:
+                      'Resedential Address: ${myTabController.applicants[i].residentialAddressController.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text: myTabController.applicants[i].ownership == null
+                      ? 'Ownership:'
+                      : 'Ownership: ${myTabController.applicants[i].ownership}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'How long this place: ${myTabController.applicants[i].howlongthisplaceController.text}',
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Wrap(
+              children: [
+                CustomText(
+                  text:
+                      'Postal Address: ${myTabController.applicants[i].postalAddressController.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text: myTabController.applicants[i].townController == null
                       ? 'Town:'
-                      : 'Town: ${myTabController.employmentDetailsList[i].townController}',
+                      : 'Town: ${myTabController.applicants[i].townController}',
                 ),
                 SizedBox(
                   width: 30,
                 ),
                 CustomText(
-                  text: myTabController
-                              .employmentDetailsList[i].provinceController ==
-                          null
-                      ? 'Province:'
-                      : 'Province: ${myTabController.employmentDetailsList[i].provinceController}',
+                  text: myTabController.applicants[i].provinceController == null
+                      ? 'Province'
+                      : 'Province: ${myTabController.applicants[i].provinceController}',
                 ),
               ],
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Wrap(
-              children: [
-                CustomText(
-                  text:
-                      'Gross Salary: ${myTabController.employmentDetailsList[i].grossSalaryController.text}',
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                CustomText(
-                  text: myTabController.employmentDetailsList[i]
-                              .currentNetSalaryController.text ==
-                          null
-                      ? 'Current Net Salary:'
-                      : 'Current Net Salary: ${myTabController.employmentDetailsList[i].currentNetSalaryController.text}',
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                CustomText(
-                  text: myTabController
-                              .employmentDetailsList[i].salaryScaleController ==
-                          null
-                      ? 'Salary Scale:'
-                      : 'Salary Scale: ${myTabController.employmentDetailsList[i].salaryScaleController}',
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Wrap(
-              children: [
-                CustomText(
-                  text: myTabController.employmentDetailsList[i]
-                              .preferredYearOfRetirementController ==
-                          null
-                      ? 'Preferred Year of Retirement'
-                      : 'Preferred Year of Retirement: ${myTabController.employmentDetailsList[i].preferredYearOfRetirementController}',
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                CustomText(
-                  text:
-                      'Employee Number: ${myTabController.employmentDetailsList[i].employeeNumberController.text}',
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                CustomText(
-                  text: myTabController.employmentDetailsList[i]
-                              .yearsInEmploymentController ==
-                          null
-                      ? 'Years in Employemnt'
-                      : 'Years in Employemnt: ${myTabController.employmentDetailsList[i].yearsInEmploymentController}',
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Wrap(
-              children: [
-                CustomText(
-                  text:
-                      'Employemnt Type: ${myTabController.employmentDetailsList[i].employmentType}',
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                if (myTabController.employmentDetailsList[i].employmentType ==
-                    'Temporary')
-                  CustomText(
-                    text:
-                        'Expiry Date: ${myTabController.employmentDetailsList[i].expiryDateController.text}',
-                  ),
-              ],
-            ),
+            if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
+              Container(
+                  width: MediaQuery.of(context).size.width * .7,
+                  height: 120,
+                  child: Row(
+                    children: List.generate(
+                      widget.myTabController.applicants[i].selectedFiles.length,
+                      (index) {
+                        var fileBytes = widget
+                            .myTabController.applicants[i].selectedFiles[index];
+                        var fileName = widget.myTabController.applicants[i]
+                            .selectedFilesnames[index];
+                        String fileExtension =
+                            fileName.split('.').last.toLowerCase();
+
+                        return Container(
+                          margin: EdgeInsets.all(10),
+                          width: 300,
+                          height: 60,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Display Image for image files
+
+                              (fileExtension != 'pdf')
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        // Open image in a new tab
+                                        final blob =
+                                            html.Blob([fileBytes], 'image/*');
+                                        final url =
+                                            html.Url.createObjectUrlFromBlob(
+                                                blob);
+                                        html.window.open(url, '_blank');
+                                      },
+                                      child: Container(
+                                        width: 300,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: blackfont),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: whitefont,
+                                        ),
+                                        child: Image.memory(
+                                          fileBytes,
+                                          width:
+                                              300, // Set the width of the image as per your requirement
+                                          height:
+                                              50, // Set the height of the image as per your requirement
+                                          fit: BoxFit
+                                              .cover, // Adjust this based on your image requirements
+                                        ),
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        // Open PDF in a new tab
+                                        final blob = html.Blob(
+                                            [Uint8List.fromList(fileBytes)],
+                                            'application/pdf');
+                                        final url =
+                                            html.Url.createObjectUrlFromBlob(
+                                                blob);
+                                        html.window.open(url, '_blank');
+                                      },
+                                      child: Container(
+                                        width: 300,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: blackfont),
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: whitefont,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            Icon(
+                                              Icons.picture_as_pdf,
+                                              color: Colors.red,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                              SizedBox(
+                                  height:
+                                      8.0), // Add spacing between image and text
+
+                              // Display file name with overflow handling
+                              Flexible(
+                                child: Text(
+                                  fileName,
+                                  overflow: TextOverflow.ellipsis,
+                                  // Adjust the maximum lines based on your UI requirements
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  )),
           ]),
     );
+  }
+
+  Container employmentDetals(MyTabController myTabController, int i) {
+    return Container(
+        margin: EdgeInsets.only(bottom: 30),
+        padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+        decoration: BoxDecoration(
+            color: Color.fromARGB(80, 242, 254, 187),
+            borderRadius: BorderRadius.circular(20)),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CustomText(
+                text: 'Employment Details Applicant: ${i + 1}',
+                fontWeight: FontWeight.w700,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                children: [
+                  CustomText(
+                    text:
+                        'Job Title: ${myTabController.employmentDetailsList[i].jobTitleController.text}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text:
+                        'Ministry: ${myTabController.employmentDetailsList[i].ministryController.text}',
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                children: [
+                  CustomText(
+                    text:
+                        'Physical Address: ${myTabController.employmentDetailsList[i].physicalAddressControlleremployment.text}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text:
+                        'Postal Address: ${myTabController.employmentDetailsList[i].postalAddressControllerEmployment.text}',
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                children: [
+                  CustomText(
+                    text: myTabController
+                                .employmentDetailsList[i].townController ==
+                            null
+                        ? 'Town:'
+                        : 'Town: ${myTabController.employmentDetailsList[i].townController}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text: myTabController
+                                .employmentDetailsList[i].provinceController ==
+                            null
+                        ? 'Province:'
+                        : 'Province: ${myTabController.employmentDetailsList[i].provinceController}',
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                children: [
+                  CustomText(
+                    text:
+                        'Gross Salary: ${myTabController.employmentDetailsList[i].grossSalaryController.text}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text: myTabController.employmentDetailsList[i]
+                                .currentNetSalaryController.text ==
+                            null
+                        ? 'Current Net Salary:'
+                        : 'Current Net Salary: ${myTabController.employmentDetailsList[i].currentNetSalaryController.text}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text: myTabController.employmentDetailsList[i]
+                                .salaryScaleController ==
+                            null
+                        ? 'Salary Scale:'
+                        : 'Salary Scale: ${myTabController.employmentDetailsList[i].salaryScaleController}',
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                children: [
+                  CustomText(
+                    text: myTabController.employmentDetailsList[i]
+                                .preferredYearOfRetirementController ==
+                            null
+                        ? 'Preferred Year of Retirement'
+                        : 'Preferred Year of Retirement: ${myTabController.employmentDetailsList[i].preferredYearOfRetirementController}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text:
+                        'Employee Number: ${myTabController.employmentDetailsList[i].employeeNumberController.text}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  CustomText(
+                    text: myTabController.employmentDetailsList[i]
+                                .yearsInEmploymentController ==
+                            null
+                        ? 'Years in Employemnt'
+                        : 'Years in Employemnt: ${myTabController.employmentDetailsList[i].yearsInEmploymentController}',
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Wrap(
+                children: [
+                  CustomText(
+                    text:
+                        'Employemnt Type: ${myTabController.employmentDetailsList[i].employmentType}',
+                  ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  if (myTabController.employmentDetailsList[i].employmentType ==
+                      'Temporary')
+                    CustomText(
+                      text:
+                          'Expiry Date: ${myTabController.employmentDetailsList[i].expiryDateController.text}',
+                    ),
+                ],
+              )
+            ]));
   }
 
   Container loanDetails(MyTabController myTabController) {
@@ -543,17 +695,19 @@ class _SectionFourState extends State<SectionFour>
               SizedBox(
                 width: 30,
               ),
-              CustomText(
-                text:
-                    'Second Applicant: ${myTabController.loanDetails.secondapplicant.text}',
-              ),
+              if (myTabController.numberOfPersons > 1)
+                CustomText(
+                  text:
+                      'Second Applicant: ${myTabController.loanDetails.secondapplicant.text}',
+                ),
               SizedBox(
                 width: 30,
               ),
-              CustomText(
-                text:
-                    'Second Applicant Loan Propotion: ${myTabController.loanDetails.secondapplicantpropotion.text}',
-              ),
+              if (myTabController.numberOfPersons > 1)
+                CustomText(
+                  text:
+                      'Second Applicant Loan Propotion: ${myTabController.loanDetails.secondapplicantpropotion.text}',
+                ),
             ],
           ),
           SizedBox(
@@ -561,31 +715,35 @@ class _SectionFourState extends State<SectionFour>
           ),
           Wrap(
             children: [
-              CustomText(
-                text:
-                    'Third Applicant: ${myTabController.loanDetails.thirdapplicant.text}',
-              ),
+              if (myTabController.numberOfPersons > 2)
+                CustomText(
+                  text:
+                      'Third Applicant: ${myTabController.loanDetails.thirdapplicant.text}',
+                ),
               SizedBox(
                 width: 30,
               ),
-              CustomText(
-                text:
-                    'Third Applicant Loan Propotion: ${myTabController.loanDetails.thirdapplicant.text}',
-              ),
+              if (myTabController.numberOfPersons > 2)
+                CustomText(
+                  text:
+                      'Third Applicant Loan Propotion: ${myTabController.loanDetails.thirdapplicant.text}',
+                ),
               SizedBox(
                 width: 30,
               ),
-              CustomText(
-                text:
-                    'Fourth Applicant: ${myTabController.loanDetails.fourthapplicant.text}',
-              ),
+              if (myTabController.numberOfPersons > 3)
+                CustomText(
+                  text:
+                      'Fourth Applicant: ${myTabController.loanDetails.fourthapplicant.text}',
+                ),
               SizedBox(
                 width: 30,
               ),
-              CustomText(
-                text:
-                    'Fourth Applicant Loan Propotion: ${myTabController.loanDetails.fourthapplicantpropotion.text}',
-              ),
+              if (myTabController.numberOfPersons > 3)
+                CustomText(
+                  text:
+                      'Fourth Applicant Loan Propotion: ${myTabController.loanDetails.fourthapplicantpropotion.text}',
+                ),
             ],
           ),
         ],
@@ -593,195 +751,290 @@ class _SectionFourState extends State<SectionFour>
     );
   }
 
-  Future<void> submitForm(MyTabController myTabController) async {
-    // Prepare the API endpoint URL
-    final apiUrl = 'https://loan-managment.onrender.com/loan_requests';
-
-    // Prepare the headers (bearer token)
-    final headers = {'Authorization': 'Bearer your_bearer_token_here'};
-
-    // Prepare the request data based on the provided API format
-    final requestData = {
-      'loan_request': {
-        'description': 'Description here',
-        'cost_of_asset': 2000,
-        'insurance_cost': 3000,
-        'advance_payment': 4000,
-        'loan_amount': 5000,
-        'loan_tenure': '3Months',
-        'product_id': 3,
-        'applicants_attributes': List.generate(3, (index) {
-          // Sample data for each applicant
-          return {
-            'surname': 'Test$index',
-            'first_name': 'Tets$index',
-            'middle_name': 'SampleMiddleName$index',
-            'email': 'sample@.com',
-            'dob': '01/01/1990',
-            'nrc': '123456789$index',
-            'telephone': '1234567890',
-            'mobile': '9876543210',
-            'license_number': 'ABCD123$index',
-            'license_expiry': '01/01/2025',
-            'residential_address': 'Sample Residential Address $index',
-            'postal_address': 'Sample Postal Address $index',
-            'province': 'Sample Province $index',
-            'town': 'Sample Town $index',
-            'occupation_attributes': {
-              'job_title': 'Sample Job Title $index',
-              'ministry': 'Sample Ministry $index',
-              'physical_address': 'Sample Physical Address $index',
-              'postal_address': 'Sample Postal Address $index',
-              'town': 'Sample Town $index',
-              'province': 'Sample Province $index',
-              'gross_salary': 40000.0,
-              'net_salary': 20000.0,
-              'salary_scale': 'Sample Salary Scale $index',
-              'retirement_year': '2030',
-              'employer_number': '12345$index',
-              'years_of_service': 5,
-              'employment_type': 'Full-Time',
-              'expiry_date': '01/01/2030',
-              'employer_email': 'employer@.com',
-              'employer_name': 'Sample Employer Name $index',
-              'employer_other_names': 'Sample Employer Other Names $index',
-              'employer_cell_number': '9876543210',
-              'current_net_salary': 50000.0,
-              'temp_expiry_date': '01/01/2030',
-              'preferred_retirement_year': '2035',
-            },
-          };
-        }),
-      },
-    };
+  void sendLoanRequest(int numberOfApplicants) async {
+    final String apiUrl = 'https://loan-managment.onrender.com/loan_requests';
 
     try {
-      // Create Dio instance
-      print('here');
-      final dio = Dio();
-      print('start');
-      // Make the POST request
-      final response = await dio.post(
-        apiUrl,
-        data: requestData,
-        options: Options(headers: headers),
-      );
+      var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
 
-      // Handle the response (you can customize this based on your API)
-      if (response.statusCode == 200) {
-        // Successful response, you can handle success here
-        print('Request successful');
-      } else {
-        // Handle error
-        print('Request failed with status: ${response.statusCode}');
+      // Add JSON data as form fields
+      request.fields['loan_request[description]'] = "description";
+      request.fields['loan_request[cost_of_asset]'] = "2440";
+      request.fields['loan_request[insurance_cost]'] = "452525";
+      request.fields['loan_request[advance_payment]'] = "4646";
+      request.fields['loan_request[loan_amount]'] = "2525";
+      request.fields['loan_request[loan_tenure]'] = "12";
+      request.fields['loan_request[product_id]'] = "3";
+
+      for (int i = 0; i < numberOfApplicants; i++) {
+        // Add other applicant data to the request
+        request.fields['loan_request[applicants_attributes][$i][surname]'] =
+            'Doe'; // Replace with actual surname
+        request.fields['loan_request[applicants_attributes][$i][first_name]'] =
+            'John'; // Replace with actual first name
+        request.fields['loan_request[applicants_attributes][$i][middle_name]'] =
+            'M';
+        request.fields['loan_request[applicants_attributes][$i][email]'] =
+            'john.doe@example.com';
+        request.fields['loan_request[applicants_attributes][$i][dob]'] =
+            '1990-01-01';
+        request.fields['loan_request[applicants_attributes][$i][nrc]'] =
+            '123456789';
+        request.fields['loan_request[applicants_attributes][$i][telephone]'] =
+            '123456789';
+        request.fields['loan_request[applicants_attributes][$i][mobile]'] =
+            '987654321';
+        request.fields[
+            'loan_request[applicants_attributes][$i][license_number]'] = '123';
+        request.fields[
+                'loan_request[applicants_attributes][$i][license_expiry]'] =
+            '2023-01-01';
+        request.fields[
+                'loan_request[applicants_attributes][$i][residential_address]'] =
+            '123 Main St';
+        request.fields[
+                'loan_request[applicants_attributes][$i][postal_address]'] =
+            'P.O. Box 456';
+        request.fields['loan_request[applicants_attributes][$i][province]'] =
+            'Some Province';
+        request.fields['loan_request[applicants_attributes][$i][town]'] =
+            'Some Town';
+        request.fields['loan_request[applicants_attributes][$i][gender]'] =
+            'Female';
+        request.fields['loan_request[applicants_attributes][$i][ownership]'] =
+            'rented';
+        request.fields[
+                'loan_request[applicants_attributes][$i][ownership_how_long]'] =
+            '5 years';
+        request.fields[
+                'loan_request[applicants_attributes][$i][loan_share_name]'] =
+            'Jane Doe';
+        request.fields[
+                'loan_request[applicants_attributes][$i][loan_share_percent]'] =
+            '50';
+
+        // Add other applicant details as needed
+        request.fields[
+                'loan_request[applicants_attributes][$i][kin_attributes][name]'] =
+            'Jane Doe';
+        request.fields[
+                'loan_request[applicants_attributes][$i][kin_attributes][other_names]'] =
+            'Mary Doe';
+        request.fields[
+                'loan_request[applicants_attributes][$i][kin_attributes][physical_address]'] =
+            '123 Oak St';
+        request.fields[
+                'loan_request[applicants_attributes][$i][kin_attributes][postal_address]'] =
+            'P.O. Box 123';
+        request.fields[
+                'loan_request[applicants_attributes][$i][kin_attributes][phone_number]'] =
+            '555-1234';
+        request.fields[
+                'loan_request[applicants_attributes][$i][kin_attributes][email]'] =
+            'test@example.com';
+
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][job_title]'] =
+            'Software Developer';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][ministry]'] =
+            'Technology';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][physical_address]'] =
+            '456 Tech St';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][postal_address]'] =
+            'P.O. Box 789';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][town]'] =
+            'Tech Town';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][province]'] =
+            'Tech Province';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][gross_salary]'] =
+            '80000';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][net_salary]'] =
+            '70000';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][salary_scale]'] =
+            'A';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][retirement_year]'] =
+            '2050';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][employer_number]'] =
+            'EMP123';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][years_of_service]'] =
+            '5';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][employment_type]'] =
+            'permanent';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][expiry_date]'] =
+            '2024-01-01';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][employer_email]'] =
+            'employer@example.com';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][employer_name]'] =
+            'Tech Company';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][employer_other_names]'] =
+            'Tech Co.';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][employer_cell_number]'] =
+            '987654321';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][current_net_salary]'] =
+            '75000';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][temp_expiry_date]'] =
+            '2022-12-31';
+        request.fields[
+                'loan_request[applicants_attributes][$i][occupation_attributes][preferred_retirement_year]'] =
+            '2045';
+
+        // Add files as form fields
+        print(widget.myTabController.applicants[i].selectedFiles.length);
+        for (var file in widget.myTabController.applicants[i].selectedFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][documents][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
+        }
       }
-    } catch (error) {
-      // Handle Dio errors
-      print('Error sending request: $error');
+      // print(request.fields);
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        print("Loan request sent successfully");
+        print(await response.stream.bytesToString());
+      } else {
+        print("Failed to send loan request");
+        print(response.statusCode);
+        print(await response.stream.bytesToString());
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 
-  Future<void> submitForsm(MyTabController myTabController) async {
+  Future<void> submitsForm(MyTabController myTabController) async {
     // Prepare the API endpoint URL
     final apiUrl = 'https://loan-managment.onrender.com/loan_requests';
 
     // Prepare the headers (bearer token)
     final headers = {'Authorization': 'Bearer your_bearer_token_here'};
 
-    // Prepare the request data based on the provided API format
-    final requestData = {
-      'loan_request': {
-        'description': myTabController.loanDetails.descriptionController.text,
-        'cost_of_asset': myTabController.loanDetails.costofasset.text,
-        'insurance_cost': myTabController.loanDetails.insurancecost.text,
-        'advance_payment': myTabController.loanDetails.advancepayment.text,
-        'loan_amount': myTabController.loanDetails.loanamaountapplied.text,
-        'loan_tenure': myTabController.loanDetails.tenure,
-        'product_id': myTabController.loanDetails.selectedLoanOption,
-        'applicants_attributes':
-            List.generate(myTabController.numberOfPersons, (index) {
-          final applicant = myTabController.applicants[index];
-          final employmentDetails =
-              myTabController.employmentDetailsList[index];
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', Uri.parse(apiUrl))
+      ..headers.addAll(headers);
 
-          return {
-            //applicant
-            'surname': applicant.surnameController.text,
-            'first_name': applicant.firstNameController.text,
-            'middle_name': applicant.middleNameController.text,
-            'email': applicant.emailController.text,
-            'dob': applicant.dobController.text,
-            'nrc': applicant.nrcController.text,
-            'telephone': applicant.telephoneController.text,
-            'mobile': applicant.mobileController.text,
-            'license_number': applicant.licenseNumberController.text,
-            'license_expiry': applicant.licenseExpiryController.text,
-            'residential_address': applicant.residentialAddressController.text,
-            'postal_address': applicant.postalAddressController.text,
-            'province': applicant.provinceController,
-            'town': applicant.townController,
+    // Add form fields
+    request.fields['loan_request[description]'] =
+        myTabController.loanDetails.descriptionController.text;
+    request.fields['loan_request[cost_of_asset]'] =
+        myTabController.loanDetails.costofasset.text;
+    request.fields['loan_request[insurance_cost]'] =
+        myTabController.loanDetails.insurancecost.text;
+    request.fields['loan_request[advance_payment]'] =
+        myTabController.loanDetails.advancepayment.text;
+    request.fields['loan_request[loan_amount]'] =
+        myTabController.loanDetails.loanamaountapplied.text;
+    request.fields['loan_request[loan_tenure]'] =
+        myTabController.loanDetails.tenure!;
+    request.fields['loan_request[product_id]'] =
+        myTabController.loanDetails.selectedLoanOption.toString();
 
-            'occupation_attributes': {
-              //employment
-              'job_title': employmentDetails.jobTitleController.text,
-              'ministry': employmentDetails.ministryController.text,
-              'physical_address':
-                  employmentDetails.physicalAddressControlleremployment.text,
-              'postal_address':
-                  employmentDetails.postalAddressControllerEmployment.text,
-              'town': employmentDetails.townController,
-              'province': employmentDetails.provinceController,
-              'gross_salary': employmentDetails.grossSalaryController.text,
-              'net_salary': employmentDetails.currentNetSalaryController.text,
-              'salary_scale': employmentDetails.salaryScaleController,
-              'retirement_year':
-                  employmentDetails.preferredYearOfRetirementController,
-              'employer_number':
-                  employmentDetails.employeeNumberController.text,
-              'years_of_service': employmentDetails.yearsInEmploymentController,
-              'employment_type': employmentDetails.employmentType,
-              'expiry_date': employmentDetails.expiryDateController.text,
+    // Add form fields for 'applicants_attributes'
+    request.fields['loan_request[applicants_attributes]'] = jsonEncode(
+        List.generate(widget.myTabController.numberOfPersons, (index) {
+      var applicant = myTabController.applicants[index];
+      var employmentdetails = myTabController.employmentDetailsList[index];
+      // Extract file paths from PlatformFile objects
+      // List<String> documentPaths =
+      //     applicant.selectedFiles.map((file) => file.path!).toList();
 
-              //klininfo
-              'employer_email': employmentDetails.emailAddressController.text,
-              'employer_name': employmentDetails.nameController.text,
-              'employer_other_names':
-                  employmentDetails.otherNamesController.text,
-              'employer_cell_number':
-                  employmentDetails.cellNumberController.text,
-              'current_net_salary':
-                  employmentDetails.currentNetSalaryController.text,
-              'temp_expiry_date': employmentDetails.temperoryexpirydate.text,
-              'preferred_retirement_year':
-                  employmentDetails.preferredYearOfRetirementController,
-            },
-          };
-        }),
-      },
-    };
+      return {
+        'surname': applicant.surnameController.text,
+        'first_name': applicant.firstNameController.text,
+        'middle_name': applicant.middleNameController.text,
+        'email': applicant.emailController.text,
+        'dob': applicant.dobController.text,
+        'nrc': applicant.nrcController.text,
+        'telephone': applicant.telephoneController.text,
+        'mobile': applicant.mobileController.text,
+        'license_number': applicant.licenseNumberController.text,
+        'license_expiry': applicant.licenseExpiryController.text,
+        'residential_address': applicant.residentialAddressController.text,
+        'postal_address': applicant.postalAddressController.text,
+        'province': applicant.provinceController,
+        'town': applicant.townController,
+        'gender': applicant.gender, // Assuming gender is a field in your data
+        'ownership': applicant.ownership,
+        'ownership_how_long': applicant.howlongthisplaceController.text,
+        'loan_share_name': applicant.loanapplicantname.text,
+        'loan_share_percent': applicant.loanapplicantpercentage.text,
+        // 'documents': documentPaths,
+        'kin_attributes': {
+          'name': employmentdetails.nameController.text,
+          'other_names': employmentdetails.otherNamesController.text,
+          'physical_address':
+              employmentdetails.physicalAddressControllernextofkin.text,
+          'postal_address':
+              employmentdetails.postalAddressControllerforKline.text,
+          'phone_number': employmentdetails.cellNumberController.text,
+          'email': employmentdetails.emailAddressController.text,
+        },
+        'occupation_attributes': {
+          'job_title': employmentdetails.jobTitleController.text,
+          'ministry': employmentdetails.ministryController.text,
+          'physical_address':
+              employmentdetails.physicalAddressControlleremployment.text,
+          'postal_address':
+              employmentdetails.postalAddressControllerEmployment.text,
+          'town': employmentdetails.townController,
+          'province': employmentdetails.provinceController,
+          'gross_salary': employmentdetails.grossSalaryController.text,
+          'net_salary': employmentdetails.currentNetSalaryController.text,
+          'salary_scale': employmentdetails.salaryScaleController,
+          'retirement_year':
+              employmentdetails.preferredYearOfRetirementController,
+          'employer_number': employmentdetails.employeeNumberController.text,
+          'years_of_service': employmentdetails.yearsInEmploymentController,
+          'employment_type': employmentdetails.employmentType,
+          'expiry_date': employmentdetails.expiryDateController.text,
+          'employer_email': employmentdetails.emailAddressController.text,
+          'employer_name': employmentdetails.nameController.text,
+          'employer_other_names': employmentdetails.otherNamesController.text,
+          'employer_cell_number': employmentdetails.cellNumberController.text,
+          'current_net_salary':
+              employmentdetails.currentNetSalaryController.text,
+          'temp_expiry_date': employmentdetails.temperoryexpirydate.text,
+          'preferred_retirement_year':
+              employmentdetails.preferredYearOfRetirementController,
+        },
+      };
+    }));
 
+    // Send the request
     try {
-      // Create Dio instance
-      final dio = Dio();
-
-      // Make the POST request
-      final response = await dio.post(
-        apiUrl,
-        data: requestData,
-        options: Options(headers: headers),
-      );
-
-      // Handle the response (you can customize this based on your API)
+      var response = await request.send();
       if (response.statusCode == 200) {
-        // Successful response, you can handle success here
-        print('Request successful');
+        // Request was successful
+        print('Form submitted successfully');
       } else {
-        // Handle error
-        print('Request failed with status: ${response.statusCode}');
+        // Request failed
+        print('Form submission failed with status: ${response.statusCode}');
       }
-    } catch (error) {
-      // Handle Dio errors
-      print('Error sending request: $error');
+    } catch (e) {
+      print('Error submitting form: $e');
     }
   }
 }

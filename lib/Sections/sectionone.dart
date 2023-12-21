@@ -26,7 +26,7 @@ class _SectionOneState extends State<SectionOne>
 
   // Controllers for text fields
   List<ApplicantDetails> applicants = [];
-  List<String> ownedorlease = ['Owned', 'Lease'];
+  List<String> ownedorlease = ['owned', 'rented'];
   List<String> genders = ['Male', 'Female'];
   bool isJointApplication = false;
   int numberOfPersons = 1;
@@ -257,9 +257,10 @@ class _SectionOneState extends State<SectionOne>
                                   applicants.removeRange(
                                       numberOfPersons, applicants.length);
                                 }
-                                print(numberOfPersons);
+
                                 widget.myTabController
                                     .updateNumberOfPersons(value);
+                                print(widget.myTabController.numberOfPersons);
                                 widget.myTabController.numberOfPersons = value;
                               });
                             },
@@ -303,8 +304,10 @@ class _SectionOneState extends State<SectionOne>
                     if (_formKey.currentState!.validate()) {
                       // Form is valid, move to the next section
                       if (validateGender(applicants) &&
-                          validateOwnership(applicants)) {
+                          validateOwnership(applicants) &&
+                          validateLocation(applicants)) {
                         //printApplicantDetails();
+
                         if (widget._tabController.index <
                             widget._tabController.length - 1) {
                           myTabController.applicants = applicants;
@@ -315,7 +318,7 @@ class _SectionOneState extends State<SectionOne>
                           DefaultTabController.of(context)?.animateTo(1);
                         }
                       } else {
-                        warning('Complete Gender and Ownership');
+                        warning('Complete Details');
                         // Handle the case when the last tab is reached
                       }
                     }
@@ -449,6 +452,11 @@ class _SectionOneState extends State<SectionOne>
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
+                      errorStyle: GoogleFonts.dmSans(color: Colors.red),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4.0),
+                        borderSide: BorderSide(color: Colors.red, width: 1.0),
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
                         borderSide: BorderSide(color: Colors.grey, width: 1.0),
@@ -465,7 +473,7 @@ class _SectionOneState extends State<SectionOne>
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please choose DOB';
+                        return 'Please choose Date of birth';
                       }
                       return null;
                     },
@@ -543,6 +551,9 @@ class _SectionOneState extends State<SectionOne>
                 return 'Please enter your Email Address';
               }
               // Basic email validation using a regular expression
+              if (!isValidEmail(value)) {
+                return 'Please enter a valid Email Address';
+              }
 
               if (!value.contains('@') || !value.contains('.com')) {
                 return 'Please enter a valid Email Address';
@@ -792,6 +803,14 @@ class _SectionOneState extends State<SectionOne>
     }
   }
 
+  bool isValidEmail(String email) {
+    // Regular expression for a basic email validation
+    final RegExp emailRegex =
+        RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+
+    return emailRegex.hasMatch(email);
+  }
+
   Future<void> _selectDate(
       BuildContext context, ApplicantDetails applicant) async {
     final DateTime currentDate = DateTime.now();
@@ -803,6 +822,21 @@ class _SectionOneState extends State<SectionOne>
       initialDate: lastAllowedDate,
       firstDate: DateTime(1900),
       lastDate: lastAllowedDate,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            // Change the calendar header color to red
+
+            colorScheme: ColorScheme.light(primary: primary),
+            buttonTheme: ButtonThemeData(
+              textTheme: ButtonTextTheme.primary,
+            ),
+
+            textTheme: GoogleFonts.dmSansTextTheme(),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null) {
@@ -849,11 +883,25 @@ class _SectionOneState extends State<SectionOne>
   Future<void> _selectLicenseExpiryDate(
       BuildContext context, ApplicantDetails applicant) async {
     final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101), // Adjust as needed
-    );
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2101), // Adjust as needed
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              // Change the calendar header color to red
+
+              colorScheme: ColorScheme.light(primary: primary),
+              buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary,
+              ),
+
+              textTheme: GoogleFonts.dmSansTextTheme(),
+            ),
+            child: child!,
+          );
+        });
 
     if (picked != null) {
       setState(() {
@@ -867,7 +915,7 @@ class _SectionOneState extends State<SectionOne>
     for (int i = 0; i < numberOfPersons; i++) {
       String? ownership = applicants[i].ownership;
 
-      if (ownership != 'Owned' && ownership != 'Lease') {
+      if (ownership != 'owned' && ownership != 'lease') {
         // Ownership is not a valid value (neither "Owned" nor "Lease")
         return false;
       }
@@ -891,6 +939,20 @@ class _SectionOneState extends State<SectionOne>
     return true;
   }
 
+  bool validateLocation(List<ApplicantDetails> applicants) {
+    for (int i = 0; i < numberOfPersons; i++) {
+      String? town = applicants[i].townController;
+      String? province = applicants[i].provinceController;
+      if (province == null || town == null) {
+        // Gender is either null or not a valid value (neither "Male" nor "Female")
+        return false;
+      }
+    }
+
+    // All genders are either "Male" or "Female"
+    return true;
+  }
+
   warning(String message) {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         width: MediaQuery.of(context).size.width * .7,
@@ -902,7 +964,7 @@ class _SectionOneState extends State<SectionOne>
           child: CustomText(
               text: message,
               fontSize: 13,
-              color: primary,
+              color: blackfont,
               fontWeight: FontWeight.w500),
         )));
   }
