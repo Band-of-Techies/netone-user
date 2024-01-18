@@ -8,7 +8,6 @@ import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:typed_data';
 import 'dart:js' as js;
 
 import 'package:netone_enquiry_management/api/applicants.dart';

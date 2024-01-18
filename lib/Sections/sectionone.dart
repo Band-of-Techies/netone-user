@@ -258,10 +258,13 @@ class _SectionOneState extends State<SectionOne>
                                       numberOfPersons, applicants.length);
                                 }
 
-                                widget.myTabController
-                                    .updateNumberOfPersons(value);
+                                setState(() {
+                                  widget.myTabController
+                                      .updateNumberOfPersons(value);
+                                  widget.myTabController.numberOfPersons =
+                                      value;
+                                });
                                 print(widget.myTabController.numberOfPersons);
-                                widget.myTabController.numberOfPersons = value;
                               });
                             },
                             style: GoogleFonts.dmSans(
