@@ -216,7 +216,15 @@ class _SectionThreeState extends State<SectionThree>
       final dio = Dio();
       final response = await dio.get(
         apiUrl,
-        options: Options(),
+        options: Options(headers: {
+          // Add any custom headers if needed
+
+          // Add CORS headers to the request
+          'Access-Control-Allow-Origin': '*', // Or specify a specific origin
+          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+          'Access-Control-Allow-Headers':
+              'Origin, Content-Type, Accept, Authorization, X-Requested-With',
+        }),
       );
 
       if (response.statusCode == 200) {
@@ -282,8 +290,11 @@ class _SectionThreeState extends State<SectionThree>
         if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
           Container(
               width: MediaQuery.of(context).size.width * .7,
-              height: 120,
-              child: Row(
+              height:
+                  (widget.myTabController.applicants[i].selectedFiles.length /
+                          3) *
+                      60,
+              child: Wrap(
                 children: List.generate(
                   widget.myTabController.applicants[i].selectedFiles.length,
                   (index) {
@@ -420,59 +431,57 @@ class _SectionThreeState extends State<SectionThree>
                   },
                 ),
               )),
-        SizedBox(height: 20),
-        if (widget.myTabController.applicants[i].selectedFiles.length < 3)
-          Row(
-            children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(primary),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(15))),
-                onPressed: () async {
-                  FilePickerResult? result =
-                      await FilePicker.platform.pickFiles(
-                    allowMultiple: false,
-                    type: FileType.custom,
-                    allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
-                  );
+        SizedBox(
+            height:
+                widget.myTabController.applicants[i].selectedFiles.length * 10),
+        Wrap(
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(primary),
+                  padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                  allowMultiple: false,
+                  type: FileType.custom,
+                  allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+                );
 
-                  if (result != null) {
-                    if (result.files.first.size > 1024 * 1024) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('The file size exceeds limit'),
-                        ),
-                      );
-                    } else {
-                      setState(() {
-                        widget.myTabController.applicants[i].selectedFiles
-                            .addAll(result.files.map((file) => file.bytes!));
-                        widget.myTabController.applicants[i].selectedFilesnames
-                            .addAll(result.files.map((file) => file.name));
-                      });
-                    }
+                if (result != null) {
+                  if (result.files.first.size > 1024 * 1024) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('The file size exceeds limit'),
+                      ),
+                    );
+                  } else {
+                    setState(() {
+                      widget.myTabController.applicants[i].selectedFiles
+                          .addAll(result.files.map((file) => file.bytes!));
+                      widget.myTabController.applicants[i].selectedFilesnames
+                          .addAll(result.files.map((file) => file.name));
+                    });
                   }
-                },
-                child: Text(
-                  'Pick Files',
-                  style: GoogleFonts.dmSans(
-                      color: whitefont,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Text(
-                '** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
+                }
+              },
+              child: Text(
+                'Pick Files',
                 style: GoogleFonts.dmSans(
-                    color: blackfont,
+                    color: whitefont,
                     fontSize: 14,
                     fontWeight: FontWeight.w500),
               ),
-            ],
-          ),
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              '** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
+              style: GoogleFonts.dmSans(
+                  color: blackfont, fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -501,10 +510,13 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.costofasset,
                 labelText: 'Total cost of asset',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter total cost of asset';
+                  if (value != null && value.isNotEmpty) {
+                    // Validate if the value contains only numbers
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'Can only contain numbers';
+                    }
                   }
-                  return null;
+                  return null; // Return null to indicate no error
                 },
               ),
               SizedBox(
@@ -514,10 +526,13 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.insurancecost,
                 labelText: 'Total Insurance cost',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter total insurance cost';
+                  if (value != null && value.isNotEmpty) {
+                    // Validate if the value contains only numbers
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'Can contain only digits';
+                    }
                   }
-                  return null;
+                  return null; // Return null to indicate no error
                 },
               ),
               SizedBox(
@@ -527,10 +542,13 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.advancepayment,
                 labelText: 'Less advance payment',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter less advance payment';
+                  if (value != null && value.isNotEmpty) {
+                    // Validate if the value contains only numbers
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'Can contain only digits';
+                    }
                   }
-                  return null;
+                  return null; // Return null to indicate no error
                 },
               ),
               SizedBox(
@@ -540,79 +558,57 @@ class _SectionThreeState extends State<SectionThree>
                 controller: loadndetails.loanamaountapplied,
                 labelText: 'Loan amount applied for',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter loan amount applied for';
+                  if (value != null && value.isNotEmpty) {
+                    // Validate if the value contains only numbers
+                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'Can contain only digits';
+                    }
                   }
-                  return null;
+                  return null; // Return null to indicate no error
                 },
               ),
               SizedBox(
                 height: 30,
               ),
-              DropdownButtonFormField2<String>(
-                isExpanded: true,
-                decoration: InputDecoration(
-                  labelText: 'Loan Tenure',
-                  labelStyle: GoogleFonts.dmSans(
-                    color: Colors.black,
-                    height: 0.5,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  focusColor: blackfont,
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: blackfont, width: .5)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: blackfont, width: .5)),
-                  // Add Horizontal padding using menuItemStyleData.padding so it matches
-                  // the menu padding when button's width is not specified.
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
+              DropdownButtonHideUnderline(
+                child: DropdownButton2<String>(
+                  isExpanded: true,
+                  hint: Text(
+                    loadndetails.tenure != null
+                        ? loadndetails.tenure.toString()
+                        : 'Preferred Year of Retirement',
+                    style: GoogleFonts.dmSans(
+                      fontSize: 15,
                       color: blackfont,
+                      height: .5,
+                      fontWeight: FontWeight.w500,
                     ),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                  // Add more decoration..
-                ),
-                hint: Text(
-                  loadndetails.tenure == null
-                      ? 'Loan Tenure'
-                      : loadndetails.tenure.toString(),
-                  style: GoogleFonts.dmSans(
-                      fontSize: 14,
-                      color: blackfont,
-                      fontWeight: FontWeight.w500),
-                ),
-                items: tenureOptions.map((letter) {
-                  return DropdownMenuItem(
-                    value: letter,
-                    child: Text(
-                      letter,
-                      style: GoogleFonts.dmSans(color: blackfont),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    loadndetails.tenure = value.toString();
-                  });
-                },
-                buttonStyleData: const ButtonStyleData(
-                  padding: EdgeInsets.only(right: 8),
-                ),
-                iconStyleData: IconStyleData(
-                  icon: Icon(Icons.arrow_drop_down, color: blackfont),
-                  iconSize: 24,
-                ),
-                dropdownStyleData: DropdownStyleData(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
+                  items: tenureOptions.map((letter) {
+                    return DropdownMenuItem(
+                      value: letter,
+                      child: Text(
+                        letter,
+                        style: GoogleFonts.dmSans(color: blackfont),
+                      ),
+                    );
+                  }).toList(),
+                  value: loadndetails.tenure,
+                  onChanged: (String? value) {
+                    setState(() {
+                      loadndetails.tenure = value;
+                    });
+                  },
+                  buttonStyleData: ButtonStyleData(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: loadndetails.tenure == null
+                                ? Colors.red
+                                : Colors.grey,
+                            width: 1),
+                        borderRadius: BorderRadius.circular(4)),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
                   ),
-                ),
-                menuItemStyleData: const MenuItemStyleData(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
                 ),
               ),
             ],

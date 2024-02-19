@@ -43,6 +43,7 @@ class _SectionTwoState extends State<SectionTwo>
     'Southern',
     'Western',
   ];
+
   Map<String, List<String>> townsByProvince = {
     'Central': [
       'Chibombo District',
@@ -275,7 +276,8 @@ class _SectionTwoState extends State<SectionTwo>
                           //  DefaultTabController.of(context)?.animateTo(1);
                           if (_formKey.currentState!.validate()) {
                             // Form is valid, move to the next section
-                            if (validateLocation(applicantDetailsLists)) {
+                            if (validateLocation(applicantDetailsLists) &&
+                                validateRetrirement(applicantDetailsLists)) {
                               myTabController.employmentDetailsList =
                                   applicantDetailsLists;
                               myTabController.updateEMplymentandKlin(
@@ -369,6 +371,18 @@ class _SectionTwoState extends State<SectionTwo>
     return true;
   }
 
+  bool validateRetrirement(List<EmployemntandKlinDetails> applicants) {
+    for (int i = 0; i < widget.myTabController.numberOfPersons; i++) {
+      String? year = applicants[i].preferredYearOfRetirementController;
+
+      if (year == null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   Container kinInformation(
       String message, EmployemntandKlinDetails applicantDetailsList) {
     return Container(
@@ -409,6 +423,12 @@ class _SectionTwoState extends State<SectionTwo>
                   child: CustomTextFormField(
                 controller: applicantDetailsList.otherNamesController,
                 labelText: 'Other Names',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter other name';
+                  }
+                  return null;
+                },
               )),
             ],
           ),
@@ -424,7 +444,7 @@ class _SectionTwoState extends State<SectionTwo>
                   labelText: 'Physical Address',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter physical address';
+                      return null;
                     }
                     return null;
                   },
@@ -440,7 +460,7 @@ class _SectionTwoState extends State<SectionTwo>
                   labelText: 'Postal Address',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter postal addres';
+                      return null;
                     }
                     return null;
                   },
@@ -458,9 +478,16 @@ class _SectionTwoState extends State<SectionTwo>
                   controller: applicantDetailsList.cellNumberController,
                   labelText: 'Cell Number',
                   validator: (value) {
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
-                      return 'Please enter only numeric digits';
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your Cell Number';
                     }
+
+                    // Validate if the value starts with '+260' and contains only numeric digits afterwards
+                    RegExp mobilePattern = RegExp(r'^\+260\d{9}$');
+                    if (!mobilePattern.hasMatch(value)) {
+                      return 'Start with +260 followed by 9 digits';
+                    }
+
                     return null;
                   },
                 ),
@@ -474,16 +501,17 @@ class _SectionTwoState extends State<SectionTwo>
                     labelText: 'Email Address',
                     validator: (value) {
                       // You might want to add more comprehensive email validation
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Email Address';
+                      if (value!.isEmpty || value == null) {
+                        return null;
                       }
-                      // Basic email validation using a regular expression
-                      if (!isValidEmail(value)) {
-                        return 'Please enter a valid Email Address';
+                      if (value != null || value!.isNotEmpty) {
+                        {
+                          if (!isValidEmail(value)) {
+                            return 'Please enter a valid Email Address';
+                          }
+                        }
                       }
-                      if (!value.contains('@') || !value.contains('.com')) {
-                        return 'Please enter a valid Email Address';
-                      }
+
                       return null;
                     }),
               ),
@@ -548,8 +576,15 @@ class _SectionTwoState extends State<SectionTwo>
                 labelText: 'Job Title',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter job';
+                    return null; // Allow null values
                   }
+
+                  // Validate if the value contains only letters, digits, and hyphens
+                  RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\-]+$');
+                  if (!jobTitlePattern.hasMatch(value)) {
+                    return 'Can only contain letters, digits, and -';
+                  }
+
                   return null;
                 },
               )),
@@ -560,8 +595,15 @@ class _SectionTwoState extends State<SectionTwo>
                 labelText: 'Minsitry',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter ministy';
+                    return null; // Allow null values
                   }
+
+                  // Validate if the value contains only letters, digits, and hyphens
+                  RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\-]+$');
+                  if (!jobTitlePattern.hasMatch(value)) {
+                    return 'Can only contain letters, digits, and -';
+                  }
+
                   return null;
                 },
               )),
@@ -579,7 +621,7 @@ class _SectionTwoState extends State<SectionTwo>
                 labelText: 'Physical Address',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter physical address';
+                    return null;
                   }
                   return null;
                 },
@@ -594,6 +636,7 @@ class _SectionTwoState extends State<SectionTwo>
                   if (value == null || value.isEmpty) {
                     return 'Please enter postal address';
                   }
+
                   return null;
                 },
               )),
@@ -722,7 +765,7 @@ class _SectionTwoState extends State<SectionTwo>
                     return 'Please enter gross salary';
                   }
                   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please enter only numeric digits';
+                    return 'Please enter only digits';
                   }
                   return null;
                 },
@@ -737,7 +780,7 @@ class _SectionTwoState extends State<SectionTwo>
                     return 'Please enter current net salary';
                   }
                   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please enter only numeric digits';
+                    return 'Please enter only digits';
                   }
                   return null;
                 },
@@ -818,71 +861,63 @@ class _SectionTwoState extends State<SectionTwo>
           Row(
             children: [
               Expanded(
-                child: DropdownButtonFormField2<String>(
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    labelText: 'Preferred Year of Retirement',
-                    labelStyle: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      height: 0.5,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    focusColor: blackfont,
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackfont, width: .5)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackfont, width: .5)),
-                    // Add Horizontal padding using menuItemStyleData.padding so it matches
-                    // the menu padding when button's width is not specified.
-                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<String>(
+                    isExpanded: true,
+                    hint: Text(
+                      applicantDetailsList
+                                  .preferredYearOfRetirementController !=
+                              null
+                          ? applicantDetailsList
+                              .preferredYearOfRetirementController
+                              .toString()
+                          : 'Preferred Year of Retirement',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 15,
                         color: blackfont,
+                        height: .5,
+                        fontWeight: FontWeight.w500,
                       ),
-                      borderRadius: BorderRadius.circular(8),
                     ),
-                    // Add more decoration..
-                  ),
-                  hint: Text(
-                    applicantDetailsList.preferredYearOfRetirementController ==
-                            null
-                        ? 'Preferred Year of Retirement'
-                        : applicantDetailsList
-                            .preferredYearOfRetirementController
-                            .toString(),
-                    style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        color: blackfont,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  items: prefyearsList.map((letter) {
-                    return DropdownMenuItem(
-                      value: letter,
-                      child: Text(letter),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      applicantDetailsList.preferredYearOfRetirementController =
-                          value.toString();
-                    });
-                  },
-                  buttonStyleData: const ButtonStyleData(
-                    padding: EdgeInsets.only(right: 8),
-                  ),
-                  iconStyleData: IconStyleData(
-                    icon: Icon(Icons.arrow_drop_down, color: blackfont),
-                    iconSize: 24,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+                    items: List.generate(
+                      61,
+                      (index) {
+                        final currentYear = DateTime.now().year;
+                        final year = currentYear + index;
+                        return DropdownMenuItem<String>(
+                          value: year.toString(),
+                          child: Text(
+                            year.toString(),
+                            style: GoogleFonts.dmSans(
+                              fontWeight: FontWeight.w500,
+                              height: .5,
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    value: applicantDetailsList
+                        .preferredYearOfRetirementController,
+                    onChanged: (String? value) {
+                      setState(() {
+                        applicantDetailsList
+                            .preferredYearOfRetirementController = value;
+                      });
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: applicantDetailsList
+                                          .preferredYearOfRetirementController ==
+                                      null
+                                  ? Colors.red
+                                  : Colors.grey,
+                              width: 1),
+                          borderRadius: BorderRadius.circular(4)),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    ),
                   ),
                 ),
               ),
@@ -1012,7 +1047,7 @@ class _SectionTwoState extends State<SectionTwo>
                     }).toList(),
                   ),
                   SizedBox(width: 40.0),
-                  if (applicantDetailsList.employmentType == 'Temporary')
+                  if (applicantDetailsList.employmentType == 'contract')
                     SizedBox(
                         width: 300,
                         child: GestureDetector(
@@ -1026,12 +1061,19 @@ class _SectionTwoState extends State<SectionTwo>
                               controller:
                                   applicantDetailsList.expiryDateController,
                               decoration: InputDecoration(
-                                labelText: 'Expiry Date',
+                                labelText: 'Contract Exp',
                                 labelStyle: GoogleFonts.dmSans(
                                   color: Colors.black,
                                   height: 0.5,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
+                                ),
+                                errorStyle:
+                                    GoogleFonts.dmSans(color: Colors.red),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                  borderSide:
+                                      BorderSide(color: Colors.red, width: 1.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
@@ -1051,7 +1093,7 @@ class _SectionTwoState extends State<SectionTwo>
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Expiry Date';
+                                  return 'Please choose contract end date';
                                 }
                                 return null;
                               },
@@ -1093,8 +1135,23 @@ class _SectionTwoState extends State<SectionTwo>
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101), // Adjust as needed
+      firstDate: DateTime(DateTime.now().year),
+      lastDate: DateTime(DateTime.now().year + 60),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            // Change the calendar header color to red
+
+            colorScheme: ColorScheme.light(primary: primary),
+            buttonTheme: ButtonThemeData(
+              textTheme: ButtonTextTheme.primary,
+            ),
+
+            textTheme: GoogleFonts.dmSansTextTheme(),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null) {

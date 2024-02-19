@@ -42,35 +42,34 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               backgroundColor: Colors.white,
               toolbarHeight: 90,
               title: Column(children: [
-                Wrap(
-                  children: [
-                    Text(
-                      'PUBLIC SERVICE MICRO FINANCE COMPANY',
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFFff7300),
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      '- ASSET LOAN APPLICATION FORM',
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFFff7300),
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'PUBLIC SERVICE MICRO FINANCE COMPANY',
+                  style: GoogleFonts.poppins(
+                      color: Color(0xFFff7300),
+                      fontSize: 21,
+                      fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
-                  height: 6,
+                  height: 5,
+                ),
+                Text(
+                  'ASSET LOAN APPLICATION FORM',
+                  style: GoogleFonts.poppins(
+                      color: Color(0xFFff7300),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Text(
                   'TO BE COMPLETED FOR FULL OR PARTIAL FINANCE BY APPLICANT',
                   style: GoogleFonts.poppins(
                       color: Colors.black,
-                      fontSize: 14,
+                      fontSize: 10,
                       fontWeight: FontWeight.w400),
                 )
               ]),

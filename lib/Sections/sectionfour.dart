@@ -162,8 +162,10 @@ class _SectionFourState extends State<SectionFour>
                                     EdgeInsets.all(15))),
                             onPressed: () {
                               print(widget.myTabController.numberOfPersons);
+                              // submitsForm(widget.myTabController);
                               sendLoanRequest(
-                                  widget.myTabController.numberOfPersons);
+                                  widget.myTabController.numberOfPersons,
+                                  myTabController);
                             },
                             child: CustomText(
                               text: 'Submit',
@@ -758,7 +760,8 @@ class _SectionFourState extends State<SectionFour>
     );
   }
 
-  void sendLoanRequest(int numberOfApplicants) async {
+  void sendLoanRequest(
+      int numberOfApplicants, MyTabController myTabController) async {
     setState(() {
       isloadiing = true;
     });
@@ -778,134 +781,147 @@ class _SectionFourState extends State<SectionFour>
 
       for (int i = 0; i < numberOfApplicants; i++) {
         // Add other applicant data to the request
+        print('12');
+        print(myTabController.applicants[i].firstNameController.text);
         request.fields['loan_request[applicants_attributes][$i][surname]'] =
-            'Amal'; // Replace with actual surname
+            myTabController.applicants[i].surnameController.text;
         request.fields['loan_request[applicants_attributes][$i][first_name]'] =
-            'K'; // Replace with actual first name
+            myTabController.applicants[i].firstNameController.text;
         request.fields['loan_request[applicants_attributes][$i][middle_name]'] =
-            'M';
+            myTabController.applicants[i].middleNameController.text;
         request.fields['loan_request[applicants_attributes][$i][email]'] =
-            'john.doe@example.com';
+            myTabController.applicants[i].emailController.text;
         request.fields['loan_request[applicants_attributes][$i][dob]'] =
-            '1990-01-01';
+            myTabController.applicants[i].dobController.text;
         request.fields['loan_request[applicants_attributes][$i][nrc]'] =
-            '123456789';
+            myTabController.applicants[i].nrcController.text;
         request.fields['loan_request[applicants_attributes][$i][telephone]'] =
-            '123456789';
+            myTabController.applicants[i].telephoneController.text;
         request.fields['loan_request[applicants_attributes][$i][mobile]'] =
-            '987654321';
+            myTabController.applicants[i].mobileController.text;
         request.fields[
-            'loan_request[applicants_attributes][$i][license_number]'] = '123';
+                'loan_request[applicants_attributes][$i][license_number]'] =
+            myTabController.applicants[i].licenseNumberController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][license_expiry]'] =
-            '2023-01-01';
+            myTabController.applicants[i].licenseExpiryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][residential_address]'] =
-            '123 Main St';
+            myTabController.applicants[i].residentialAddressController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][postal_address]'] =
-            'P.O. Box 456';
+            myTabController.applicants[i].postalAddressController.text;
         request.fields['loan_request[applicants_attributes][$i][province]'] =
-            'Central';
+            myTabController.applicants[i].provinceController!;
         request.fields['loan_request[applicants_attributes][$i][town]'] =
-            'Chibombo District';
+            myTabController.applicants[i].townController!;
         request.fields['loan_request[applicants_attributes][$i][gender]'] =
-            'Female';
+            myTabController.applicants[i].gender!;
         request.fields['loan_request[applicants_attributes][$i][ownership]'] =
-            'rented';
+            myTabController.applicants[i].ownership!;
         request.fields[
                 'loan_request[applicants_attributes][$i][ownership_how_long]'] =
-            '5 years';
+            myTabController.applicants[i].howlongthisplaceController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][loan_share_name]'] =
-            'Jane Doe';
+            myTabController.applicants[i].loanapplicantname.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][loan_share_percent]'] =
-            '50';
+            myTabController.applicants[i].loanapplicantpercentage.text;
 
         // Add other applicant details as needed
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][name]'] =
-            'Jane Doe';
+            myTabController.employmentDetailsList[i].nameController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][other_names]'] =
-            'Mary Doe';
+            myTabController.employmentDetailsList[i].otherNamesController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][physical_address]'] =
-            '123 Oak St';
+            myTabController.employmentDetailsList[i]
+                .physicalAddressControllernextofkin.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][postal_address]'] =
-            'P.O. Box 123';
+            myTabController
+                .employmentDetailsList[i].postalAddressControllerforKline.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][phone_number]'] =
-            '555-1234';
+            myTabController.employmentDetailsList[i].cellNumberController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][email]'] =
-            'test@example.com';
+            myTabController
+                .employmentDetailsList[i].emailAddressController.text;
 
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][job_title]'] =
-            'Software Developer';
+            myTabController.employmentDetailsList[i].jobTitleController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][ministry]'] =
-            'Technology';
+            myTabController.employmentDetailsList[i].ministryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][physical_address]'] =
-            '456 Tech St';
+            myTabController.employmentDetailsList[i]
+                .physicalAddressControlleremployment.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][postal_address]'] =
-            'P.O. Box 789';
+            myTabController.employmentDetailsList[i]
+                .postalAddressControllerEmployment.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][town]'] =
-            'Chibombo District';
+            myTabController.employmentDetailsList[i].townController!;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][province]'] =
-            'Central';
+            myTabController.employmentDetailsList[i].provinceController!;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][gross_salary]'] =
-            '80000';
+            myTabController.employmentDetailsList[i].grossSalaryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][net_salary]'] =
-            '70000';
+            myTabController.employmentDetailsList[i].netSalaryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][salary_scale]'] =
-            'A';
+            myTabController.employmentDetailsList[i].salaryScaleController!;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][retirement_year]'] =
-            '2050';
+            myTabController
+                .employmentDetailsList[i].retirementYearController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_number]'] =
-            'EMP123';
+            myTabController
+                .employmentDetailsList[i].employeeNumberController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][years_of_service]'] =
-            '5';
+            myTabController
+                .employmentDetailsList[i].yearsInEmploymentController!;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employment_type]'] =
-            'permanent';
+            myTabController.employmentDetailsList[i].employmentType;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][expiry_date]'] =
-            '2024-01-01';
+            myTabController.employmentDetailsList[i].expiryDateController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_email]'] =
-            'employer@example.com';
+            myTabController
+                .employmentDetailsList[i].emailAddressController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_name]'] =
-            'Tech Company';
+            myTabController.employmentDetailsList[i].nameController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_other_names]'] =
-            'Tech Co.';
+            myTabController.employmentDetailsList[i].otherNamesController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_cell_number]'] =
-            '987654321';
+            myTabController.employmentDetailsList[i].cellNumberController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][current_net_salary]'] =
-            '75000';
+            myTabController.employmentDetailsList[i].netSalaryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][temp_expiry_date]'] =
-            '2022-12-31';
+            myTabController.employmentDetailsList[i].expiryDateController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][preferred_retirement_year]'] =
-            '2045';
+            myTabController
+                .employmentDetailsList[i].preferredYearOfRetirementController!;
 
         // Add files as form fields
         //  print(widget.myTabController.applicants[i].selectedFiles.length);
@@ -947,135 +963,135 @@ class _SectionFourState extends State<SectionFour>
     }
   }
 
-  Future<void> submitsForm(MyTabController myTabController) async {
-    setState(() {
-      isloadiing = true;
-    });
+  // Future<void> submitsForm(MyTabController myTabController) async {
+  //   setState(() {
+  //     isloadiing = true;
+  //   });
 
-    // Prepare the API endpoint URL
-    final apiUrl = 'https://loan-managment.onrender.com/loan_requests';
+  //   // Prepare the API endpoint URL
+  //   final apiUrl = 'https://loan-managment.onrender.com/loan_requests';
 
-    // Prepare the headers (bearer token)
-    final headers = {'Authorization': 'Bearer your_bearer_token_here'};
+  //   // Prepare the headers (bearer token)
+  //   final headers = {'Authorization': 'Bearer your_bearer_token_here'};
 
-    // Create a multipart request
-    var request = http.MultipartRequest('POST', Uri.parse(apiUrl))
-      ..headers.addAll(headers);
+  //   // Create a multipart request
+  //   var request = http.MultipartRequest('POST', Uri.parse(apiUrl))
+  //     ..headers.addAll(headers);
 
-    // Add form fields
-    request.fields['loan_request[description]'] =
-        myTabController.loanDetails.descriptionController.text;
-    request.fields['loan_request[cost_of_asset]'] =
-        myTabController.loanDetails.costofasset.text;
-    request.fields['loan_request[insurance_cost]'] =
-        myTabController.loanDetails.insurancecost.text;
-    request.fields['loan_request[advance_payment]'] =
-        myTabController.loanDetails.advancepayment.text;
-    request.fields['loan_request[loan_amount]'] =
-        myTabController.loanDetails.loanamaountapplied.text;
-    request.fields['loan_request[loan_tenure]'] =
-        myTabController.loanDetails.tenure!;
-    request.fields['loan_request[product_id]'] =
-        myTabController.loanDetails.selectedLoanOption.toString();
+  //   // Add form fields
+  //   request.fields['loan_request[description]'] =
+  //       myTabController.loanDetails.descriptionController.text;
+  //   request.fields['loan_request[cost_of_asset]'] =
+  //       myTabController.loanDetails.costofasset.text;
+  //   request.fields['loan_request[insurance_cost]'] =
+  //       myTabController.loanDetails.insurancecost.text;
+  //   request.fields['loan_request[advance_payment]'] =
+  //       myTabController.loanDetails.advancepayment.text;
+  //   request.fields['loan_request[loan_amount]'] =
+  //       myTabController.loanDetails.loanamaountapplied.text;
+  //   request.fields['loan_request[loan_tenure]'] =
+  //       myTabController.loanDetails.tenure!;
+  //   request.fields['loan_request[product_id]'] =
+  //       myTabController.loanDetails.selectedLoanOption.toString();
 
-    // Add form fields for 'applicants_attributes'
-    request.fields['loan_request[applicants_attributes]'] = jsonEncode(
-        List.generate(widget.myTabController.numberOfPersons, (index) {
-      var applicant = myTabController.applicants[index];
-      var employmentdetails = myTabController.employmentDetailsList[index];
-      // Extract file paths from PlatformFile objects
-      // List<String> documentPaths =
-      //     applicant.selectedFiles.map((file) => file.path!).toList();
+  //   // Add form fields for 'applicants_attributes'
+  //   request.fields['loan_request[applicants_attributes]'] = jsonEncode(
+  //       List.generate(widget.myTabController.numberOfPersons, (index) {
+  //     var applicant = myTabController.applicants[index];
+  //     var employmentdetails = myTabController.employmentDetailsList[index];
+  //     // Extract file paths from PlatformFile objects
+  //     // List<String> documentPaths =
+  //     //     applicant.selectedFiles.map((file) => file.path!).toList();
 
-      return {
-        'surname': applicant.surnameController.text,
-        'first_name': applicant.firstNameController.text,
-        'middle_name': applicant.middleNameController.text,
-        'email': applicant.emailController.text,
-        'dob': applicant.dobController.text,
-        'nrc': applicant.nrcController.text,
-        'telephone': applicant.telephoneController.text,
-        'mobile': applicant.mobileController.text,
-        'license_number': applicant.licenseNumberController.text,
-        'license_expiry': applicant.licenseExpiryController.text,
-        'residential_address': applicant.residentialAddressController.text,
-        'postal_address': applicant.postalAddressController.text,
-        'province': applicant.provinceController,
-        'town': applicant.townController,
-        'gender': applicant.gender, // Assuming gender is a field in your data
-        'ownership': applicant.ownership,
-        'ownership_how_long': applicant.howlongthisplaceController.text,
-        'loan_share_name': applicant.loanapplicantname.text,
-        'loan_share_percent': applicant.loanapplicantpercentage.text,
-        // 'documents': documentPaths,
-        'kin_attributes': {
-          'name': employmentdetails.nameController.text,
-          'other_names': employmentdetails.otherNamesController.text,
-          'physical_address':
-              employmentdetails.physicalAddressControllernextofkin.text,
-          'postal_address':
-              employmentdetails.postalAddressControllerforKline.text,
-          'phone_number': employmentdetails.cellNumberController.text,
-          'email': employmentdetails.emailAddressController.text,
-        },
-        'occupation_attributes': {
-          'job_title': employmentdetails.jobTitleController.text,
-          'ministry': employmentdetails.ministryController.text,
-          'physical_address':
-              employmentdetails.physicalAddressControlleremployment.text,
-          'postal_address':
-              employmentdetails.postalAddressControllerEmployment.text,
-          'town': employmentdetails.townController,
-          'province': employmentdetails.provinceController,
-          'gross_salary': employmentdetails.grossSalaryController.text,
-          'net_salary': employmentdetails.currentNetSalaryController.text,
-          'salary_scale': employmentdetails.salaryScaleController,
-          'retirement_year':
-              employmentdetails.preferredYearOfRetirementController,
-          'employer_number': employmentdetails.employeeNumberController.text,
-          'years_of_service': employmentdetails.yearsInEmploymentController,
-          'employment_type': employmentdetails.employmentType,
-          'expiry_date': employmentdetails.expiryDateController.text,
-          'employer_email': employmentdetails.emailAddressController.text,
-          'employer_name': employmentdetails.nameController.text,
-          'employer_other_names': employmentdetails.otherNamesController.text,
-          'employer_cell_number': employmentdetails.cellNumberController.text,
-          'current_net_salary':
-              employmentdetails.currentNetSalaryController.text,
-          'temp_expiry_date': employmentdetails.temperoryexpirydate.text,
-          'preferred_retirement_year':
-              employmentdetails.preferredYearOfRetirementController,
-        },
-      };
-    }));
+  //     return {
+  //       'surname': applicant.surnameController.text,
+  //       'first_name': applicant.firstNameController.text,
+  //       'middle_name': applicant.middleNameController.text,
+  //       'email': applicant.emailController.text,
+  //       'dob': applicant.dobController.text,
+  //       'nrc': applicant.nrcController.text,
+  //       'telephone': applicant.telephoneController.text,
+  //       'mobile': applicant.mobileController.text,
+  //       'license_number': applicant.licenseNumberController.text,
+  //       'license_expiry': applicant.licenseExpiryController.text,
+  //       'residential_address': applicant.residentialAddressController.text,
+  //       'postal_address': applicant.postalAddressController.text,
+  //       'province': applicant.provinceController,
+  //       'town': applicant.townController,
+  //       'gender': applicant.gender, // Assuming gender is a field in your data
+  //       'ownership': applicant.ownership,
+  //       'ownership_how_long': applicant.howlongthisplaceController.text,
+  //       'loan_share_name': applicant.loanapplicantname.text,
+  //       'loan_share_percent': applicant.loanapplicantpercentage.text,
+  //       // 'documents': documentPaths,
+  //       'kin_attributes': {
+  //         'name': employmentdetails.nameController.text,
+  //         'other_names': employmentdetails.otherNamesController.text,
+  //         'physical_address':
+  //             employmentdetails.physicalAddressControllernextofkin.text,
+  //         'postal_address':
+  //             employmentdetails.postalAddressControllerforKline.text,
+  //         'phone_number': employmentdetails.cellNumberController.text,
+  //         'email': employmentdetails.emailAddressController.text,
+  //       },
+  //       'occupation_attributes': {
+  //         'job_title': employmentdetails.jobTitleController.text,
+  //         'ministry': employmentdetails.ministryController.text,
+  //         'physical_address':
+  //             employmentdetails.physicalAddressControlleremployment.text,
+  //         'postal_address':
+  //             employmentdetails.postalAddressControllerEmployment.text,
+  //         'town': employmentdetails.townController,
+  //         'province': employmentdetails.provinceController,
+  //         'gross_salary': employmentdetails.grossSalaryController.text,
+  //         'net_salary': employmentdetails.currentNetSalaryController.text,
+  //         'salary_scale': employmentdetails.salaryScaleController,
+  //         'retirement_year':
+  //             employmentdetails.preferredYearOfRetirementController,
+  //         'employer_number': employmentdetails.employeeNumberController.text,
+  //         'years_of_service': employmentdetails.yearsInEmploymentController,
+  //         'employment_type': employmentdetails.employmentType,
+  //         'expiry_date': employmentdetails.expiryDateController.text,
+  //         'employer_email': employmentdetails.emailAddressController.text,
+  //         'employer_name': employmentdetails.nameController.text,
+  //         'employer_other_names': employmentdetails.otherNamesController.text,
+  //         'employer_cell_number': employmentdetails.cellNumberController.text,
+  //         'current_net_salary':
+  //             employmentdetails.currentNetSalaryController.text,
+  //         'temp_expiry_date': employmentdetails.temperoryexpirydate.text,
+  //         'preferred_retirement_year':
+  //             employmentdetails.preferredYearOfRetirementController,
+  //       },
+  //     };
+  //   }));
 
-    // Send the request
-    try {
-      var response = await request.send();
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Request was successful
-        print('Form submitted successfully');
-        setState(() {
-          isloadiing = false;
-        });
-        warning('Form Submitted');
-        // clearAllFields();
-        Future.delayed(Duration(seconds: 3), () {
-          html.window.location.reload();
-        });
-      } else {
-        // Request failed
-        print('Form submission failed with status: ${response.statusCode}');
-        setState(() {
-          isloadiing = false;
-        });
-        warning('Error: Cannot Submit Form');
-      }
-    } catch (e) {
-      print('Error submitting form: $e');
-      warning('Error: Cannot Submit Form');
-    }
-  }
+  //   // Send the request
+  //   try {
+  //     var response = await request.send();
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       // Request was successful
+  //       print('Form submitted successfully');
+  //       setState(() {
+  //         isloadiing = false;
+  //       });
+  //       warning('Form Submitted');
+  //       // clearAllFields();
+  //       Future.delayed(Duration(seconds: 3), () {
+  //         html.window.location.reload();
+  //       });
+  //     } else {
+  //       // Request failed
+  //       print('Form submission failed with status: ${response.statusCode}');
+  //       setState(() {
+  //         isloadiing = false;
+  //       });
+  //       warning('Error: Cannot Submit Form');
+  //     }
+  //   } catch (e) {
+  //     print('Error submitting form: $e');
+  //     warning('Error: Cannot Submit Form');
+  //   }
+  // }
 
   warning(String message) {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
