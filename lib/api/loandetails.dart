@@ -16,7 +16,12 @@ class LoanDetails {
   TextEditingController secondapplicant = TextEditingController();
   TextEditingController thirdapplicant = TextEditingController();
   TextEditingController fourthapplicant = TextEditingController();
-
+  List<int> chosenProductIds = [];
+  List<int> quantity = [];
+  double? totalcost = 0;
+  List<double> chosenProductPrice = [];
+  List<String> chosenProductNames = [];
+  String? loancategory;
   void dispose() {
     descriptionController.dispose();
     costofasset.dispose();
