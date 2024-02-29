@@ -350,8 +350,7 @@ class _SectionFourState extends State<SectionFour>
             if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
               Container(
                   width: MediaQuery.of(context).size.width * .7,
-                  height: 120,
-                  child: Row(
+                  child: Wrap(
                     children: List.generate(
                       widget.myTabController.applicants[i].selectedFiles.length,
                       (index) {

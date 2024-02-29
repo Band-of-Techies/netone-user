@@ -253,17 +253,15 @@ class _SectionThreeState extends State<SectionThree>
   }
 
   void fetchProducts(String id) async {
-    final String apiUrl = 'https://loan-managment.onrender.com/products/$id';
-    setState(() {
-      products = [];
-    });
+    final String apiUrl =
+        'https://loan-managment.onrender.com/products?category_id=$id';
+
     try {
       final dio = Dio();
       final response = await dio.get(
         apiUrl,
         options: Options(headers: {
           // Add any custom headers if needed
-
           // Add CORS headers to the request
           'Access-Control-Allow-Origin': '*', // Or specify a specific origin
           'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -274,15 +272,21 @@ class _SectionThreeState extends State<SectionThree>
 
       if (response.statusCode == 200) {
         final responseData = response.data;
-        print(123);
-        print(responseData);
+        // print(response.data);
+
+        // Parse the list of products
+        List<Product> parsedProducts = [];
+
+        for (var item in responseData) {
+          parsedProducts.add(Product.fromJson(item));
+        }
+
         setState(() {
-          products = [Product.fromJson(responseData)];
+          products = parsedProducts;
         });
       } else {
         // Handle error, show a message, or perform other actions on failure
-
-        print('Failed to fetch product. Status code: ${response.statusCode}');
+        print('Failed to fetch products. Status code: ${response.statusCode}');
       }
     } catch (error) {
       // Handle exceptions
@@ -332,198 +336,199 @@ class _SectionThreeState extends State<SectionThree>
         ),
         SizedBox(height: 20),
         SizedBox(height: 20),
-        if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
-          Container(
-              width: MediaQuery.of(context).size.width * .7,
-              height:
-                  (widget.myTabController.applicants[i].selectedFiles.length /
-                          3) *
-                      60,
-              child: Wrap(
-                children: List.generate(
-                  widget.myTabController.applicants[i].selectedFiles.length,
-                  (index) {
-                    var fileBytes = widget
-                        .myTabController.applicants[i].selectedFiles[index];
-                    var fileName = widget.myTabController.applicants[i]
-                        .selectedFilesnames[index];
-                    String fileExtension =
-                        fileName.split('.').last.toLowerCase();
+        Column(
+          children: [
+            if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
+              Container(
+                  width: MediaQuery.of(context).size.width * .9,
+                  child: Wrap(
+                    children: List.generate(
+                      widget.myTabController.applicants[i].selectedFiles.length,
+                      (index) {
+                        var fileBytes = widget
+                            .myTabController.applicants[i].selectedFiles[index];
+                        var fileName = widget.myTabController.applicants[i]
+                            .selectedFilesnames[index];
+                        String fileExtension =
+                            fileName.split('.').last.toLowerCase();
 
-                    return Container(
-                      margin: EdgeInsets.all(10),
-                      width: 300,
-                      height: 60,
-                      child: Stack(
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        return Container(
+                          margin: EdgeInsets.all(10),
+                          width: 300,
+                          height: 60,
+                          child: Stack(
                             children: [
-                              // Display Image for image files
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Display Image for image files
 
-                              (fileExtension != 'pdf')
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        // Open image in a new tab
-                                        final blob =
-                                            html.Blob([fileBytes], 'image/*');
-                                        final url =
-                                            html.Url.createObjectUrlFromBlob(
-                                                blob);
-                                        html.window.open(url, '_blank');
-                                      },
-                                      child: Container(
-                                        width: 300,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: blackfont),
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: whitefont,
-                                        ),
-                                        child: Image.memory(
-                                          fileBytes,
-                                          width:
-                                              300, // Set the width of the image as per your requirement
-                                          height:
-                                              50, // Set the height of the image as per your requirement
-                                          fit: BoxFit
-                                              .cover, // Adjust this based on your image requirements
-                                        ),
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {
-                                        // Open PDF in a new tab
-                                        final blob = html.Blob(
-                                            [Uint8List.fromList(fileBytes)],
-                                            'application/pdf');
-                                        final url =
-                                            html.Url.createObjectUrlFromBlob(
-                                                blob);
-                                        html.window.open(url, '_blank');
-                                      },
-                                      child: Container(
-                                        width: 300,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: blackfont),
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: whitefont,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 20,
+                                  (fileExtension != 'pdf')
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            // Open image in a new tab
+                                            final blob = html.Blob(
+                                                [fileBytes], 'image/*');
+                                            final url = html.Url
+                                                .createObjectUrlFromBlob(blob);
+                                            html.window.open(url, '_blank');
+                                          },
+                                          child: Container(
+                                            width: 300,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              border:
+                                                  Border.all(color: blackfont),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: whitefont,
                                             ),
-                                            Icon(
-                                              Icons.picture_as_pdf,
-                                              color: Colors.red,
+                                            child: Image.memory(
+                                              fileBytes,
+                                              width:
+                                                  300, // Set the width of the image as per your requirement
+                                              height:
+                                                  50, // Set the height of the image as per your requirement
+                                              fit: BoxFit
+                                                  .cover, // Adjust this based on your image requirements
                                             ),
-                                          ],
+                                          ),
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            // Open PDF in a new tab
+                                            final blob = html.Blob(
+                                                [Uint8List.fromList(fileBytes)],
+                                                'application/pdf');
+                                            final url = html.Url
+                                                .createObjectUrlFromBlob(blob);
+                                            html.window.open(url, '_blank');
+                                          },
+                                          child: Container(
+                                            width: 300,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              border:
+                                                  Border.all(color: blackfont),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color: whitefont,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Icon(
+                                                  Icons.picture_as_pdf,
+                                                  color: Colors.red,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
+                                  SizedBox(
+                                      height:
+                                          8.0), // Add spacing between image and text
+
+                                  // Display file name with overflow handling
+                                  Flexible(
+                                    child: Text(
+                                      fileName,
+                                      overflow: TextOverflow.ellipsis,
+                                      // Adjust the maximum lines based on your UI requirements
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                              SizedBox(
-                                  height:
-                                      8.0), // Add spacing between image and text
-
-                              // Display file name with overflow handling
-                              Flexible(
-                                child: Text(
-                                  fileName,
-                                  overflow: TextOverflow.ellipsis,
-                                  // Adjust the maximum lines based on your UI requirements
-                                  style: GoogleFonts.dmSans(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                top: 12,
+                                right: 5,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    // Handle the close icon tap
+                                    setState(() {
+                                      widget.myTabController.applicants[i]
+                                          .selectedFiles
+                                          .removeAt(index);
+                                      widget.myTabController.applicants[i]
+                                          .selectedFilesnames
+                                          .removeAt(index);
+                                    });
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 12,
+                                    backgroundColor: primary,
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 15,
+                                      color: whitefont,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                          Positioned(
-                            top: 12,
-                            right: 5,
-                            child: GestureDetector(
-                              onTap: () {
-                                // Handle the close icon tap
-                                setState(() {
-                                  widget.myTabController.applicants[i]
-                                      .selectedFiles
-                                      .removeAt(index);
-                                  widget.myTabController.applicants[i]
-                                      .selectedFilesnames
-                                      .removeAt(index);
-                                });
-                              },
-                              child: CircleAvatar(
-                                radius: 12,
-                                backgroundColor: primary,
-                                child: Icon(
-                                  Icons.close,
-                                  size: 15,
-                                  color: whitefont,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                        );
+                      },
+                    ),
+                  )),
+            Row(
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(primary),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+                  onPressed: () async {
+                    FilePickerResult? result =
+                        await FilePicker.platform.pickFiles(
+                      allowMultiple: false,
+                      type: FileType.custom,
+                      allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
                     );
-                  },
-                ),
-              )),
-        SizedBox(
-            height:
-                widget.myTabController.applicants[i].selectedFiles.length * 10),
-        Wrap(
-          children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(primary),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(15))),
-              onPressed: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  allowMultiple: false,
-                  type: FileType.custom,
-                  allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
-                );
 
-                if (result != null) {
-                  if (result.files.first.size > 1024 * 1024) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('The file size exceeds limit'),
-                      ),
-                    );
-                  } else {
-                    setState(() {
-                      widget.myTabController.applicants[i].selectedFiles
-                          .addAll(result.files.map((file) => file.bytes!));
-                      widget.myTabController.applicants[i].selectedFilesnames
-                          .addAll(result.files.map((file) => file.name));
-                    });
-                  }
-                }
-              },
-              child: Text(
-                'Pick Files',
-                style: GoogleFonts.dmSans(
-                    color: whitefont,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              '** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
-              style: GoogleFonts.dmSans(
-                  color: blackfont, fontSize: 14, fontWeight: FontWeight.w500),
+                    if (result != null) {
+                      if (result.files.first.size > 1024 * 1024) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('The file size exceeds limit'),
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          widget.myTabController.applicants[i].selectedFiles
+                              .addAll(result.files.map((file) => file.bytes!));
+                          widget
+                              .myTabController.applicants[i].selectedFilesnames
+                              .addAll(result.files.map((file) => file.name));
+                        });
+                      }
+                    }
+                  },
+                  child: Text(
+                    'Pick Files',
+                    style: GoogleFonts.dmSans(
+                        color: whitefont,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  '** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
+                  style: GoogleFonts.dmSans(
+                      color: blackfont,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
           ],
         ),
@@ -875,10 +880,14 @@ class _SectionThreeState extends State<SectionThree>
                       loadndetails.loancategory = value!.name;
                       categoryName = value.name;
                       categoryId = value.id.toString();
-                      fetchProducts(categoryId!);
+                      loadndetails.chosenProductPrice.clear();
+                      loadndetails.totalcost = 0;
+                      loadndetails.costofasset.text =
+                          loadndetails.totalcost.toString();
                       loadndetails.chosenProductIds = [];
                       loadndetails.chosenProductNames = [];
                       loadndetails.quantity = [];
+                      fetchProducts(categoryId!);
                     });
                   },
                   buttonStyleData: ButtonStyleData(
@@ -1015,6 +1024,8 @@ class _SectionThreeState extends State<SectionThree>
                             setState(() {
                               if (loadndetails.quantity[i] < 10) {
                                 loadndetails.quantity[i]++;
+                                print(12);
+                                print(loadndetails.chosenProductPrice[i]);
                                 loadndetails.totalcost =
                                     loadndetails.totalcost! +
                                         loadndetails.chosenProductPrice[i];
