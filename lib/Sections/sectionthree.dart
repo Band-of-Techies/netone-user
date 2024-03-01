@@ -717,8 +717,9 @@ class _SectionThreeState extends State<SectionThree>
                   if (value == null || value.isEmpty) {
                     return 'First Applicant Proportion of loan (%)';
                   }
-                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please enter only numeric digits';
+                  RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                  if (!percentagePattern.hasMatch(value)) {
+                    return 'Please enter a valid numeric value';
                   }
                   return null;
                 },
@@ -735,8 +736,9 @@ class _SectionThreeState extends State<SectionThree>
                         widget.myTabController.numberOfPersons > 2) {
                       return 'Third Applicant Proportion of loan (%)';
                     }
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
-                      return 'Please enter only numeric digits';
+                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                    if (!percentagePattern.hasMatch(value!)) {
+                      return 'Please enter a valid numeric value';
                     }
                     return null;
                   },
@@ -801,8 +803,9 @@ class _SectionThreeState extends State<SectionThree>
                         widget.myTabController.numberOfPersons > 1) {
                       return 'Second Applicant Proportion of loan (%)';
                     }
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
-                      return 'Please enter only numeric digits';
+                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                    if (!percentagePattern.hasMatch(value!)) {
+                      return 'Please enter a valid numeric value';
                     }
                     return null;
                   },
@@ -819,8 +822,9 @@ class _SectionThreeState extends State<SectionThree>
                         widget.myTabController.numberOfPersons > 3) {
                       return 'Fourth Applicant Proportion of loan (%)';
                     }
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value!)) {
-                      return 'Please enter only numeric digits';
+                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                    if (!percentagePattern.hasMatch(value!)) {
+                      return 'Please enter a valid numeric value';
                     }
                     return null;
                   },

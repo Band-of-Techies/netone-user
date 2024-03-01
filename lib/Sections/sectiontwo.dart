@@ -580,7 +580,7 @@ class _SectionTwoState extends State<SectionTwo>
                   }
 
                   // Validate if the value contains only letters, digits, and hyphens
-                  RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\-]+$');
+                  RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
                   if (!jobTitlePattern.hasMatch(value)) {
                     return 'Can only contain letters, digits, and -';
                   }
@@ -599,9 +599,9 @@ class _SectionTwoState extends State<SectionTwo>
                   }
 
                   // Validate if the value contains only letters, digits, and hyphens
-                  RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\-]+$');
-                  if (!jobTitlePattern.hasMatch(value)) {
-                    return 'Can only contain letters, digits, and -';
+                  RegExp ministryPattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
+                  if (!ministryPattern.hasMatch(value)) {
+                    return 'Can only contain letters, digits, hyphens, and spaces';
                   }
 
                   return null;
@@ -1107,27 +1107,6 @@ class _SectionTwoState extends State<SectionTwo>
         ],
       ),
     );
-  }
-
-  bool validateEmploymentType(List<EmployemntandKlinDetails> applicants) {
-    for (int i = 0; i < applicants.length; i++) {
-      String employmentType = applicants[i].employmentType;
-
-      if (employmentType != 'Permanent' && employmentType != 'Temporary') {
-        // Employment type is not a valid value (neither "Permanent" nor "Temporary")
-        return false;
-      }
-
-      // Additional validation for Temporary employment type if needed
-      if (employmentType == 'Temporary' &&
-          applicants[i].expiryDateController.text.isEmpty) {
-        // Additional field for Temporary employment is empty
-        return false;
-      }
-    }
-
-    // All employmentType values are either "Permanent" or "Temporary" with additional validation if needed
-    return true;
   }
 
   Future<void> _selectJobExpiryDate(

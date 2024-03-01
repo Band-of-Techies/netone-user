@@ -611,7 +611,7 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   if (myTabController.employmentDetailsList[i].employmentType ==
-                      'Temporary')
+                      'contract')
                     CustomText(
                       text:
                           'Expiry Date: ${myTabController.employmentDetailsList[i].expiryDateController.text}',
@@ -708,14 +708,14 @@ class _SectionFourState extends State<SectionFour>
             children: [
               CustomText(
                 text:
-                    'First Applicant: ${myTabController.loanDetails.firstapplicant.text}',
+                    'First Applicant: ${myTabController.applicants[0].loanapplicantname.text}',
               ),
               SizedBox(
                 width: 30,
               ),
               CustomText(
                 text:
-                    'First Applicant Loan Propotion: ${myTabController.loanDetails.firstapplicantproportion.text}',
+                    'First Applicant Loan Propotion: ${myTabController.applicants[0].loanapplicantpercentage.text}',
               ),
               SizedBox(
                 width: 30,
@@ -723,7 +723,7 @@ class _SectionFourState extends State<SectionFour>
               if (myTabController.numberOfPersons > 1)
                 CustomText(
                   text:
-                      'Second Applicant: ${myTabController.loanDetails.secondapplicant.text}',
+                      'Second Applicant: ${myTabController.applicants[1].loanapplicantname.text}',
                 ),
               SizedBox(
                 width: 30,
@@ -731,7 +731,7 @@ class _SectionFourState extends State<SectionFour>
               if (myTabController.numberOfPersons > 1)
                 CustomText(
                   text:
-                      'Second Applicant Loan Propotion: ${myTabController.loanDetails.secondapplicantpropotion.text}',
+                      'Second Applicant Loan Propotion: ${myTabController.applicants[1].loanapplicantpercentage.text}',
                 ),
             ],
           ),
@@ -743,7 +743,7 @@ class _SectionFourState extends State<SectionFour>
               if (myTabController.numberOfPersons > 2)
                 CustomText(
                   text:
-                      'Third Applicant: ${myTabController.loanDetails.thirdapplicant.text}',
+                      'Third Applicant: ${myTabController.applicants[2].loanapplicantname.text}',
                 ),
               SizedBox(
                 width: 30,
@@ -751,7 +751,7 @@ class _SectionFourState extends State<SectionFour>
               if (myTabController.numberOfPersons > 2)
                 CustomText(
                   text:
-                      'Third Applicant Loan Propotion: ${myTabController.loanDetails.thirdapplicant.text}',
+                      'Third Applicant Loan Propotion: ${myTabController.applicants[2].loanapplicantpercentage.text}',
                 ),
               SizedBox(
                 width: 30,
@@ -759,7 +759,7 @@ class _SectionFourState extends State<SectionFour>
               if (myTabController.numberOfPersons > 3)
                 CustomText(
                   text:
-                      'Fourth Applicant: ${myTabController.loanDetails.fourthapplicant.text}',
+                      'Fourth Applicant: ${myTabController.applicants[3].loanapplicantname.text}',
                 ),
               SizedBox(
                 width: 30,
@@ -767,7 +767,7 @@ class _SectionFourState extends State<SectionFour>
               if (myTabController.numberOfPersons > 3)
                 CustomText(
                   text:
-                      'Fourth Applicant Loan Propotion: ${myTabController.loanDetails.fourthapplicantpropotion.text}',
+                      'Fourth Applicant Loan Propotion: ${myTabController.applicants[3].loanapplicantpercentage.text}',
                 ),
             ],
           ),

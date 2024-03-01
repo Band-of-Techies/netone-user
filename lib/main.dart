@@ -32,13 +32,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
           length: 4, // Number of tabs (sections)
           child: Scaffold(
             appBar: AppBar(
-              leadingWidth: 200,
-              leading: Image.asset(
-                'assets/netone.png',
-                height: 60,
-                width: 200,
-                fit: BoxFit.contain,
-              ),
               backgroundColor: Colors.white,
               toolbarHeight: 90,
               title: Column(children: [
