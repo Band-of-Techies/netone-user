@@ -34,6 +34,16 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             appBar: AppBar(
               backgroundColor: Colors.white,
               toolbarHeight: 90,
+              leadingWidth: 200,
+              leading: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Image.asset(
+                  'assets/netone.png',
+                  height: 40,
+                  width: 100,
+                  fit: BoxFit.contain,
+                ),
+              ),
               title: Column(children: [
                 SizedBox(
                   height: 5,
