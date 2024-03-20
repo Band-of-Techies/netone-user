@@ -19,7 +19,7 @@ class EmployemntandKlinDetails {
   TextEditingController retirementYearController = TextEditingController();
   TextEditingController employeeNumberController = TextEditingController();
   String? yearsInEmploymentController;
-  String employmentType = '';
+  String? employmentType;
   TextEditingController expiryDateController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController otherNamesController = TextEditingController();
@@ -32,6 +32,7 @@ class EmployemntandKlinDetails {
   void dispose() {
     jobTitleController.dispose();
     ministryController.dispose();
+
     physicalAddressControlleremployment.dispose();
     physicalAddressControllernextofkin.dispose();
     postalAddressControllerEmployment.dispose();

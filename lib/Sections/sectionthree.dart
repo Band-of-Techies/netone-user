@@ -79,6 +79,12 @@ class _SectionThreeState extends State<SectionThree>
                             height: 30,
                           ),
                           loandetails(applicants),
+
+                          SizedBox(
+                            height: 30,
+                          ),
+                          bankDetails(),
+
                           SizedBox(
                             height: 30,
                           ),
@@ -213,6 +219,130 @@ class _SectionThreeState extends State<SectionThree>
     }
 
     return true;
+  }
+
+  Container bankDetails() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 30),
+      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(80, 252, 227, 194),
+          borderRadius: BorderRadius.circular(20)),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Bank Details - Applicant 1',
+              style: GoogleFonts.dmSans(
+                  color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: loadndetails.bankname,
+                    labelText: 'Bank Name',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Bank Name';
+                      }
+                      if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                        return 'Invalid Bank Name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: loadndetails.branchname,
+                    labelText: 'Branch Name',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Branch Name';
+                      }
+                      if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                        return 'Invalid Branch Name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: loadndetails.sortcode,
+                    labelText: 'Sortcode',
+                    validator: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                          return 'Invalid Sortcode';
+                        }
+                        if (value.length > 6) {
+                          return 'Maximum length is 6 digits';
+                        }
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                Expanded(
+                  child: CustomTextFormField(
+                    controller: loadndetails.accountnumber,
+                    labelText: 'Bank Account Number',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your Bank Acc No';
+                      }
+                      if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                        return 'Invalid Account Number';
+                      }
+                      if (value.length > 13) {
+                        return 'Maximum length is 13 digits';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            CustomTextFormField(
+              controller: loadndetails.nameandbankaddress,
+              labelText: 'Bank Name and Full Address',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your Bank Name and full address';
+                }
+                if (value.length < 5) {
+                  return 'Bank Name and address should have at least 5 characters';
+                }
+                return null;
+              },
+            ),
+          ]),
+    );
   }
 
   void fetchCategories() async {
@@ -685,9 +815,6 @@ class _SectionThreeState extends State<SectionThree>
                 controller: applicants[0].loanapplicantname,
                 labelText: 'First Applicant',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter first Applicant';
-                  }
                   return null;
                 },
               ),
@@ -699,10 +826,6 @@ class _SectionThreeState extends State<SectionThree>
                   controller: applicants[2].loanapplicantname,
                   labelText: 'Third Applicant (Agric Asset ONLY)',
                   validator: (value) {
-                    if ((value == null || value.isEmpty) &&
-                        widget.myTabController.numberOfPersons > 2) {
-                      return 'Please enter third applicant';
-                    }
                     return null;
                   },
                 ),
@@ -714,12 +837,11 @@ class _SectionThreeState extends State<SectionThree>
                 controller: applicants[0].loanapplicantpercentage,
                 labelText: 'First Applicant Proportion of loan (%)',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'First Applicant Proportion of loan (%)';
-                  }
-                  RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                  if (!percentagePattern.hasMatch(value)) {
-                    return 'Please enter a valid numeric value';
+                  if (value != null && value.isNotEmpty) {
+                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                    if (!percentagePattern.hasMatch(value)) {
+                      return 'Please enter a valid numeric value';
+                    }
                   }
                   return null;
                 },
@@ -732,13 +854,11 @@ class _SectionThreeState extends State<SectionThree>
                   controller: applicants[2].loanapplicantpercentage,
                   labelText: 'Third Applicant Proportion of loan (%))',
                   validator: (value) {
-                    if ((value == null || value.isEmpty) &&
-                        widget.myTabController.numberOfPersons > 2) {
-                      return 'Third Applicant Proportion of loan (%)';
-                    }
-                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                    if (!percentagePattern.hasMatch(value!)) {
-                      return 'Please enter a valid numeric value';
+                    if (value != null && value.isNotEmpty) {
+                      RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                      if (!percentagePattern.hasMatch(value)) {
+                        return 'Please enter a valid numeric value';
+                      }
                     }
                     return null;
                   },
@@ -768,10 +888,6 @@ class _SectionThreeState extends State<SectionThree>
                   controller: applicants[1].loanapplicantname,
                   labelText: 'Second Applicant',
                   validator: (value) {
-                    if ((value == null || value.isEmpty) &&
-                        widget.myTabController.numberOfPersons > 1) {
-                      return 'Second Applicant';
-                    }
                     return null;
                   },
                 ),
@@ -783,10 +899,6 @@ class _SectionThreeState extends State<SectionThree>
                   controller: applicants[3].loanapplicantname,
                   labelText: 'Fourth Applicant (Agric Asset ONLY)',
                   validator: (value) {
-                    if ((value == null || value.isEmpty) &&
-                        widget.myTabController.numberOfPersons > 3) {
-                      return 'Fourth Applicant (Agric Asset ONLY)';
-                    }
                     return null;
                   },
                 ),
@@ -799,13 +911,11 @@ class _SectionThreeState extends State<SectionThree>
                   controller: applicants[1].loanapplicantpercentage,
                   labelText: 'Second Applicant Proportion of loan (%)',
                   validator: (value) {
-                    if ((value == null || value.isEmpty) &&
-                        widget.myTabController.numberOfPersons > 1) {
-                      return 'Second Applicant Proportion of loan (%)';
-                    }
-                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                    if (!percentagePattern.hasMatch(value!)) {
-                      return 'Please enter a valid numeric value';
+                    if (value != null && value.isNotEmpty) {
+                      RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                      if (!percentagePattern.hasMatch(value)) {
+                        return 'Please enter a valid numeric value';
+                      }
                     }
                     return null;
                   },
@@ -818,13 +928,11 @@ class _SectionThreeState extends State<SectionThree>
                   controller: applicants[3].loanapplicantpercentage,
                   labelText: 'Fourth Applicant Proportion of loan (%)',
                   validator: (value) {
-                    if ((value == null || value.isEmpty) &&
-                        widget.myTabController.numberOfPersons > 3) {
-                      return 'Fourth Applicant Proportion of loan (%)';
-                    }
-                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                    if (!percentagePattern.hasMatch(value!)) {
-                      return 'Please enter a valid numeric value';
+                    if (value != null && value.isNotEmpty) {
+                      RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                      if (!percentagePattern.hasMatch(value)) {
+                        return 'Please enter a valid numeric value';
+                      }
                     }
                     return null;
                   },

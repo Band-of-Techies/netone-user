@@ -22,13 +22,23 @@ class LoanDetails {
   List<double> chosenProductPrice = [];
   List<String> chosenProductNames = [];
   String? loancategory;
+
+  TextEditingController bankname = TextEditingController();
+  TextEditingController branchname = TextEditingController();
+  TextEditingController sortcode = TextEditingController();
+  TextEditingController accountnumber = TextEditingController();
+  TextEditingController nameandbankaddress = TextEditingController();
   void dispose() {
     descriptionController.dispose();
     costofasset.dispose();
     insurancecost.dispose();
     advancepayment.dispose();
     loanamaountapplied.dispose();
-
+    bankname.dispose();
+    branchname.dispose();
+    sortcode.dispose();
+    accountnumber.dispose();
+    nameandbankaddress.dispose();
     firstapplicantproportion.dispose();
     secondapplicantpropotion.dispose();
     thirdapplicantpropotion.dispose();

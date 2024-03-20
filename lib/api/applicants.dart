@@ -24,6 +24,7 @@ class ApplicantDetails {
   String? ownership;
   List<Uint8List> selectedFiles = [];
   List<String> selectedFilesnames = [];
+
   void dispose() {
     surnameController.dispose();
     middleNameController.dispose();

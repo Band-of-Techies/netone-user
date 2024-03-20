@@ -277,7 +277,8 @@ class _SectionTwoState extends State<SectionTwo>
                           if (_formKey.currentState!.validate()) {
                             // Form is valid, move to the next section
                             if (validateLocation(applicantDetailsLists) &&
-                                validateRetrirement(applicantDetailsLists)) {
+                                validateRetrirement(applicantDetailsLists) &&
+                                validateEmploymentType(applicantDetailsLists)) {
                               myTabController.employmentDetailsList =
                                   applicantDetailsLists;
                               myTabController.updateEMplymentandKlin(
@@ -383,6 +384,18 @@ class _SectionTwoState extends State<SectionTwo>
     return true;
   }
 
+  bool validateEmploymentType(List<EmployemntandKlinDetails> applicants) {
+    for (int i = 0; i < widget.myTabController.numberOfPersons; i++) {
+      String? type = applicants[i].employmentType;
+
+      if (type == null) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   Container kinInformation(
       String message, EmployemntandKlinDetails applicantDetailsList) {
     return Container(
@@ -475,6 +488,7 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                 child: CustomTextFormField(
+                  prefix: '+260 ',
                   controller: applicantDetailsList.cellNumberController,
                   labelText: 'Cell Number',
                   validator: (value) {
@@ -483,9 +497,9 @@ class _SectionTwoState extends State<SectionTwo>
                     }
 
                     // Validate if the value starts with '+260' and contains only numeric digits afterwards
-                    RegExp mobilePattern = RegExp(r'^\+260\d{9}$');
+                    RegExp mobilePattern = RegExp(r'^\d{9}$');
                     if (!mobilePattern.hasMatch(value)) {
-                      return 'Start with +260 followed by 9 digits';
+                      return 'Please enter a valid Cell Number';
                     }
 
                     return null;

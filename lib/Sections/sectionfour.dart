@@ -121,6 +121,19 @@ class _SectionFourState extends State<SectionFour>
                   SizedBox(
                     height: 20,
                   ),
+                  CustomText(
+                    text: 'Bank Details - Applicant 1',
+                    color: primary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  bankdetails(myTabController),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -161,7 +174,6 @@ class _SectionFourState extends State<SectionFour>
                                 padding: MaterialStateProperty.all(
                                     EdgeInsets.all(15))),
                             onPressed: () {
-                              print(widget.myTabController.numberOfPersons);
                               // submitsForm(widget.myTabController);
                               sendLoanRequest(
                                   widget.myTabController.numberOfPersons,
@@ -776,6 +788,64 @@ class _SectionFourState extends State<SectionFour>
     );
   }
 
+  Container bankdetails(MyTabController myTabController) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 30),
+      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      decoration: BoxDecoration(
+          color: Color.fromARGB(80, 199, 193, 185),
+          borderRadius: BorderRadius.circular(20)),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 5,
+            ),
+            Wrap(
+              children: [
+                CustomText(
+                  text:
+                      'Bank Name: ${myTabController.loanDetails.bankname.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'Branch Name: ${myTabController.loanDetails.branchname.text}',
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Wrap(
+              children: [
+                CustomText(
+                  text:
+                      'Sortcode: ${myTabController.loanDetails.sortcode.text}',
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                CustomText(
+                  text:
+                      'Branch Acc No: ${myTabController.loanDetails.accountnumber.text}',
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            CustomText(
+              text:
+                  'Bank Name and Full Address: ${myTabController.loanDetails.nameandbankaddress.text}',
+            ),
+          ]),
+    );
+  }
+
   void sendLoanRequest(
       int numberOfApplicants, MyTabController myTabController) async {
     setState(() {
@@ -788,17 +858,18 @@ class _SectionFourState extends State<SectionFour>
 
       // Add JSON data as form fields
       request.fields['loan_request[description]'] =
-          myTabController.loanDetails.descriptionController.text;
+          myTabController.loanDetails.descriptionController.text ?? '';
       request.fields['loan_request[cost_of_asset]'] =
           myTabController.loanDetails.costofasset.text;
       request.fields['loan_request[insurance_cost]'] =
-          myTabController.loanDetails.insurancecost.text;
+          myTabController.loanDetails.insurancecost.text ?? '';
       request.fields['loan_request[advance_payment]'] =
-          myTabController.loanDetails.advancepayment.text;
+          myTabController.loanDetails.advancepayment.text ?? '';
       request.fields['loan_request[loan_amount]'] =
-          myTabController.loanDetails.loanamaountapplied.text;
+          myTabController.loanDetails.loanamaountapplied.text ?? '';
       request.fields['loan_request[loan_tenure]'] =
           myTabController.loanDetails.tenure.toString();
+
       for (int i = 0;
           i < myTabController.loanDetails.chosenProductIds.length;
           i++) {
@@ -813,10 +884,13 @@ class _SectionFourState extends State<SectionFour>
       for (int i = 0; i < numberOfApplicants; i++) {
         request.fields['loan_request[applicants_attributes][$i][surname]'] =
             myTabController.applicants[i].surnameController.text;
+
         request.fields['loan_request[applicants_attributes][$i][first_name]'] =
             myTabController.applicants[i].firstNameController.text;
+
         request.fields['loan_request[applicants_attributes][$i][middle_name]'] =
-            myTabController.applicants[i].middleNameController.text;
+            myTabController.applicants[i].middleNameController.text ?? '';
+
         request.fields['loan_request[applicants_attributes][$i][email]'] =
             myTabController.applicants[i].emailController.text;
         request.fields['loan_request[applicants_attributes][$i][dob]'] =
@@ -824,38 +898,52 @@ class _SectionFourState extends State<SectionFour>
         request.fields['loan_request[applicants_attributes][$i][nrc]'] =
             myTabController.applicants[i].nrcController.text;
         request.fields['loan_request[applicants_attributes][$i][telephone]'] =
-            myTabController.applicants[i].telephoneController.text;
+            myTabController.applicants[i].telephoneController.text ?? '';
         request.fields['loan_request[applicants_attributes][$i][mobile]'] =
             myTabController.applicants[i].mobileController.text;
+
         request.fields[
                 'loan_request[applicants_attributes][$i][license_number]'] =
-            myTabController.applicants[i].licenseNumberController.text;
+            myTabController.applicants[i].licenseNumberController.text ?? '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][license_expiry]'] =
-            myTabController.applicants[i].licenseExpiryController.text;
+            myTabController.applicants[i].licenseExpiryController.text ?? '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][residential_address]'] =
             myTabController.applicants[i].residentialAddressController.text;
+
         request.fields[
                 'loan_request[applicants_attributes][$i][postal_address]'] =
             myTabController.applicants[i].postalAddressController.text;
+
         request.fields['loan_request[applicants_attributes][$i][province]'] =
             myTabController.applicants[i].provinceController!;
+
         request.fields['loan_request[applicants_attributes][$i][town]'] =
             myTabController.applicants[i].townController!;
+
         request.fields['loan_request[applicants_attributes][$i][gender]'] =
             myTabController.applicants[i].gender!;
+
         request.fields['loan_request[applicants_attributes][$i][ownership]'] =
-            myTabController.applicants[i].ownership!;
+            myTabController.applicants[i].ownership == null ||
+                    myTabController.applicants[i].ownership == 'null'
+                ? ''
+                : myTabController.applicants[i].ownership!;
+
         request.fields[
                 'loan_request[applicants_attributes][$i][ownership_how_long]'] =
-            myTabController.applicants[i].howlongthisplaceController.text;
+            myTabController.applicants[i].howlongthisplaceController.text ?? '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][loan_share_name]'] =
-            myTabController.applicants[i].loanapplicantname.text;
+            myTabController.applicants[i].loanapplicantname.text ?? '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][loan_share_percent]'] =
-            myTabController.applicants[i].loanapplicantpercentage.text;
+            myTabController.applicants[i].loanapplicantpercentage.text ?? '';
 
         // Add other applicant details as needed
         request.fields[
@@ -867,29 +955,37 @@ class _SectionFourState extends State<SectionFour>
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][physical_address]'] =
             myTabController.employmentDetailsList[i]
-                .physicalAddressControllernextofkin.text;
+                    .physicalAddressControllernextofkin.text ??
+                '';
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][postal_address]'] =
-            myTabController
-                .employmentDetailsList[i].postalAddressControllerforKline.text;
+            myTabController.employmentDetailsList[i]
+                    .postalAddressControllerforKline.text ??
+                '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][phone_number]'] =
             myTabController.employmentDetailsList[i].cellNumberController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][kin_attributes][email]'] =
             myTabController
-                .employmentDetailsList[i].emailAddressController.text;
+                    .employmentDetailsList[i].emailAddressController.text ??
+                '';
 
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][job_title]'] =
-            myTabController.employmentDetailsList[i].jobTitleController.text;
+            myTabController.employmentDetailsList[i].jobTitleController.text ??
+                '';
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][ministry]'] =
-            myTabController.employmentDetailsList[i].ministryController.text;
+            myTabController.employmentDetailsList[i].ministryController.text ??
+                '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][physical_address]'] =
             myTabController.employmentDetailsList[i]
-                .physicalAddressControlleremployment.text;
+                    .physicalAddressControlleremployment.text ??
+                '';
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][postal_address]'] =
             myTabController.employmentDetailsList[i]
@@ -903,12 +999,20 @@ class _SectionFourState extends State<SectionFour>
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][gross_salary]'] =
             myTabController.employmentDetailsList[i].grossSalaryController.text;
+
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][net_salary]'] =
             myTabController.employmentDetailsList[i].netSalaryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][salary_scale]'] =
-            myTabController.employmentDetailsList[i].salaryScaleController!;
+            myTabController.employmentDetailsList[i].salaryScaleController ==
+                        null ||
+                    myTabController
+                            .employmentDetailsList[i].salaryScaleController ==
+                        'null'
+                ? ''
+                : myTabController
+                    .employmentDetailsList[i].salaryScaleController!;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][retirement_year]'] =
             myTabController
@@ -919,18 +1023,29 @@ class _SectionFourState extends State<SectionFour>
                 .employmentDetailsList[i].employeeNumberController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][years_of_service]'] =
-            myTabController
-                .employmentDetailsList[i].yearsInEmploymentController!;
+            myTabController.employmentDetailsList[i]
+                            .yearsInEmploymentController ==
+                        null ||
+                    myTabController.employmentDetailsList[i]
+                            .yearsInEmploymentController ==
+                        'null'
+                ? ''
+                : myTabController
+                    .employmentDetailsList[i].yearsInEmploymentController!;
+
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employment_type]'] =
-            myTabController.employmentDetailsList[i].employmentType;
+            myTabController.employmentDetailsList[i].employmentType!;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][expiry_date]'] =
-            myTabController.employmentDetailsList[i].expiryDateController.text;
+            myTabController
+                    .employmentDetailsList[i].expiryDateController.text ??
+                '';
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_email]'] =
             myTabController
-                .employmentDetailsList[i].emailAddressController.text;
+                    .employmentDetailsList[i].emailAddressController.text ??
+                '';
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][employer_name]'] =
             myTabController.employmentDetailsList[i].nameController.text;
@@ -945,7 +1060,10 @@ class _SectionFourState extends State<SectionFour>
             myTabController.employmentDetailsList[i].netSalaryController.text;
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][temp_expiry_date]'] =
-            myTabController.employmentDetailsList[i].expiryDateController.text;
+            myTabController
+                    .employmentDetailsList[i].expiryDateController.text ??
+                '';
+
         request.fields[
                 'loan_request[applicants_attributes][$i][occupation_attributes][preferred_retirement_year]'] =
             myTabController
@@ -953,6 +1071,7 @@ class _SectionFourState extends State<SectionFour>
 
         // Add files as form fields
         //  print(widget.myTabController.applicants[i].selectedFiles.length);
+
         for (var file in widget.myTabController.applicants[i].selectedFiles) {
           request.files.add(http.MultipartFile(
             'loan_request[applicants_attributes][$i][documents][]',

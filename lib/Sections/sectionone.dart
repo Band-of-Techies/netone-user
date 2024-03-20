@@ -534,6 +534,7 @@ class _SectionOneState extends State<SectionOne>
               SizedBox(width: 40.0),
               Expanded(
                   child: CustomTextFormField(
+                prefix: '+260 ',
                 controller: applicant.mobileController,
                 labelText: 'Mobile',
                 validator: (value) {
@@ -542,9 +543,9 @@ class _SectionOneState extends State<SectionOne>
                   }
 
                   // Validate if the value starts with '+260' and contains only numeric digits afterwards
-                  RegExp mobilePattern = RegExp(r'^\+260\d{9}$');
+                  RegExp mobilePattern = RegExp(r'^\d{9}$');
                   if (!mobilePattern.hasMatch(value)) {
-                    return 'Start with +260 followed by 9 digits';
+                    return 'Please enter a valid Mobile Number';
                   }
 
                   return null;
