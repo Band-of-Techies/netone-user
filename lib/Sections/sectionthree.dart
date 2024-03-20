@@ -163,16 +163,42 @@ class _SectionThreeState extends State<SectionThree>
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.all(15))),
                               onPressed: () {
+                                bool attatchment = false;
+                                for (int i = 0;
+                                    i < widget.myTabController.numberOfPersons;
+                                    i++) {
+                                  if (widget.myTabController.applicants[i]
+                                          .paysliponeFiles.isNotEmpty &&
+                                      widget.myTabController.applicants[i]
+                                          .paysliptwoFiles.isNotEmpty &&
+                                      widget.myTabController.applicants[i]
+                                          .paysliponeFiles.isNotEmpty &&
+                                      widget.myTabController.applicants[i]
+                                          .intodletterFiles.isNotEmpty &&
+                                      widget.myTabController.applicants[i]
+                                          .bankStatementFiles.isNotEmpty &&
+                                      widget.myTabController.applicants[i]
+                                          .nrcFiles.isNotEmpty) {
+                                    setState(() {
+                                      attatchment = true;
+                                    });
+                                  }
+                                }
                                 if (_formKey.currentState!.validate()) {
                                   if (validateTenure(loadndetails)) {
-                                    myTabController.loanDetails = loadndetails;
-                                    //printApplicantDetails();
-                                    if (widget._tabController.index <
-                                        widget._tabController.length - 1) {
-                                      widget._tabController.animateTo(
-                                          widget._tabController.index + 1);
+                                    if (attatchment == true) {
+                                      myTabController.loanDetails =
+                                          loadndetails;
+                                      //printApplicantDetails();
+                                      if (widget._tabController.index <
+                                          widget._tabController.length - 1) {
+                                        widget._tabController.animateTo(
+                                            widget._tabController.index + 1);
+                                      } else {
+                                        // Handle the case when the last tab is reached
+                                      }
                                     } else {
-                                      // Handle the case when the last tab is reached
+                                      warning('Attatch all documents');
                                     }
                                   } else {
                                     warning('Select Tenure');
@@ -662,7 +688,324 @@ class _SectionThreeState extends State<SectionThree>
             ),
           ],
         ),
+        SizedBox(
+          height: 30,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            //one
+            uploadtitles('Payslip - 1'),
+            Wrap(
+              children: [
+                if (widget
+                    .myTabController.applicants[i].paysliponeFiles.isNotEmpty)
+                  viewFiles(
+                      widget.myTabController.applicants[i].paysliponeFiles,
+                      widget.myTabController.applicants[i].paysliponeFileNames),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            pickFilesWidget(
+              widget.myTabController.applicants[i].paysliponeFiles,
+              widget.myTabController.applicants[i].paysliponeFileNames,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            //two
+
+            uploadtitles('Payslip - 2'),
+            SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              children: [
+                if (widget
+                    .myTabController.applicants[i].paysliptwoFiles.isNotEmpty)
+                  viewFiles(
+                      widget.myTabController.applicants[i].paysliptwoFiles,
+                      widget.myTabController.applicants[i].paysliptwoFileNames),
+              ],
+            ),
+            pickFilesWidget(
+              widget.myTabController.applicants[i].paysliptwoFiles,
+              widget.myTabController.applicants[i].paysliptwoFileNames,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            uploadtitles('Payslip - 3'),
+            SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              children: [
+                if (widget
+                    .myTabController.applicants[i].payslipthreeFiles.isNotEmpty)
+                  viewFiles(
+                      widget.myTabController.applicants[i].payslipthreeFiles,
+                      widget
+                          .myTabController.applicants[i].payslipthreeFileNames),
+              ],
+            ),
+            pickFilesWidget(
+              widget.myTabController.applicants[i].payslipthreeFiles,
+              widget.myTabController.applicants[i].payslipthreeFileNames,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            uploadtitles('Introductory Letter from Employer'),
+            SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              children: [
+                if (widget
+                    .myTabController.applicants[i].intodletterFiles.isNotEmpty)
+                  viewFiles(
+                      widget.myTabController.applicants[i].intodletterFiles,
+                      widget
+                          .myTabController.applicants[i].introletterFileNames),
+              ],
+            ),
+            pickFilesWidget(
+              widget.myTabController.applicants[i].intodletterFiles,
+              widget.myTabController.applicants[i].introletterFileNames,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            uploadtitles('Bank Statement'),
+            SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              children: [
+                if (widget.myTabController.applicants[i].bankStatementFiles
+                    .isNotEmpty)
+                  viewFiles(
+                      widget.myTabController.applicants[i].bankStatementFiles,
+                      widget.myTabController.applicants[i]
+                          .bankStatementFileNames),
+              ],
+            ),
+            pickFilesWidget(
+              widget.myTabController.applicants[i].bankStatementFiles,
+              widget.myTabController.applicants[i].bankStatementFileNames,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            uploadtitles('NRC'),
+            SizedBox(
+              height: 10,
+            ),
+            Wrap(
+              children: [
+                if (widget.myTabController.applicants[i].nrcFiles.isNotEmpty)
+                  viewFiles(widget.myTabController.applicants[i].nrcFiles,
+                      widget.myTabController.applicants[i].nrcFileNames),
+              ],
+            ),
+            pickFilesWidget(
+              widget.myTabController.applicants[i].nrcFiles,
+              widget.myTabController.applicants[i].nrcFileNames,
+            ),
+          ],
+        )
       ],
+    );
+  }
+
+  Text uploadtitles(String title) {
+    return Text(
+      title,
+      style: GoogleFonts.dmSans(
+          decoration: TextDecoration.underline,
+          color: blackfont,
+          fontSize: 14,
+          fontWeight: FontWeight.w700),
+    );
+  }
+
+  Container viewFiles(List<Uint8List> files, List<String> fileNames) {
+    return Container(
+        width: MediaQuery.of(context).size.width * .9,
+        child: Wrap(
+          children: List.generate(
+            files.length,
+            (index) {
+              var fileBytes = files[index];
+              var fileName = fileNames[index];
+              String fileExtension = fileName.split('.').last.toLowerCase();
+
+              return Container(
+                margin: EdgeInsets.all(10),
+                width: 300,
+                height: 60,
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Display Image for image files
+
+                        (fileExtension != 'pdf')
+                            ? GestureDetector(
+                                onTap: () {
+                                  // Open image in a new tab
+                                  final blob =
+                                      html.Blob([fileBytes], 'image/*');
+                                  final url =
+                                      html.Url.createObjectUrlFromBlob(blob);
+                                  html.window.open(url, '_blank');
+                                },
+                                child: Container(
+                                  width: 300,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: blackfont),
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: whitefont,
+                                  ),
+                                  child: Image.memory(
+                                    fileBytes,
+                                    width:
+                                        300, // Set the width of the image as per your requirement
+                                    height:
+                                        50, // Set the height of the image as per your requirement
+                                    fit: BoxFit
+                                        .cover, // Adjust this based on your image requirements
+                                  ),
+                                ),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  // Open PDF in a new tab
+                                  final blob = html.Blob(
+                                      [Uint8List.fromList(fileBytes)],
+                                      'application/pdf');
+                                  final url =
+                                      html.Url.createObjectUrlFromBlob(blob);
+                                  html.window.open(url, '_blank');
+                                },
+                                child: Container(
+                                  width: 300,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: blackfont),
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: whitefont,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Icon(
+                                        Icons.picture_as_pdf,
+                                        color: Colors.red,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                        SizedBox(
+                            height: 8.0), // Add spacing between image and text
+
+                        // Display file name with overflow handling
+                        Flexible(
+                          child: Text(
+                            fileName,
+                            overflow: TextOverflow.ellipsis,
+                            // Adjust the maximum lines based on your UI requirements
+                            style: GoogleFonts.dmSans(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      top: 12,
+                      right: 5,
+                      child: GestureDetector(
+                        onTap: () {
+                          // Handle the close icon tap
+                          setState(() {
+                            files.removeAt(index);
+                            fileNames.removeAt(index);
+                          });
+                        },
+                        child: CircleAvatar(
+                          radius: 12,
+                          backgroundColor: primary,
+                          child: Icon(
+                            Icons.close,
+                            size: 15,
+                            color: whitefont,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ));
+  }
+
+  ElevatedButton pickFilesWidget(
+      List<Uint8List> selectedFiles, List<String> selectedFilesnames) {
+    return ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(primary),
+          padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+      onPressed: () async {
+        FilePickerResult? result = await FilePicker.platform.pickFiles(
+          allowMultiple: false,
+          type: FileType.custom,
+          allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+        );
+
+        if (result != null) {
+          if (result.files.first.size > 1024 * 1024) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('The file size exceeds limit'),
+              ),
+            );
+          } else {
+            if (selectedFiles.length < 3) {
+              setState(() {
+                selectedFiles.addAll(result.files.map((file) => file.bytes!));
+                selectedFilesnames
+                    .addAll(result.files.map((file) => file.name));
+              });
+            } else {
+              warning('Maximum three files, remove files to add new');
+            }
+          }
+        }
+      },
+      child: Text(
+        'Upload',
+        style: GoogleFonts.dmSans(
+            color: whitefont, fontSize: 14, fontWeight: FontWeight.w500),
+      ),
     );
   }
 

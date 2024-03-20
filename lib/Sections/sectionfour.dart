@@ -70,8 +70,11 @@ class _SectionFourState extends State<SectionFour>
                     height: 20,
                   ),
                   applicantDetails(myTabController, 0),
+
                   if (numberOfPersons > 1) applicantDetails(myTabController, 1),
+
                   if (numberOfPersons > 2) applicantDetails(myTabController, 2),
+
                   if (numberOfPersons > 3) applicantDetails(myTabController, 3),
 
                   // Display other details as needed
@@ -469,6 +472,87 @@ class _SectionFourState extends State<SectionFour>
                       },
                     ),
                   )),
+            SizedBox(
+              width: 30,
+            ),
+            if (widget.myTabController.applicants[i].paysliponeFiles.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'Payslip - 1'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].paysliponeFiles,
+                      widget.myTabController.applicants[i].paysliponeFileNames),
+                ],
+              ),
+            if (widget.myTabController.applicants[i].paysliptwoFiles.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'Payslip - 2'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].paysliptwoFiles,
+                      widget.myTabController.applicants[i].paysliptwoFileNames),
+                ],
+              ),
+            if (widget
+                .myTabController.applicants[i].payslipthreeFiles.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'Payslip - 3'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].payslipthreeFiles,
+                      widget
+                          .myTabController.applicants[i].payslipthreeFileNames),
+                ],
+              ),
+            if (widget
+                .myTabController.applicants[i].intodletterFiles.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'Introductory Letter from Employer'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].intodletterFiles,
+                      widget
+                          .myTabController.applicants[i].introletterFileNames),
+                ],
+              ),
+            if (widget
+                .myTabController.applicants[i].bankStatementFiles.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'Bank Statement'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].bankStatementFiles,
+                      widget.myTabController.applicants[i]
+                          .bankStatementFileNames),
+                ],
+              ),
+            if (widget.myTabController.applicants[i].nrcFiles.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'NRC'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].nrcFiles,
+                      widget.myTabController.applicants[i].nrcFileNames),
+                ],
+              ),
           ]),
     );
   }
@@ -844,6 +928,111 @@ class _SectionFourState extends State<SectionFour>
             ),
           ]),
     );
+  }
+
+  Container attachedDocs(MyTabController myTabController, int i,
+      List<Uint8List> files, List<String> filenames) {
+    print(files.length);
+    return Container(
+        width: MediaQuery.of(context).size.width * .7,
+        child: Wrap(
+          children: List.generate(
+            files.length,
+            (index) {
+              var fileBytes = files[index];
+
+              var fileName = filenames[index];
+              String fileExtension = fileName.split('.').last.toLowerCase();
+
+              return Container(
+                margin: EdgeInsets.all(10),
+                width: 300,
+                height: 60,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Display Image for image files
+
+                    (fileExtension != 'pdf')
+                        ? GestureDetector(
+                            onTap: () {
+                              // Open image in a new tab
+                              final blob = html.Blob([fileBytes], 'image/*');
+                              final url =
+                                  html.Url.createObjectUrlFromBlob(blob);
+                              html.window.open(url, '_blank');
+                            },
+                            child: Container(
+                              width: 300,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: blackfont),
+                                borderRadius: BorderRadius.circular(5),
+                                color: whitefont,
+                              ),
+                              child: Image.memory(
+                                fileBytes,
+                                width:
+                                    300, // Set the width of the image as per your requirement
+                                height:
+                                    50, // Set the height of the image as per your requirement
+                                fit: BoxFit
+                                    .cover, // Adjust this based on your image requirements
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              // Open PDF in a new tab
+                              final blob = html.Blob(
+                                  [Uint8List.fromList(fileBytes)],
+                                  'application/pdf');
+                              final url =
+                                  html.Url.createObjectUrlFromBlob(blob);
+                              html.window.open(url, '_blank');
+                            },
+                            child: Container(
+                              width: 300,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: blackfont),
+                                borderRadius: BorderRadius.circular(5),
+                                color: whitefont,
+                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Icon(
+                                    Icons.picture_as_pdf,
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                    SizedBox(height: 8.0), // Add spacing between image and text
+
+                    // Display file name with overflow handling
+                    Flexible(
+                      child: Text(
+                        fileName,
+                        overflow: TextOverflow.ellipsis,
+                        // Adjust the maximum lines based on your UI requirements
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ));
   }
 
   void sendLoanRequest(
