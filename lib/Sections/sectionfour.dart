@@ -475,6 +475,18 @@ class _SectionFourState extends State<SectionFour>
             SizedBox(
               width: 30,
             ),
+            if (widget.myTabController.applicants[i].signature.isNotEmpty)
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  CustomText(text: 'Signature'),
+                  attachedDocs(
+                      myTabController,
+                      i,
+                      widget.myTabController.applicants[i].signature,
+                      widget.myTabController.applicants[i].signatureName),
+                ],
+              ),
             if (widget.myTabController.applicants[i].paysliponeFiles.isNotEmpty)
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,

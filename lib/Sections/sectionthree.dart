@@ -1,14 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, use_key_in_widget_constructors, sort_child_properties_last
 
 import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:js' as js;
+import 'package:image_cropper/image_cropper.dart';
 
 import 'package:netone_enquiry_management/api/applicants.dart';
 import 'package:netone_enquiry_management/api/loandetails.dart';
@@ -695,6 +694,23 @@ class _SectionThreeState extends State<SectionThree>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            //signature
+            uploadtitles('Signature'),
+            Wrap(
+              children: [
+                if (widget.myTabController.applicants[i].signature.isNotEmpty)
+                  viewFiles(widget.myTabController.applicants[i].signature,
+                      widget.myTabController.applicants[i].signatureName),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            pickSignatureWidget(widget.myTabController.applicants[i].signature,
+                widget.myTabController.applicants[i].signatureName, context),
+            SizedBox(
+              height: 20,
+            ),
             //one
             uploadtitles('Payslip - 1'),
             Wrap(
@@ -1007,6 +1023,85 @@ class _SectionThreeState extends State<SectionThree>
             color: whitefont, fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
+  }
+
+  ElevatedButton pickSignatureWidget(List<Uint8List> selectedFiles,
+      List<String> selectedFilesnames, BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(primary),
+          padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+      onPressed: () async {
+        if (selectedFiles.length < 1) {
+          await _pickAndCropImage(selectedFiles, selectedFilesnames);
+        } else {
+          warning('Only one file can be attached, remove to add new');
+        }
+      },
+      child: Text(
+        'Upload',
+        style: GoogleFonts.dmSans(
+            color: whitefont, fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+    );
+  }
+
+  Future<void> _pickAndCropImage(
+    List<Uint8List> selectedFiles,
+    List<String> selectedFilesnames,
+  ) async {
+    final html.FileUploadInputElement input = html.FileUploadInputElement();
+    input.accept = 'image/*';
+    input.click();
+
+    input.onChange.listen((event) async {
+      final files = input.files;
+      if (files != null && files.isNotEmpty) {
+        final reader = html.FileReader();
+        reader.readAsDataUrl(files[0]);
+        reader.onError.listen((error) => setState(() {
+              // Handle error
+            }));
+
+        reader.onLoad.first.then((_) async {
+          final imageBytes = reader.result as String?;
+          if (imageBytes != null) {
+            final croppedImage = await cropImage(imageBytes);
+            if (croppedImage != null) {
+              setState(() {
+                selectedFiles.add(croppedImage);
+                selectedFilesnames.add('Signature');
+              });
+              // Save the cropped image to storage
+              // Implement your storage saving logic here
+            }
+          }
+        });
+      }
+    });
+  }
+
+  Future<Uint8List?> cropImage(String imageBytes) async {
+    final croppedFile = await ImageCropper().cropImage(
+      sourcePath: imageBytes,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.original,
+      ],
+      uiSettings: [
+        WebUiSettings(
+          context: context,
+          enableZoom: true,
+          showZoomer: true,
+          mouseWheelZoom: true,
+          viewPort: CroppieViewPort(height: 300, width: 500, type: 'Rectangle'),
+        ),
+      ],
+    );
+    if (croppedFile != null) {
+      return croppedFile.readAsBytes();
+    } else {
+      return null;
+    }
   }
 
   Row loandetails(List<ApplicantDetails> applicants) {

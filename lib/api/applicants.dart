@@ -25,6 +25,9 @@ class ApplicantDetails {
   List<Uint8List> selectedFiles = [];
   List<String> selectedFilesnames = [];
 
+  List<Uint8List> signature = [];
+  List<String> signatureName = [];
+
   List<Uint8List> paysliponeFiles = [];
   List<String> paysliponeFileNames = [];
 
