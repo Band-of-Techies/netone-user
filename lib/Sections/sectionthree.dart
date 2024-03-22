@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, use_key_in_widget_constructors, sort_child_properties_last
 
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -485,7 +486,7 @@ class _SectionThreeState extends State<SectionThree>
         ),
         SizedBox(height: 30),
         Text(
-          'Upload Signature, Bank Details and Other Proof here (All 3 Files Required)',
+          'Upload Signature, Bank Details and Other Proof here (All 3 Files Required)\n** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
           style: GoogleFonts.dmSans(
               color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
         ),
@@ -695,7 +696,8 @@ class _SectionThreeState extends State<SectionThree>
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             //signature
-            uploadtitles('Signature'),
+            uploadtitles(
+                'Signature - Only PNG/JPEG - Signature in white background'),
             Wrap(
               children: [
                 if (widget.myTabController.applicants[i].signature.isNotEmpty)
@@ -1025,30 +1027,10 @@ class _SectionThreeState extends State<SectionThree>
     );
   }
 
-  ElevatedButton pickSignatureWidget(List<Uint8List> selectedFiles,
-      List<String> selectedFilesnames, BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(primary),
-          padding: MaterialStateProperty.all(EdgeInsets.all(15))),
-      onPressed: () async {
-        if (selectedFiles.length < 1) {
-          await _pickAndCropImage(selectedFiles, selectedFilesnames);
-        } else {
-          warning('Only one file can be attached, remove to add new');
-        }
-      },
-      child: Text(
-        'Upload',
-        style: GoogleFonts.dmSans(
-            color: whitefont, fontSize: 14, fontWeight: FontWeight.w500),
-      ),
-    );
-  }
-
   Future<void> _pickAndCropImage(
     List<Uint8List> selectedFiles,
     List<String> selectedFilesnames,
+    BuildContext context,
   ) async {
     final html.FileUploadInputElement input = html.FileUploadInputElement();
     input.accept = 'image/*';
@@ -1066,14 +1048,20 @@ class _SectionThreeState extends State<SectionThree>
         reader.onLoad.first.then((_) async {
           final imageBytes = reader.result as String?;
           if (imageBytes != null) {
-            final croppedImage = await cropImage(imageBytes);
+            final croppedImage = await cropImage(imageBytes, context);
             if (croppedImage != null) {
-              setState(() {
-                selectedFiles.add(croppedImage);
-                selectedFilesnames.add('Signature');
-              });
-              // Save the cropped image to storage
-              // Implement your storage saving logic here
+              print('Start');
+
+              print('End');
+              if (croppedImage != null) {
+                print(12);
+                setState(() {
+                  selectedFiles.add(croppedImage);
+                  selectedFilesnames.add('Signature');
+                });
+                // Save the cropped image to storage
+                // Implement your storage saving logic here
+              }
             }
           }
         });
@@ -1081,7 +1069,7 @@ class _SectionThreeState extends State<SectionThree>
     });
   }
 
-  Future<Uint8List?> cropImage(String imageBytes) async {
+  Future<Uint8List?> cropImage(String imageBytes, BuildContext context) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: imageBytes,
       aspectRatioPresets: [
@@ -1093,7 +1081,7 @@ class _SectionThreeState extends State<SectionThree>
           enableZoom: true,
           showZoomer: true,
           mouseWheelZoom: true,
-          viewPort: CroppieViewPort(height: 300, width: 500, type: 'Rectangle'),
+          viewPort: CroppieViewPort(height: 200, width: 500, type: 'Rectangle'),
         ),
       ],
     );
@@ -1102,6 +1090,31 @@ class _SectionThreeState extends State<SectionThree>
     } else {
       return null;
     }
+  }
+
+  ElevatedButton pickSignatureWidget(
+    List<Uint8List> selectedFiles,
+    List<String> selectedFilesnames,
+    BuildContext context,
+  ) {
+    return ElevatedButton(
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all(primary), // Use appropriate color
+          padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+      onPressed: () async {
+        if (selectedFiles.length < 1) {
+          await _pickAndCropImage(selectedFiles, selectedFilesnames, context);
+        } else {
+          // warning('Only one file can be attached, remove to add new');
+        }
+      },
+      child: Text(
+        'Upload',
+        style: GoogleFonts.dmSans(
+            color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+    );
   }
 
   Row loandetails(List<ApplicantDetails> applicants) {
