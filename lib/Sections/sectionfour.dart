@@ -1071,6 +1071,18 @@ class _SectionFourState extends State<SectionFour>
       request.fields['loan_request[loan_tenure]'] =
           myTabController.loanDetails.tenure.toString();
 
+      //bank details
+      request.fields['loan_request[bank_name]'] =
+          myTabController.loanDetails.bankname.text;
+      request.fields['loan_request[bank_account_number]'] =
+          myTabController.loanDetails.accountnumber.text;
+      request.fields['loan_request[bank_branch_name]'] =
+          myTabController.loanDetails.branchname.text;
+      request.fields['loan_request[bank_sort_code]'] =
+          myTabController.loanDetails.sortcode.text;
+      request.fields['loan_request[bank_name_and_full_address]'] =
+          myTabController.loanDetails.nameandbankaddress.text;
+
       for (int i = 0;
           i < myTabController.loanDetails.chosenProductIds.length;
           i++) {
@@ -1272,7 +1284,7 @@ class _SectionFourState extends State<SectionFour>
 
         // Add files as form fields
         //  print(widget.myTabController.applicants[i].selectedFiles.length);
-
+/*
         for (var file in widget.myTabController.applicants[i].selectedFiles) {
           request.files.add(http.MultipartFile(
             'loan_request[applicants_attributes][$i][documents][]',
@@ -1281,7 +1293,86 @@ class _SectionFourState extends State<SectionFour>
             filename: 'file$i.jpg', // Provide a filename here
             contentType: MediaType('application', 'octet-stream'),
           ));
+        }*/
+
+        print('pa1');
+        //payslip1
+        for (var file in widget.myTabController.applicants[i].paysliponeFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][payslip_1][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
         }
+        print('pa1');
+        //payslip2
+        for (var file in widget.myTabController.applicants[i].paysliptwoFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][payslip_2][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
+        }
+        print('pa3');
+        //payslip3
+        for (var file
+            in widget.myTabController.applicants[i].payslipthreeFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][payslip_3][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
+        }
+        print('intro');
+        //intro_letter print(1);
+        for (var file
+            in widget.myTabController.applicants[i].intodletterFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][intro_letter][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
+        }
+        print('bank');
+        //bank_statement
+        for (var file
+            in widget.myTabController.applicants[i].bankStatementFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][bank_statement][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
+        }
+        print('nrc');
+        //bank_statement
+        for (var file in widget.myTabController.applicants[i].nrcFiles) {
+          request.files.add(http.MultipartFile(
+            'loan_request[applicants_attributes][$i][nrc_copy][]',
+            http.ByteStream.fromBytes(file),
+            file.length,
+            filename: 'file$i.jpg', // Provide a filename here
+            contentType: MediaType('application', 'octet-stream'),
+          ));
+        }
+        print(1);
+        var file = widget.myTabController.applicants[i].signature[0];
+        request.files.add(http.MultipartFile(
+          'loan_request[applicants_attributes][$i][signature]',
+          http.ByteStream.fromBytes(file),
+          file.length,
+          filename: 'signature.jpg', // Provide a filename here
+          contentType: MediaType('application', 'octet-stream'),
+        ));
       }
       // print(request.fields);
       var response = await request.send();

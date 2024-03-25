@@ -634,7 +634,7 @@ class _SectionThreeState extends State<SectionThree>
                       },
                     ),
                   )),
-            Row(
+            /*  Row(
               children: [
                 ElevatedButton(
                   style: ButtonStyle(
@@ -685,7 +685,7 @@ class _SectionThreeState extends State<SectionThree>
                       fontWeight: FontWeight.w500),
                 ),
               ],
-            ),
+            ),*/
           ],
         ),
         SizedBox(
