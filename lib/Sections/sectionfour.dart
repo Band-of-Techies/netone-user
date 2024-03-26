@@ -1295,7 +1295,6 @@ class _SectionFourState extends State<SectionFour>
           ));
         }*/
 
-        print('pa1');
         //payslip1
         for (var file in widget.myTabController.applicants[i].paysliponeFiles) {
           request.files.add(http.MultipartFile(
@@ -1306,7 +1305,7 @@ class _SectionFourState extends State<SectionFour>
             contentType: MediaType('application', 'octet-stream'),
           ));
         }
-        print('pa1');
+
         //payslip2
         for (var file in widget.myTabController.applicants[i].paysliptwoFiles) {
           request.files.add(http.MultipartFile(
@@ -1317,7 +1316,7 @@ class _SectionFourState extends State<SectionFour>
             contentType: MediaType('application', 'octet-stream'),
           ));
         }
-        print('pa3');
+
         //payslip3
         for (var file
             in widget.myTabController.applicants[i].payslipthreeFiles) {
@@ -1329,7 +1328,7 @@ class _SectionFourState extends State<SectionFour>
             contentType: MediaType('application', 'octet-stream'),
           ));
         }
-        print('intro');
+
         //intro_letter print(1);
         for (var file
             in widget.myTabController.applicants[i].intodletterFiles) {
@@ -1341,7 +1340,7 @@ class _SectionFourState extends State<SectionFour>
             contentType: MediaType('application', 'octet-stream'),
           ));
         }
-        print('bank');
+
         //bank_statement
         for (var file
             in widget.myTabController.applicants[i].bankStatementFiles) {
@@ -1353,7 +1352,7 @@ class _SectionFourState extends State<SectionFour>
             contentType: MediaType('application', 'octet-stream'),
           ));
         }
-        print('nrc');
+
         //bank_statement
         for (var file in widget.myTabController.applicants[i].nrcFiles) {
           request.files.add(http.MultipartFile(
@@ -1364,7 +1363,7 @@ class _SectionFourState extends State<SectionFour>
             contentType: MediaType('application', 'octet-stream'),
           ));
         }
-        print(1);
+
         var file = widget.myTabController.applicants[i].signature[0];
         request.files.add(http.MultipartFile(
           'loan_request[applicants_attributes][$i][signature]',
