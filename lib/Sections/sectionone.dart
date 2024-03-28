@@ -691,9 +691,6 @@ class _SectionOneState extends State<SectionOne>
                 controller: applicant.postalAddressController,
                 labelText: 'Postal Address',
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Postal Address';
-                  }
                   return null;
                 },
               )),
@@ -754,7 +751,7 @@ class _SectionOneState extends State<SectionOne>
                     hint: Text(
                       applicant.townController != null
                           ? applicant.townController.toString()
-                          : 'Select Town',
+                          : 'Select District',
                       style: GoogleFonts.dmSans(
                         fontSize: 15,
                         color: blackfont,
