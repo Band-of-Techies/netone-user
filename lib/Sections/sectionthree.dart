@@ -58,179 +58,198 @@ class _SectionThreeState extends State<SectionThree>
     final myTabController = Provider.of<MyTabController>(context);
     loadndetails = myTabController.loanDetails;
     List<ApplicantDetails> applicants = myTabController.applicants;
-    return Scaffold(
-      body: categories.isEmpty || categories == null
-          ? Center(
-              child: CircularProgressIndicator(color: primary),
-            )
-          : Padding(
-              padding: EdgeInsets.all(20),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
-                      child: Column(
-                        children: [
-                          section3A(),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          loandetails(applicants),
+    double fontSizeFactor = 1.0;
+    double widthFactor = 1.0;
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth <= 600) {
+        fontSizeFactor = .7;
+        widthFactor = .7;
+      }
+      return Scaffold(
+        body: categories.isEmpty || categories == null
+            ? Center(
+                child: CircularProgressIndicator(color: primary),
+              )
+            : Padding(
+                padding: EdgeInsets.all(20 * widthFactor),
+                child: Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 30 * widthFactor),
+                        padding: EdgeInsets.fromLTRB(
+                            20 * widthFactor,
+                            25 * widthFactor,
+                            20 * widthFactor,
+                            25 * widthFactor),
+                        child: Column(
+                          children: [
+                            section3A(fontSizeFactor, widthFactor),
+                            SizedBox(
+                              height: 30 * widthFactor,
+                            ),
+                            loandetails(
+                                applicants, fontSizeFactor, widthFactor),
 
-                          SizedBox(
-                            height: 30,
-                          ),
-                          bankDetails(),
+                            SizedBox(
+                              height: 30 * widthFactor,
+                            ),
+                            bankDetails(widthFactor, fontSizeFactor),
 
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            'Affirmations',
-                            style: GoogleFonts.dmSans(
-                                color: blackfont,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(height: 20),
-                          affirmationsection(
-                              'For First Applicant', applicants, 0),
-                          if (widget.myTabController.numberOfPersons > 1)
-                            affirmationsection(
-                                'For Second Applicant', applicants, 1),
-                          if (widget.myTabController.numberOfPersons > 2)
-                            affirmationsection(
-                                'For Third Applicant', applicants, 2),
-                          if (widget.myTabController.numberOfPersons > 3)
-                            affirmationsection(
-                                'For Fourth Applicant', applicants, 4),
-                          SizedBox(height: 40),
-                          /*  Text(
+                            SizedBox(
+                              height: 30 * widthFactor,
+                            ),
+                            Text(
+                              'Affirmations',
+                              style: GoogleFonts.dmSans(
+                                  color: blackfont,
+                                  fontSize: 14 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            SizedBox(height: 20 * widthFactor),
+                            affirmationsection('For First Applicant',
+                                applicants, 0, widthFactor, fontSizeFactor),
+                            if (widget.myTabController.numberOfPersons > 1)
+                              affirmationsection('For Second Applicant',
+                                  applicants, 1, widthFactor, fontSizeFactor),
+                            if (widget.myTabController.numberOfPersons > 2)
+                              affirmationsection('For Third Applicant',
+                                  applicants, 2, widthFactor, fontSizeFactor),
+                            if (widget.myTabController.numberOfPersons > 3)
+                              affirmationsection('For Fourth Applicant',
+                                  applicants, 3, widthFactor, fontSizeFactor),
+                            SizedBox(height: 40),
+                            /*  Text(
                   'Supporting Documentation Submitted, loadndetails are advised to attach the following documents',
                   style: GoogleFonts.dmSans(
                       color: blackfont,
                       fontSize: 14,
                       fontWeight: FontWeight.w500),
                 ),*/
-                          // DocumentTable(),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .48,
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(buttondarkbg),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(15))),
-                              onPressed: () {
-                                myTabController.loanDetails = loadndetails;
-                                //printApplicantDetails();
-                                if (widget._tabController.index <
-                                    widget._tabController.length - 1) {
-                                  widget._tabController.animateTo(
-                                      widget._tabController.index - 1);
-                                } else {
-                                  // Handle the case when the last tab is reached
-                                }
-                                //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                                //  DefaultTabController.of(context)?.animateTo(1);
-                                // if (_formKey.currentState!.validate()) {
-                                //   // Form is valid, move to the next section
-
-                                // }
-                              },
-                              child: CustomText(
-                                text: 'Previous',
-                                color: whitefont,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              )),
+                            // DocumentTable(),
+                          ],
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .48,
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(primary),
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.all(15))),
-                              onPressed: () {
-                                bool attatchment = false;
-                                for (int i = 0;
-                                    i < widget.myTabController.numberOfPersons;
-                                    i++) {
-                                  if (widget.myTabController.applicants[i]
-                                          .paysliponeFiles.isNotEmpty &&
-                                      widget.myTabController.applicants[i]
-                                          .paysliptwoFiles.isNotEmpty &&
-                                      widget.myTabController.applicants[i]
-                                          .paysliponeFiles.isNotEmpty &&
-                                      widget.myTabController.applicants[i]
-                                          .intodletterFiles.isNotEmpty &&
-                                      widget.myTabController.applicants[i]
-                                          .bankStatementFiles.isNotEmpty &&
-                                      widget.myTabController.applicants[i]
-                                          .nrcFiles.isNotEmpty) {
-                                    setState(() {
-                                      attatchment = true;
-                                    });
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .48,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(buttondarkbg),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(15 * widthFactor))),
+                                onPressed: () {
+                                  myTabController.loanDetails = loadndetails;
+                                  //printApplicantDetails();
+                                  if (widget._tabController.index <
+                                      widget._tabController.length - 1) {
+                                    widget._tabController.animateTo(
+                                        widget._tabController.index - 1);
+                                  } else {
+                                    // Handle the case when the last tab is reached
                                   }
-                                }
-                                if (_formKey.currentState!.validate()) {
-                                  if (validateTenure(loadndetails)) {
-                                    if (loadndetails
-                                        .chosenProductIds.isNotEmpty) {
-                                      if (attatchment == true) {
-                                        myTabController.loanDetails =
-                                            loadndetails;
-                                        //printApplicantDetails();
-                                        if (widget._tabController.index <
-                                            widget._tabController.length - 1) {
-                                          widget._tabController.animateTo(
-                                              widget._tabController.index + 1);
+                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                  //  DefaultTabController.of(context)?.animateTo(1);
+                                  // if (_formKey.currentState!.validate()) {
+                                  //   // Form is valid, move to the next section
+
+                                  // }
+                                },
+                                child: CustomText(
+                                  text: 'Previous',
+                                  color: whitefont,
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .48,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(primary),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(15))),
+                                onPressed: () {
+                                  bool attatchment = false;
+                                  for (int i = 0;
+                                      i <
+                                          widget
+                                              .myTabController.numberOfPersons;
+                                      i++) {
+                                    if (widget.myTabController.applicants[i]
+                                            .paysliponeFiles.isNotEmpty &&
+                                        widget.myTabController.applicants[i]
+                                            .paysliptwoFiles.isNotEmpty &&
+                                        widget.myTabController.applicants[i]
+                                            .paysliponeFiles.isNotEmpty &&
+                                        widget.myTabController.applicants[i]
+                                            .intodletterFiles.isNotEmpty &&
+                                        widget.myTabController.applicants[i]
+                                            .bankStatementFiles.isNotEmpty &&
+                                        widget.myTabController.applicants[i]
+                                            .nrcFiles.isNotEmpty) {
+                                      setState(() {
+                                        attatchment = true;
+                                      });
+                                    }
+                                  }
+                                  if (_formKey.currentState!.validate()) {
+                                    if (validateTenure(loadndetails)) {
+                                      if (loadndetails
+                                          .chosenProductIds.isNotEmpty) {
+                                        if (attatchment == true) {
+                                          myTabController.loanDetails =
+                                              loadndetails;
+                                          //printApplicantDetails();
+                                          if (widget._tabController.index <
+                                              widget._tabController.length -
+                                                  1) {
+                                            widget._tabController.animateTo(
+                                                widget._tabController.index +
+                                                    1);
+                                          } else {
+                                            // Handle the case when the last tab is reached
+                                          }
                                         } else {
-                                          // Handle the case when the last tab is reached
+                                          warning('Attatch all documents',
+                                              fontSizeFactor);
                                         }
                                       } else {
-                                        warning('Attatch all documents');
+                                        warning(
+                                            'Choose a product', fontSizeFactor);
                                       }
                                     } else {
-                                      warning('Choose a product');
+                                      warning('Select Tenure', fontSizeFactor);
                                     }
-                                  } else {
-                                    warning('Select Tenure');
                                   }
-                                }
 
-                                //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                                //  DefaultTabController.of(context)?.animateTo(1);
-                                // if (_formKey.currentState!.validate()) {
-                                //   // Form is valid, move to the next section
+                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                  //  DefaultTabController.of(context)?.animateTo(1);
+                                  // if (_formKey.currentState!.validate()) {
+                                  //   // Form is valid, move to the next section
 
-                                // }
-                              },
-                              child: CustomText(
-                                text: 'Next',
-                                color: whitefont,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ],
+                                  // }
+                                },
+                                child: CustomText(
+                                  text: 'Next',
+                                  color: whitefont,
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-    );
+      );
+    });
   }
 
   @override
@@ -252,32 +271,37 @@ class _SectionThreeState extends State<SectionThree>
     return true;
   }
 
-  Container bankDetails() {
+  Container bankDetails(double widthFactor, double fontSizeFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(80, 252, 227, 194),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20 * widthFactor)),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
             Text(
               'Bank Details - Applicant 1',
               style: GoogleFonts.dmSans(
-                  color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+                  color: blackfont,
+                  fontSize: 14 * fontSizeFactor,
+                  fontWeight: FontWeight.w700),
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Row(
               children: [
                 Expanded(
                   child: CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
                     controller: loadndetails.bankname,
                     labelText: 'Bank Name',
                     validator: (value) {
@@ -292,10 +316,12 @@ class _SectionThreeState extends State<SectionThree>
                   ),
                 ),
                 SizedBox(
-                  width: 40,
+                  width: 40 * widthFactor,
                 ),
                 Expanded(
                   child: CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
                     controller: loadndetails.branchname,
                     labelText: 'Branch Name',
                     validator: (value) {
@@ -312,12 +338,14 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             SizedBox(
-              height: 30,
+              height: 30 * widthFactor,
             ),
             Row(
               children: [
                 Expanded(
                   child: CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
                     controller: loadndetails.sortcode,
                     labelText: 'Sortcode',
                     validator: (value) {
@@ -334,10 +362,12 @@ class _SectionThreeState extends State<SectionThree>
                   ),
                 ),
                 SizedBox(
-                  width: 40,
+                  width: 40 * widthFactor,
                 ),
                 Expanded(
                   child: CustomTextFormField(
+                    widthFactor: widthFactor,
+                    fontSizeFactor: fontSizeFactor,
                     controller: loadndetails.accountnumber,
                     labelText: 'Bank Account Number',
                     validator: (value) {
@@ -357,9 +387,11 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             SizedBox(
-              height: 30,
+              height: 30 * widthFactor,
             ),
             CustomTextFormField(
+              widthFactor: widthFactor,
+              fontSizeFactor: fontSizeFactor,
               controller: loadndetails.nameandbankaddress,
               labelText: 'Bank Name and Full Address',
               validator: (value) {
@@ -455,7 +487,7 @@ class _SectionThreeState extends State<SectionThree>
     }
   }
 
-  warning(String message) {
+  warning(String message, double fonSizeFactor) {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         width: MediaQuery.of(context).size.width * .7,
         backgroundColor: whitefont,
@@ -465,38 +497,44 @@ class _SectionThreeState extends State<SectionThree>
         content: Center(
           child: CustomText(
               text: message,
-              fontSize: 13,
+              fontSize: 13 * fonSizeFactor,
               color: blackfont,
               fontWeight: FontWeight.w500),
         )));
   }
 
-  Column affirmationsection(
-      String message, List<ApplicantDetails> applicants, int i) {
+  Column affirmationsection(String message, List<ApplicantDetails> applicants,
+      int i, double widthFactor, double fontSizeFactor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           message,
           style: GoogleFonts.dmSans(
-              color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+              color: blackfont,
+              fontSize: 14 * fontSizeFactor,
+              fontWeight: FontWeight.w700),
         ),
         SizedBox(
-          height: 20,
+          height: 20 * widthFactor,
         ),
         Text(
           '''I (full name) hereby confirm that the information provided by me in this loan application, including my source of funds put forward for partial/full finance of asset is true and correct and I have the capacity to repay the loan. I understand that this Loan Application may be declined at any stage should any information contained herein be found to be incorrect or misleading in any material way. I consent to PSMFC making enquiries regarding my credit history with any Credit Reference Bureau or Credit Rating Agency and for PSMFC to share my payment behaviour with any Credit Reference Bureau or Credit Reference Agency and any other institution that it may require to do so in order to assess my application or by applicable laws or regulation. I consent to PSMFC reporting the conclusion of any credit agreement in compliance with the Zambian legislation.''',
           style: GoogleFonts.dmSans(
-              color: blackfont, fontSize: 14, fontWeight: FontWeight.w500),
+              color: blackfont,
+              fontSize: 14 * fontSizeFactor,
+              fontWeight: FontWeight.w500),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 30 * widthFactor),
         Text(
           'Upload Signature, Bank Details and Other Proof here (All 3 Files Required)\n** Supported format: PDF or JPEG/PNG, (Max Size: 1MB per File)',
           style: GoogleFonts.dmSans(
-              color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+              color: blackfont,
+              fontSize: 14 * fontSizeFactor,
+              fontWeight: FontWeight.w700),
         ),
-        SizedBox(height: 20),
-        SizedBox(height: 20),
+        SizedBox(height: 20 * widthFactor),
+        SizedBox(height: 20 * widthFactor),
         Column(
           children: [
             if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
@@ -515,8 +553,8 @@ class _SectionThreeState extends State<SectionThree>
 
                         return Container(
                           margin: EdgeInsets.all(10),
-                          width: 300,
-                          height: 60,
+                          width: 300 * widthFactor,
+                          height: 60 * widthFactor,
                           child: Stack(
                             children: [
                               Column(
@@ -579,7 +617,7 @@ class _SectionThreeState extends State<SectionThree>
                                             child: Row(
                                               children: [
                                                 SizedBox(
-                                                  width: 20,
+                                                  width: 20 * widthFactor,
                                                 ),
                                                 Icon(
                                                   Icons.picture_as_pdf,
@@ -590,8 +628,8 @@ class _SectionThreeState extends State<SectionThree>
                                           ),
                                         ),
                                   SizedBox(
-                                      height:
-                                          8.0), // Add spacing between image and text
+                                      height: 8.0 *
+                                          widthFactor), // Add spacing between image and text
 
                                   // Display file name with overflow handling
                                   Flexible(
@@ -600,7 +638,7 @@ class _SectionThreeState extends State<SectionThree>
                                       overflow: TextOverflow.ellipsis,
                                       // Adjust the maximum lines based on your UI requirements
                                       style: GoogleFonts.dmSans(
-                                        fontSize: 14,
+                                        fontSize: 14 * fontSizeFactor,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -608,8 +646,8 @@ class _SectionThreeState extends State<SectionThree>
                                 ],
                               ),
                               Positioned(
-                                top: 12,
-                                right: 5,
+                                top: 12 * widthFactor,
+                                right: 5 * widthFactor,
                                 child: GestureDetector(
                                   onTap: () {
                                     // Handle the close icon tap
@@ -627,7 +665,7 @@ class _SectionThreeState extends State<SectionThree>
                                     backgroundColor: primary,
                                     child: Icon(
                                       Icons.close,
-                                      size: 15,
+                                      size: 15 * fontSizeFactor,
                                       color: whitefont,
                                     ),
                                   ),
@@ -694,7 +732,7 @@ class _SectionThreeState extends State<SectionThree>
           ],
         ),
         SizedBox(
-          height: 30,
+          height: 30 * widthFactor,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -702,7 +740,8 @@ class _SectionThreeState extends State<SectionThree>
           children: [
             //signature
             uploadtitles(
-                'Signature - Only PNG/JPEG - Signature in white background'),
+                'Signature - Only PNG/JPEG - Signature in white background',
+                fontSizeFactor),
             Wrap(
               children: [
                 if (widget.myTabController.applicants[i].signature.isNotEmpty)
@@ -711,15 +750,18 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
-            pickSignatureWidget(widget.myTabController.applicants[i].signature,
-                widget.myTabController.applicants[i].signatureName, context),
+            pickSignatureWidget(
+                widget.myTabController.applicants[i].signature,
+                widget.myTabController.applicants[i].signatureName,
+                context,
+                fontSizeFactor),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             //one
-            uploadtitles('Payslip - 1'),
+            uploadtitles('Payslip - 1', fontSizeFactor),
             Wrap(
               children: [
                 if (widget
@@ -730,19 +772,20 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
             pickFilesWidget(
-              widget.myTabController.applicants[i].paysliponeFiles,
-              widget.myTabController.applicants[i].paysliponeFileNames,
-            ),
+                widget.myTabController.applicants[i].paysliponeFiles,
+                widget.myTabController.applicants[i].paysliponeFileNames,
+                fontSizeFactor,
+                widthFactor),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
 
             //two
 
-            uploadtitles('Payslip - 2'),
+            uploadtitles('Payslip - 2', fontSizeFactor),
             SizedBox(
               height: 10,
             ),
@@ -756,16 +799,17 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             pickFilesWidget(
-              widget.myTabController.applicants[i].paysliptwoFiles,
-              widget.myTabController.applicants[i].paysliptwoFileNames,
-            ),
+                widget.myTabController.applicants[i].paysliptwoFiles,
+                widget.myTabController.applicants[i].paysliptwoFileNames,
+                fontSizeFactor,
+                widthFactor),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
 
-            uploadtitles('Payslip - 3'),
+            uploadtitles('Payslip - 3', fontSizeFactor),
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
             Wrap(
               children: [
@@ -778,16 +822,17 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             pickFilesWidget(
-              widget.myTabController.applicants[i].payslipthreeFiles,
-              widget.myTabController.applicants[i].payslipthreeFileNames,
-            ),
+                widget.myTabController.applicants[i].payslipthreeFiles,
+                widget.myTabController.applicants[i].payslipthreeFileNames,
+                fontSizeFactor,
+                widthFactor),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
 
-            uploadtitles('Introductory Letter from Employer'),
+            uploadtitles('Introductory Letter from Employer', fontSizeFactor),
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
             Wrap(
               children: [
@@ -800,16 +845,17 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             pickFilesWidget(
-              widget.myTabController.applicants[i].intodletterFiles,
-              widget.myTabController.applicants[i].introletterFileNames,
-            ),
+                widget.myTabController.applicants[i].intodletterFiles,
+                widget.myTabController.applicants[i].introletterFileNames,
+                fontSizeFactor,
+                widthFactor),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
 
-            uploadtitles('Bank Statement'),
+            uploadtitles('Bank Statement', fontSizeFactor),
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
             Wrap(
               children: [
@@ -822,16 +868,17 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             pickFilesWidget(
-              widget.myTabController.applicants[i].bankStatementFiles,
-              widget.myTabController.applicants[i].bankStatementFileNames,
-            ),
+                widget.myTabController.applicants[i].bankStatementFiles,
+                widget.myTabController.applicants[i].bankStatementFileNames,
+                fontSizeFactor,
+                widthFactor),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
 
-            uploadtitles('NRC'),
+            uploadtitles('NRC', fontSizeFactor),
             SizedBox(
-              height: 10,
+              height: 10 * widthFactor,
             ),
             Wrap(
               children: [
@@ -841,22 +888,23 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
             pickFilesWidget(
-              widget.myTabController.applicants[i].nrcFiles,
-              widget.myTabController.applicants[i].nrcFileNames,
-            ),
+                widget.myTabController.applicants[i].nrcFiles,
+                widget.myTabController.applicants[i].nrcFileNames,
+                fontSizeFactor,
+                widthFactor),
           ],
         )
       ],
     );
   }
 
-  Text uploadtitles(String title) {
+  Text uploadtitles(String title, double fontSizeFactor) {
     return Text(
       title,
       style: GoogleFonts.dmSans(
           decoration: TextDecoration.underline,
           color: blackfont,
-          fontSize: 14,
+          fontSize: 14 * fontSizeFactor,
           fontWeight: FontWeight.w700),
     );
   }
@@ -992,7 +1040,10 @@ class _SectionThreeState extends State<SectionThree>
   }
 
   ElevatedButton pickFilesWidget(
-      List<Uint8List> selectedFiles, List<String> selectedFilesnames) {
+      List<Uint8List> selectedFiles,
+      List<String> selectedFilesnames,
+      double fontSizeFactor,
+      double widthFactor) {
     return ElevatedButton(
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(primary),
@@ -1019,7 +1070,8 @@ class _SectionThreeState extends State<SectionThree>
                     .addAll(result.files.map((file) => file.name));
               });
             } else {
-              warning('Maximum three files, remove files to add new');
+              warning(
+                  'Maximum three files, remove files to add new', widthFactor);
             }
           }
         }
@@ -1027,7 +1079,9 @@ class _SectionThreeState extends State<SectionThree>
       child: Text(
         'Upload',
         style: GoogleFonts.dmSans(
-            color: whitefont, fontSize: 14, fontWeight: FontWeight.w500),
+            color: whitefont,
+            fontSize: 14 * fontSizeFactor,
+            fontWeight: FontWeight.w500),
       ),
     );
   }
@@ -1098,10 +1152,10 @@ class _SectionThreeState extends State<SectionThree>
   }
 
   ElevatedButton pickSignatureWidget(
-    List<Uint8List> selectedFiles,
-    List<String> selectedFilesnames,
-    BuildContext context,
-  ) {
+      List<Uint8List> selectedFiles,
+      List<String> selectedFilesnames,
+      BuildContext context,
+      double fontSizeFactor) {
     return ElevatedButton(
       style: ButtonStyle(
           backgroundColor:
@@ -1117,12 +1171,15 @@ class _SectionThreeState extends State<SectionThree>
       child: Text(
         'Upload',
         style: GoogleFonts.dmSans(
-            color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+            color: Colors.white,
+            fontSize: 14 * fontSizeFactor,
+            fontWeight: FontWeight.w500),
       ),
     );
   }
 
-  Row loandetails(List<ApplicantDetails> applicants) {
+  Row loandetails(List<ApplicantDetails> applicants, double fontSizeFactor,
+      double widthFactor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1135,13 +1192,15 @@ class _SectionThreeState extends State<SectionThree>
                 'Loan Amount applied',
                 style: GoogleFonts.dmSans(
                     color: blackfont,
-                    fontSize: 14,
+                    fontSize: 14 * fontSizeFactor,
                     fontWeight: FontWeight.w700),
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               CustomTextFormField(
+                fontSizeFactor: fontSizeFactor,
+                widthFactor: widthFactor,
                 isEnabled: false,
                 controller: loadndetails.costofasset,
                 labelText: 'Total cost of asset',
@@ -1156,9 +1215,11 @@ class _SectionThreeState extends State<SectionThree>
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               CustomTextFormField(
+                fontSizeFactor: fontSizeFactor,
+                widthFactor: widthFactor,
                 controller: loadndetails.insurancecost,
                 labelText: 'Total Insurance cost',
                 validator: (value) {
@@ -1172,9 +1233,11 @@ class _SectionThreeState extends State<SectionThree>
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               CustomTextFormField(
+                fontSizeFactor: fontSizeFactor,
+                widthFactor: widthFactor,
                 controller: loadndetails.advancepayment,
                 labelText: 'Less advance payment',
                 validator: (value) {
@@ -1188,9 +1251,11 @@ class _SectionThreeState extends State<SectionThree>
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               CustomTextFormField(
+                fontSizeFactor: fontSizeFactor,
+                widthFactor: widthFactor,
                 controller: loadndetails.loanamaountapplied,
                 labelText: 'Loan amount applied for',
                 validator: (value) {
@@ -1204,7 +1269,7 @@ class _SectionThreeState extends State<SectionThree>
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               DropdownButtonHideUnderline(
                 child: DropdownButton2<String>(
@@ -1214,7 +1279,7 @@ class _SectionThreeState extends State<SectionThree>
                         ? loadndetails.tenure.toString()
                         : 'Loan Tenure',
                     style: GoogleFonts.dmSans(
-                      fontSize: 15,
+                      fontSize: 15 * widthFactor,
                       color: blackfont,
                       height: .5,
                       fontWeight: FontWeight.w500,
@@ -1243,7 +1308,7 @@ class _SectionThreeState extends State<SectionThree>
                                 : Colors.grey,
                             width: 1),
                         borderRadius: BorderRadius.circular(4)),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16 * widthFactor),
                   ),
                 ),
               ),
@@ -1251,7 +1316,7 @@ class _SectionThreeState extends State<SectionThree>
           ),
         ),
         SizedBox(
-          width: 40,
+          width: 40 * widthFactor,
         ),
         Expanded(
           child: Column(
@@ -1261,13 +1326,15 @@ class _SectionThreeState extends State<SectionThree>
                 'Share of loan applied (only asset and agriclute loan)',
                 style: GoogleFonts.dmSans(
                     color: blackfont,
-                    fontSize: 14,
+                    fontSize: 14 * fontSizeFactor,
                     fontWeight: FontWeight.w700),
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               CustomTextFormField(
+                fontSizeFactor: fontSizeFactor,
+                widthFactor: widthFactor,
                 controller: applicants[0].loanapplicantname,
                 labelText: 'First Applicant',
                 validator: (value) {
@@ -1276,9 +1343,12 @@ class _SectionThreeState extends State<SectionThree>
               ),
               SizedBox(
                 height: 30,
+                width: widthFactor,
               ),
               if (widget.myTabController.numberOfPersons > 2)
                 CustomTextFormField(
+                  fontSizeFactor: fontSizeFactor,
+                  widthFactor: widthFactor,
                   controller: applicants[2].loanapplicantname,
                   labelText: 'Third Applicant (Agric Asset ONLY)',
                   validator: (value) {
@@ -1287,9 +1357,11 @@ class _SectionThreeState extends State<SectionThree>
                 ),
               if (widget.myTabController.numberOfPersons > 2)
                 SizedBox(
-                  height: 30,
+                  height: 30 * widthFactor,
                 ),
               CustomTextFormField(
+                fontSizeFactor: fontSizeFactor,
+                widthFactor: widthFactor,
                 controller: applicants[0].loanapplicantpercentage,
                 labelText: 'First Applicant Proportion of loan (%)',
                 validator: (value) {
@@ -1303,10 +1375,12 @@ class _SectionThreeState extends State<SectionThree>
                 },
               ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               if (widget.myTabController.numberOfPersons > 2)
                 CustomTextFormField(
+                  fontSizeFactor: fontSizeFactor,
+                  widthFactor: widthFactor,
                   controller: applicants[2].loanapplicantpercentage,
                   labelText: 'Third Applicant Proportion of loan (%))',
                   validator: (value) {
@@ -1323,7 +1397,7 @@ class _SectionThreeState extends State<SectionThree>
           ),
         ),
         SizedBox(
-          width: 40,
+          width: 40 * widthFactor,
         ),
         Expanded(
           child: Column(
@@ -1333,14 +1407,16 @@ class _SectionThreeState extends State<SectionThree>
                 '',
                 style: GoogleFonts.dmSans(
                     color: blackfont,
-                    fontSize: 14,
+                    fontSize: 14 * fontSizeFactor,
                     fontWeight: FontWeight.w700),
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               if (widget.myTabController.numberOfPersons > 1)
                 CustomTextFormField(
+                  fontSizeFactor: fontSizeFactor,
+                  widthFactor: widthFactor,
                   controller: applicants[1].loanapplicantname,
                   labelText: 'Second Applicant',
                   validator: (value) {
@@ -1348,10 +1424,12 @@ class _SectionThreeState extends State<SectionThree>
                   },
                 ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               if (widget.myTabController.numberOfPersons > 3)
                 CustomTextFormField(
+                  fontSizeFactor: fontSizeFactor,
+                  widthFactor: widthFactor,
                   controller: applicants[3].loanapplicantname,
                   labelText: 'Fourth Applicant (Agric Asset ONLY)',
                   validator: (value) {
@@ -1360,10 +1438,12 @@ class _SectionThreeState extends State<SectionThree>
                 ),
               if (widget.myTabController.numberOfPersons > 3)
                 SizedBox(
-                  height: 30,
+                  height: 30 * widthFactor,
                 ),
               if (widget.myTabController.numberOfPersons > 1)
                 CustomTextFormField(
+                  fontSizeFactor: fontSizeFactor,
+                  widthFactor: widthFactor,
                   controller: applicants[1].loanapplicantpercentage,
                   labelText: 'Second Applicant Proportion of loan (%)',
                   validator: (value) {
@@ -1377,10 +1457,12 @@ class _SectionThreeState extends State<SectionThree>
                   },
                 ),
               SizedBox(
-                height: 30,
+                height: 30 * widthFactor,
               ),
               if (widget.myTabController.numberOfPersons > 3)
                 CustomTextFormField(
+                  fontSizeFactor: fontSizeFactor,
+                  widthFactor: widthFactor,
                   controller: applicants[3].loanapplicantpercentage,
                   labelText: 'Fourth Applicant Proportion of loan (%)',
                   validator: (value) {
@@ -1400,29 +1482,31 @@ class _SectionThreeState extends State<SectionThree>
     );
   }
 
-  Column section3A() {
+  Column section3A(double fontSizeFactor, double widthfactor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Loan Product Apllied for (Tick only one)',
           style: GoogleFonts.dmSans(
-              color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+              color: blackfont,
+              fontSize: 14 * fontSizeFactor,
+              fontWeight: FontWeight.w700),
         ),
         SizedBox(
-          height: 20,
+          height: 20 * widthfactor,
         ),
         Row(
           children: [
             SizedBox(
-              width: 400,
+              width: 400 * widthfactor,
               child: DropdownButtonHideUnderline(
                 child: DropdownButton2<Categories>(
                   isExpanded: true,
                   hint: Text(
                     categoryName ?? 'Choose Category',
                     style: GoogleFonts.dmSans(
-                      fontSize: 15,
+                      fontSize: 15 * fontSizeFactor,
                       color: blackfont,
                       height: .5,
                       fontWeight: FontWeight.w500,
@@ -1462,7 +1546,7 @@ class _SectionThreeState extends State<SectionThree>
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: categoryName == null ? Colors.red : Colors.grey,
-                        width: 1,
+                        width: 1 * widthfactor,
                       ),
                       borderRadius: BorderRadius.circular(4),
                     ),
@@ -1472,18 +1556,18 @@ class _SectionThreeState extends State<SectionThree>
               ),
             ),
             SizedBox(
-              width: 20,
+              width: 20 * widthfactor,
             ),
             if (products.isNotEmpty)
               SizedBox(
-                width: 400,
+                width: 400 * widthfactor,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<Product>(
                     isExpanded: true,
                     hint: Text(
                       prodcutname ?? 'Choose Product',
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                        fontSize: 15 * fontSizeFactor,
                         color: blackfont,
                         height: .5,
                         fontWeight: FontWeight.w500,
@@ -1524,7 +1608,7 @@ class _SectionThreeState extends State<SectionThree>
                         border: Border.all(
                           color:
                               categoryName == null ? Colors.red : Colors.grey,
-                          width: 1,
+                          width: 1 * widthfactor,
                         ),
                         borderRadius: BorderRadius.circular(4),
                       ),
@@ -1549,11 +1633,11 @@ class _SectionThreeState extends State<SectionThree>
                         loadndetails.chosenProductNames[i],
                         style: GoogleFonts.dmSans(
                           color: blackfont,
-                          fontSize: 14,
+                          fontSize: 14 * fontSizeFactor,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    SizedBox(width: 50),
+                    SizedBox(width: 50 * widthfactor),
                     if (i < loadndetails.quantity.length)
                       CircleAvatar(
                         backgroundColor: primary,
@@ -1573,7 +1657,7 @@ class _SectionThreeState extends State<SectionThree>
                           icon: Icon(Icons.minimize_sharp),
                         ),
                       ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 20 * widthfactor),
                     if (i < loadndetails.quantity.length)
                       Text(
                         loadndetails.quantity[i].toString(),
@@ -1583,7 +1667,7 @@ class _SectionThreeState extends State<SectionThree>
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 20 * widthfactor),
                     if (i < loadndetails.quantity.length)
                       CircleAvatar(
                         backgroundColor: primary,
@@ -1605,7 +1689,7 @@ class _SectionThreeState extends State<SectionThree>
                           icon: Icon(Icons.add),
                         ),
                       ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 20 * widthfactor),
                     IconButton(
                       onPressed: () {
                         setState(() {
@@ -1627,7 +1711,7 @@ class _SectionThreeState extends State<SectionThree>
               ],
             ),
         SizedBox(
-          height: 40,
+          height: 40 * widthfactor,
         ),
         TextFormField(
           controller: loadndetails.descriptionController,
@@ -1636,16 +1720,17 @@ class _SectionThreeState extends State<SectionThree>
             labelStyle: GoogleFonts.dmSans(
               color: Colors.black,
               height: 0.5,
-              fontSize: 15,
+              fontSize: 15 * fontSizeFactor,
               fontWeight: FontWeight.w500,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4.0),
-              borderSide: BorderSide(color: Colors.grey, width: 1.0),
+              borderSide:
+                  BorderSide(color: Colors.grey, width: 1.0 * widthfactor),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: primary, width: 1.0),
+              borderSide: BorderSide(color: primary, width: 1.0 * widthfactor),
             ),
           ),
           style: GoogleFonts.dmSans(

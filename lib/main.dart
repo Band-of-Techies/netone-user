@@ -24,94 +24,104 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ChangeNotifierProvider(
-        create: (context) => MyTabController(),
-        child: DefaultTabController(
-          length: 4, // Number of tabs (sections)
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              toolbarHeight: 90,
-              leadingWidth: 200,
-              leading: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Image.asset(
-                  'assets/netone.png',
-                  height: 40,
-                  width: 100,
-                  fit: BoxFit.contain,
+    double fontSizeFactor = 1.0;
+    double widthFactor = 1.0;
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth <= 600) {
+        fontSizeFactor = .7;
+        widthFactor = .7;
+      }
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: ChangeNotifierProvider(
+          create: (context) => MyTabController(),
+          child: DefaultTabController(
+            length: 4, // Number of tabs (sections)
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                toolbarHeight: 90 * widthFactor,
+                leadingWidth: 200 * widthFactor,
+                leading: Padding(
+                  padding: EdgeInsets.all(12.0 * widthFactor),
+                  child: Image.asset(
+                    'assets/netone.png',
+                    height: 40 * widthFactor,
+                    width: 100 * widthFactor,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                title: Column(children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'PUBLIC SERVICE MICRO FINANCE COMPANY',
+                    style: GoogleFonts.poppins(
+                        color: Color(0xFFff7300),
+                        fontSize: 21 * fontSizeFactor,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'ASSET LOAN APPLICATION FORM',
+                    style: GoogleFonts.poppins(
+                        color: Color(0xFFff7300),
+                        fontSize: 18 * fontSizeFactor,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'TO BE COMPLETED FOR FULL OR PARTIAL FINANCE BY APPLICANT',
+                    style: GoogleFonts.poppins(
+                        color: Colors.black,
+                        fontSize: 10 * fontSizeFactor,
+                        fontWeight: FontWeight.w400),
+                  )
+                ]),
+                bottom: TabBar(
+                  labelColor: Color(0xFFff7300), //<-- selected text color
+                  unselectedLabelColor:
+                      Colors.black, //<-- Unselected text color
+                  labelStyle: GoogleFonts.poppins(
+                      fontSize: 12 * fontSizeFactor,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.red), // Font color for the selected tab
+                  indicatorColor: Colors.red,
+                  unselectedLabelStyle: GoogleFonts.poppins(
+                      fontSize: 12 * fontSizeFactor,
+                      color: Colors.amber), // Font color for unselected tabs
+
+                  controller: myTabController
+                      .tabController, // remove this to make the direct tab click disabled
+                  onTap: null,
+                  isScrollable: false,
+                  tabs: [
+                    Tab(text: 'PART 1'),
+                    Tab(text: 'PART 2'),
+                    Tab(text: 'PART 3'),
+                    Tab(text: 'PART 4'),
+                  ],
                 ),
               ),
-              title: Column(children: [
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'PUBLIC SERVICE MICRO FINANCE COMPANY',
-                  style: GoogleFonts.poppins(
-                      color: Color(0xFFff7300),
-                      fontSize: 21,
-                      fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'ASSET LOAN APPLICATION FORM',
-                  style: GoogleFonts.poppins(
-                      color: Color(0xFFff7300),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'TO BE COMPLETED FOR FULL OR PARTIAL FINANCE BY APPLICANT',
-                  style: GoogleFonts.poppins(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400),
-                )
-              ]),
-              bottom: TabBar(
-                labelColor: Color(0xFFff7300), //<-- selected text color
-                unselectedLabelColor: Colors.black, //<-- Unselected text color
-                labelStyle: GoogleFonts.poppins(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.red), // Font color for the selected tab
-                indicatorColor: Colors.red,
-                unselectedLabelStyle: GoogleFonts.poppins(
-                    fontSize: 12,
-                    color: Colors.amber), // Font color for unselected tabs
-
-                // controller: myTabController.tabController, // remove this to make the direct tab click disabled
-                onTap: null,
-                isScrollable: false,
-                tabs: [
-                  Tab(text: 'PART 1'),
-                  Tab(text: 'PART 2'),
-                  Tab(text: 'PART 3'),
-                  Tab(text: 'PART 4'),
+              body: TabBarView(
+                controller: myTabController.tabController,
+                children: [
+                  SectionOne(myTabController, myTabController.tabController),
+                  SectionTwo(myTabController, myTabController.tabController),
+                  SectionThree(myTabController, myTabController.tabController),
+                  SectionFour(myTabController, myTabController.tabController),
                 ],
               ),
             ),
-            body: TabBarView(
-              controller: myTabController.tabController,
-              children: [
-                SectionOne(myTabController, myTabController.tabController),
-                SectionTwo(myTabController, myTabController.tabController),
-                SectionThree(myTabController, myTabController.tabController),
-                SectionFour(myTabController, myTabController.tabController),
-              ],
-            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override

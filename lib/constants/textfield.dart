@@ -8,6 +8,8 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool? isEnabled;
   final String? prefix;
+  final double fontSizeFactor;
+  final double widthFactor;
 
   const CustomTextFormField({
     required this.controller,
@@ -15,6 +17,8 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.prefix = '',
     this.isEnabled = true,
+    this.fontSizeFactor = 1.0,
+    this.widthFactor = 1.0,
   });
 
   @override
@@ -28,38 +32,39 @@ class CustomTextFormField extends StatelessWidget {
         labelStyle: GoogleFonts.dmSans(
           color: Colors.black,
           height: 0.5,
-          fontSize: 15,
+          fontSize: 15 * fontSizeFactor,
           fontWeight: FontWeight.w500,
         ),
         errorStyle: GoogleFonts.dmSans(
           color: Colors.red,
           height: 0.5,
-          fontSize: 10,
+          fontSize: 10 * fontSizeFactor,
           fontWeight: FontWeight.w500,
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+          borderSide: BorderSide(color: Colors.grey, width: 1.0 * widthFactor),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.red, width: 1.0),
+          borderSide: BorderSide(color: Colors.red, width: 1.0 * widthFactor),
         ),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4.0),
-            borderSide: BorderSide(color: Colors.red, width: 1.0)),
+            borderSide:
+                BorderSide(color: Colors.red, width: 1.0 * widthFactor)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+          borderSide: BorderSide(color: Colors.grey, width: 1.0 * widthFactor),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: BorderSide(color: primary, width: 1.0),
+          borderSide: BorderSide(color: primary, width: 1.0 * widthFactor),
         ),
       ),
       style: GoogleFonts.dmSans(
         color: Colors.black,
-        fontSize: 15,
+        fontSize: 15 * fontSizeFactor,
         fontWeight: FontWeight.w500,
       ),
       validator: validator,

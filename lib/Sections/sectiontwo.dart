@@ -189,175 +189,143 @@ class _SectionTwoState extends State<SectionTwo>
     final myTabController = Provider.of<MyTabController>(context);
     List<EmployemntandKlinDetails> applicantDetailsLists =
         myTabController.employmentDetailsList;
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              CustomText(
-                text: 'Employment Details',
-                color: blackfont,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              employmentDetails('Applicant 1', applicantDetailsLists[0]),
-              if (numberOfPersons > 1)
-                employmentDetails('Applicant 2', applicantDetailsLists[1]),
-              if (numberOfPersons > 2)
-                employmentDetails('Applicant 3', applicantDetailsLists[2]),
-              if (numberOfPersons > 3)
-                employmentDetails('Applicant 4', applicantDetailsLists[3]),
-              SizedBox(
-                height: 20,
-              ),
-              CustomText(
-                text: 'Next of Kin Information',
-                color: blackfont,
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              kinInformation('Applicant 1', applicantDetailsLists[0]),
-              if (numberOfPersons > 1)
-                kinInformation('Applicant 2', applicantDetailsLists[1]),
-              if (numberOfPersons > 2)
-                kinInformation('Applicant 3', applicantDetailsLists[2]),
-              if (numberOfPersons > 3)
-                kinInformation('Applicant 4', applicantDetailsLists[3]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .48,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(buttondarkbg),
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(15))),
-                        onPressed: () {
-                          if (widget._tabController.index <
-                              widget._tabController.length - 1) {
-                            widget._tabController
-                                .animateTo(widget._tabController.index - 1);
-                          } else {
-                            // Handle the case when the last tab is reached
-                          }
-                          //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                          //  DefaultTabController.of(context)?.animateTo(1);
-                          // if (_formKey.currentState!.validate()) {
-                          //   // Form is valid, move to the next section
-
-                          // }
-                        },
-                        child: CustomText(
-                          text: 'Previous',
-                          color: whitefont,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        )),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * .48,
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(primary),
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.all(15))),
-                        onPressed: () {
-                          //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                          //  DefaultTabController.of(context)?.animateTo(1);
-                          if (_formKey.currentState!.validate()) {
-                            // Form is valid, move to the next section
-                            if (validateLocation(applicantDetailsLists) &&
-                                validateRetrirement(applicantDetailsLists) &&
-                                validateEmploymentType(applicantDetailsLists)) {
-                              myTabController.employmentDetailsList =
-                                  applicantDetailsLists;
-                              myTabController.updateEMplymentandKlin(
-                                  applicantDetailsLists);
-                              // printApplicantDetails();
-                              if (widget._tabController.index <
-                                  widget._tabController.length - 1) {
-                                widget._tabController
-                                    .animateTo(widget._tabController.index + 1);
-                              }
+    double fontSizeFactor = 1.0;
+    double widthFactor = 1.0;
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth <= 600) {
+        fontSizeFactor = .7;
+        widthFactor = .7;
+      }
+      return Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                CustomText(
+                  text: 'Employment Details',
+                  color: blackfont,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                employmentDetails('Applicant 1', applicantDetailsLists[0],
+                    fontSizeFactor, widthFactor),
+                if (numberOfPersons > 1)
+                  employmentDetails('Applicant 2', applicantDetailsLists[1],
+                      fontSizeFactor, widthFactor),
+                if (numberOfPersons > 2)
+                  employmentDetails('Applicant 3', applicantDetailsLists[2],
+                      fontSizeFactor, widthFactor),
+                if (numberOfPersons > 3)
+                  employmentDetails('Applicant 4', applicantDetailsLists[3],
+                      fontSizeFactor, widthFactor),
+                SizedBox(
+                  height: 20,
+                ),
+                CustomText(
+                  text: 'Next of Kin Information',
+                  color: blackfont,
+                  fontSize: 15 * fontSizeFactor,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                kinInformation('Applicant 1', applicantDetailsLists[0],
+                    fontSizeFactor, widthFactor),
+                if (numberOfPersons > 1)
+                  kinInformation('Applicant 2', applicantDetailsLists[1],
+                      fontSizeFactor, widthFactor),
+                if (numberOfPersons > 2)
+                  kinInformation('Applicant 3', applicantDetailsLists[2],
+                      fontSizeFactor, widthFactor),
+                if (numberOfPersons > 3)
+                  kinInformation('Applicant 4', applicantDetailsLists[3],
+                      fontSizeFactor, widthFactor),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .48,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(buttondarkbg),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.all(15))),
+                          onPressed: () {
+                            if (widget._tabController.index <
+                                widget._tabController.length - 1) {
+                              widget._tabController
+                                  .animateTo(widget._tabController.index - 1);
                             } else {
-                              warning('Complete Details');
+                              // Handle the case when the last tab is reached
                             }
-                          }
-                        },
-                        child: CustomText(
-                          text: 'Next',
-                          color: whitefont,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        )),
-                  ),
-                ],
-              ),
-            ],
+                            //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                            //  DefaultTabController.of(context)?.animateTo(1);
+                            // if (_formKey.currentState!.validate()) {
+                            //   // Form is valid, move to the next section
+
+                            // }
+                          },
+                          child: CustomText(
+                            text: 'Previous',
+                            color: whitefont,
+                            fontSize: 16 * fontSizeFactor,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * .48,
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(primary),
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.all(15))),
+                          onPressed: () {
+                            //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                            //  DefaultTabController.of(context)?.animateTo(1);
+                            if (_formKey.currentState!.validate()) {
+                              // Form is valid, move to the next section
+                              if (validateLocation(applicantDetailsLists) &&
+                                  validateRetrirement(applicantDetailsLists) &&
+                                  validateEmploymentType(
+                                      applicantDetailsLists)) {
+                                myTabController.employmentDetailsList =
+                                    applicantDetailsLists;
+                                myTabController.updateEMplymentandKlin(
+                                    applicantDetailsLists);
+                                // printApplicantDetails();
+                                if (widget._tabController.index <
+                                    widget._tabController.length - 1) {
+                                  widget._tabController.animateTo(
+                                      widget._tabController.index + 1);
+                                }
+                              } else {
+                                warning('Complete Details', fontSizeFactor);
+                              }
+                            }
+                          },
+                          child: CustomText(
+                            text: 'Next',
+                            color: whitefont,
+                            fontSize: 16 * fontSizeFactor,
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  void printApplicantDetails() {
-    for (int i = 0; i < widget.myTabController.numberOfPersons; i++) {
-      print('Applicant ${i + 1} Details:');
-
-      // Kin Information
-      print('Name: ${applicantDetailsLists[i].nameController.text}');
-      print(
-          'Other Names: ${applicantDetailsLists[i].otherNamesController.text}');
-      print(
-          'Physical Address: ${applicantDetailsLists[i].physicalAddressControlleremployment.text}');
-      print(
-          'Postal Address: ${applicantDetailsLists[i].postalAddressControllerEmployment.text}');
-      print(
-          'Cell Number: ${applicantDetailsLists[i].cellNumberController.text}');
-      print(
-          'Email Address: ${applicantDetailsLists[i].emailAddressController.text}');
-      print(
-          'Additional Field 1: ${applicantDetailsLists[i].physicalAddressControllernextofkin.text}');
-      print(
-          'Additional Field 2: ${applicantDetailsLists[i].postalAddressControllerforKline.text}');
-
-      // Employment Details
-      print('Job Title: ${applicantDetailsLists[i].jobTitleController.text}');
-      print('Ministry: ${applicantDetailsLists[i].ministryController.text}');
-
-      print('Town: ${applicantDetailsLists[i].townController}');
-      print('Province: ${applicantDetailsLists[i].provinceController}');
-
-      // Additional Fields for employmentDetails
-      print(
-          'Gross Salary: ${applicantDetailsLists[i].grossSalaryController.text}');
-      print(
-          'Current Net Salary: ${applicantDetailsLists[i].currentNetSalaryController.text}');
-      print('Salary Scale: ${applicantDetailsLists[i].salaryScaleController}');
-      print(
-          'Preferred Year of Retirement: ${applicantDetailsLists[i].preferredYearOfRetirementController}');
-      print(
-          'Employee Number: ${applicantDetailsLists[i].employeeNumberController.text}');
-      print(
-          'Years in Employment: ${applicantDetailsLists[i].yearsInEmploymentController}');
-
-      // Employment Type
-      print('Employment Type: ${applicantDetailsLists[i].employmentType}');
-      print('Employment Exp: ${applicantDetailsLists[i].expiryDateController}');
-      // Additional Fields as needed
-
-      print('\n');
-    }
+      );
+    });
   }
 
   bool validateLocation(List<EmployemntandKlinDetails> applicants) {
@@ -397,7 +365,10 @@ class _SectionTwoState extends State<SectionTwo>
   }
 
   Container kinInformation(
-      String message, EmployemntandKlinDetails applicantDetailsList) {
+      String message,
+      EmployemntandKlinDetails applicantDetailsList,
+      double fontSizefactor,
+      double widthFactor) {
     return Container(
       margin: EdgeInsets.only(bottom: 30),
       padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
@@ -413,7 +384,9 @@ class _SectionTwoState extends State<SectionTwo>
           Text(
             message,
             style: GoogleFonts.dmSans(
-                color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+                color: blackfont,
+                fontSize: 14 * fontSizefactor,
+                fontWeight: FontWeight.w700),
           ),
           SizedBox(
             height: 20,
@@ -422,6 +395,8 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.nameController,
                 labelText: 'Name',
                 validator: (value) {
@@ -431,9 +406,11 @@ class _SectionTwoState extends State<SectionTwo>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.otherNamesController,
                 labelText: 'Other Names',
                 validator: (value) {
@@ -452,6 +429,8 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                 child: CustomTextFormField(
+                  fontSizeFactor: fontSizefactor,
+                  widthFactor: widthFactor,
                   controller:
                       applicantDetailsList.physicalAddressControllernextofkin,
                   labelText: 'Physical Address',
@@ -464,10 +443,12 @@ class _SectionTwoState extends State<SectionTwo>
                 ),
               ),
               SizedBox(
-                width: 40,
+                width: 40 * widthFactor,
               ),
               Expanded(
                 child: CustomTextFormField(
+                  fontSizeFactor: fontSizefactor,
+                  widthFactor: widthFactor,
                   controller:
                       applicantDetailsList.postalAddressControllerforKline,
                   labelText: 'Postal Address',
@@ -488,6 +469,8 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                 child: CustomTextFormField(
+                  fontSizeFactor: fontSizefactor,
+                  widthFactor: widthFactor,
                   prefix: '+260 ',
                   controller: applicantDetailsList.cellNumberController,
                   labelText: 'Cell Number',
@@ -507,10 +490,12 @@ class _SectionTwoState extends State<SectionTwo>
                 ),
               ),
               SizedBox(
-                width: 40,
+                width: 40 * widthFactor,
               ),
               Expanded(
                 child: CustomTextFormField(
+                    fontSizeFactor: fontSizefactor,
+                    widthFactor: widthFactor,
                     controller: applicantDetailsList.emailAddressController,
                     labelText: 'Email Address',
                     validator: (value) {
@@ -544,7 +529,7 @@ class _SectionTwoState extends State<SectionTwo>
     return emailRegex.hasMatch(email);
   }
 
-  warning(String message) {
+  warning(String message, double fontSizefactor) {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         width: MediaQuery.of(context).size.width * .7,
         backgroundColor: whitefont,
@@ -554,14 +539,17 @@ class _SectionTwoState extends State<SectionTwo>
         content: Center(
           child: CustomText(
               text: message,
-              fontSize: 13,
+              fontSize: 13 * fontSizefactor,
               color: blackfont,
               fontWeight: FontWeight.w500),
         )));
   }
 
   Container employmentDetails(
-      String message, EmployemntandKlinDetails applicantDetailsList) {
+      String message,
+      EmployemntandKlinDetails applicantDetailsList,
+      double fontSizefactor,
+      double widthFactor) {
     return Container(
       margin: EdgeInsets.only(bottom: 30),
       padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
@@ -577,7 +565,9 @@ class _SectionTwoState extends State<SectionTwo>
           Text(
             message,
             style: GoogleFonts.dmSans(
-                color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+                color: blackfont,
+                fontSize: 14 * fontSizefactor,
+                fontWeight: FontWeight.w700),
           ),
           SizedBox(
             height: 20,
@@ -586,6 +576,8 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.jobTitleController,
                 labelText: 'Job Title',
                 validator: (value) {
@@ -602,9 +594,11 @@ class _SectionTwoState extends State<SectionTwo>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.ministryController,
                 labelText: 'Minsitry',
                 validator: (value) {
@@ -630,6 +624,8 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller:
                     applicantDetailsList.physicalAddressControlleremployment,
                 labelText: 'Physical Address',
@@ -640,9 +636,11 @@ class _SectionTwoState extends State<SectionTwo>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller:
                     applicantDetailsList.postalAddressControllerEmployment,
                 labelText: 'Postal Address',
@@ -670,7 +668,7 @@ class _SectionTwoState extends State<SectionTwo>
                           ? 'Select Province'
                           : applicantDetailsList.provinceController.toString(),
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         color: blackfont,
                         height: .5,
                         fontWeight: FontWeight.w500,
@@ -684,7 +682,7 @@ class _SectionTwoState extends State<SectionTwo>
                                 style: GoogleFonts.dmSans(
                                     fontWeight: FontWeight.w500,
                                     height: .5,
-                                    fontSize: 15,
+                                    fontSize: 15 * fontSizefactor,
                                     color: blackfont),
                               ),
                             ))
@@ -704,14 +702,14 @@ class _SectionTwoState extends State<SectionTwo>
                                       null
                                   ? Colors.red
                                   : Colors.grey,
-                              width: 1),
+                              width: 1 * widthFactor),
                           borderRadius: BorderRadius.circular(4)),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
                 ),
               ),
-              SizedBox(width: 40),
+              SizedBox(width: 40 * widthFactor),
               Expanded(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
@@ -721,7 +719,7 @@ class _SectionTwoState extends State<SectionTwo>
                           ? applicantDetailsList.townController.toString()
                           : 'Select Distric',
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         color: blackfont,
                         height: .5,
                         fontWeight: FontWeight.w500,
@@ -737,7 +735,7 @@ class _SectionTwoState extends State<SectionTwo>
                                     style: GoogleFonts.dmSans(
                                       fontWeight: FontWeight.w500,
                                       height: .5,
-                                      fontSize: 15,
+                                      fontSize: 15 * fontSizefactor,
                                       color: Colors.black,
                                     ),
                                   ),
@@ -756,7 +754,7 @@ class _SectionTwoState extends State<SectionTwo>
                               color: applicantDetailsList.townController == null
                                   ? Colors.red
                                   : Colors.grey,
-                              width: 1),
+                              width: 1 * widthFactor),
                           borderRadius: BorderRadius.circular(4)),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                     ),
@@ -772,6 +770,8 @@ class _SectionTwoState extends State<SectionTwo>
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.grossSalaryController,
                 labelText: 'Gross Salary',
                 validator: (value) {
@@ -787,6 +787,8 @@ class _SectionTwoState extends State<SectionTwo>
               SizedBox(width: 40.0),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.currentNetSalaryController,
                 labelText: 'Current Net Salary',
                 validator: (value) {
@@ -799,7 +801,7 @@ class _SectionTwoState extends State<SectionTwo>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                 child: DropdownButtonFormField2<String>(
                   isExpanded: true,
@@ -808,7 +810,7 @@ class _SectionTwoState extends State<SectionTwo>
                     labelStyle: GoogleFonts.dmSans(
                       color: Colors.black,
                       height: 0.5,
-                      fontSize: 15,
+                      fontSize: 15 * fontSizefactor,
                       fontWeight: FontWeight.w500,
                     ),
                     focusColor: blackfont,
@@ -832,7 +834,7 @@ class _SectionTwoState extends State<SectionTwo>
                         ? 'Salary Scale'
                         : applicantDetailsList.salaryScaleController.toString(),
                     style: GoogleFonts.dmSans(
-                        fontSize: 14,
+                        fontSize: 14 * fontSizefactor,
                         color: blackfont,
                         fontWeight: FontWeight.w500),
                   ),
@@ -887,7 +889,7 @@ class _SectionTwoState extends State<SectionTwo>
                               .toString()
                           : 'Preferred Year of Retirement',
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         color: blackfont,
                         height: .5,
                         fontWeight: FontWeight.w500,
@@ -905,7 +907,7 @@ class _SectionTwoState extends State<SectionTwo>
                             style: GoogleFonts.dmSans(
                               fontWeight: FontWeight.w500,
                               height: .5,
-                              fontSize: 15,
+                              fontSize: 15 * fontSizefactor,
                               color: Colors.black,
                             ),
                           ),
@@ -928,16 +930,18 @@ class _SectionTwoState extends State<SectionTwo>
                                       null
                                   ? Colors.red
                                   : Colors.grey,
-                              width: 1),
+                              width: 1 * widthFactor),
                           borderRadius: BorderRadius.circular(4)),
                       padding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
                 ),
               ),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicantDetailsList.employeeNumberController,
                 labelText: 'Employee Number',
                 validator: (value) {
@@ -950,7 +954,7 @@ class _SectionTwoState extends State<SectionTwo>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                 child: DropdownButtonFormField2<String>(
                   isExpanded: true,
@@ -959,7 +963,7 @@ class _SectionTwoState extends State<SectionTwo>
                     labelStyle: GoogleFonts.dmSans(
                       color: Colors.black,
                       height: 0.5,
-                      fontSize: 15,
+                      fontSize: 15 * fontSizefactor,
                       fontWeight: FontWeight.w500,
                     ),
                     focusColor: blackfont,
@@ -984,7 +988,7 @@ class _SectionTwoState extends State<SectionTwo>
                         : applicantDetailsList.yearsInEmploymentController
                             .toString(),
                     style: GoogleFonts.dmSans(
-                        fontSize: 14,
+                        fontSize: 14 * fontSizefactor,
                         color: blackfont,
                         fontWeight: FontWeight.w500),
                   ),
@@ -1028,11 +1032,11 @@ class _SectionTwoState extends State<SectionTwo>
               CustomText(
                 text: 'Employment Type:',
                 color: blackfont,
-                fontSize: 15,
+                fontSize: 15 * fontSizefactor,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(
-                width: 20,
+                width: 20 * widthFactor,
               ),
               Row(
                 children: [
@@ -1053,17 +1057,17 @@ class _SectionTwoState extends State<SectionTwo>
                           CustomText(
                             text: value,
                             color: blackfont,
-                            fontSize: 15,
+                            fontSize: 15 * fontSizefactor,
                             fontWeight: FontWeight.w500,
                           ),
                         ],
                       );
                     }).toList(),
                   ),
-                  SizedBox(width: 40.0),
+                  SizedBox(width: 40.0 * widthFactor),
                   if (applicantDetailsList.employmentType == 'contract')
                     SizedBox(
-                        width: 300,
+                        width: 300 * widthFactor,
                         child: GestureDetector(
                           onTap: () async {
                             await _selectJobExpiryDate(
@@ -1086,18 +1090,20 @@ class _SectionTwoState extends State<SectionTwo>
                                     GoogleFonts.dmSans(color: Colors.red),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 1.0),
+                                  borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 1.0 * widthFactor),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4.0),
                                   borderSide: BorderSide(
-                                      color: Colors.grey, width: 1.0),
+                                      color: Colors.grey,
+                                      width: 1.0 * widthFactor),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4),
-                                  borderSide:
-                                      BorderSide(color: primary, width: 1.0),
+                                  borderSide: BorderSide(
+                                      color: primary, width: 1.0 * widthFactor),
                                 ),
                               ),
                               style: GoogleFonts.dmSans(

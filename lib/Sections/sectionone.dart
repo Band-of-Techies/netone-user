@@ -188,157 +188,171 @@ class _SectionOneState extends State<SectionOne>
     // Access data from myTabController to pre-fill form fields
     numberOfPersons = myTabController.numberOfPersons;
     List<ApplicantDetails> applicants = myTabController.applicants;
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              applicantDetails(1, applicants[0]),
-              if (widget.myTabController.numberOfPersons > 1)
-                applicantDetails(2, applicants[1]),
-              if (widget.myTabController.numberOfPersons > 2)
-                applicantDetails(3, applicants[2]),
-              if (widget.myTabController.numberOfPersons > 3)
-                applicantDetails(4, applicants[3]),
-              Row(
-                children: [
-                  CustomText(
-                    text: 'Joint Application:',
-                    color: blackfont,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Switch(
-                    activeColor: primary,
-                    value: widget.myTabController.numberOfPersons < 2
-                        ? isJointApplication
-                        : true,
-                    onChanged: (value) {
-                      setState(() {
-                        isJointApplication = value;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  isJointApplication ||
-                          widget.myTabController.numberOfPersons > 1
-                      ? Expanded(
-                          child: DropdownButtonFormField(
-                            focusColor: whitefont,
-                            dropdownColor: whitefont,
-                            value: numberOfPersons,
-                            iconEnabledColor: primary,
-                            items: [1, 2, 3, 4].map((int value) {
-                              return DropdownMenuItem(
-                                value: value,
-                                child: Text('$value'),
-                              );
-                            }).toList(),
-                            onChanged: (int? value) {
-                              setState(() {
-                                int previousNumberOfPersons = numberOfPersons;
-                                numberOfPersons = value!;
+    double fontSizeFactor = 1.0;
+    double widthFactor = 1.0;
 
-                                if (numberOfPersons > previousNumberOfPersons) {
-                                  // Generate new applicants only for the additional persons
-                                  applicants.addAll(List.generate(
-                                    numberOfPersons - previousNumberOfPersons,
-                                    (index) => ApplicantDetails(),
-                                  ));
-                                } else {
-                                  // Trim the list if the number of persons is reduced
-                                  applicants.removeRange(
-                                      numberOfPersons, applicants.length);
-                                }
-
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth <= 600) {
+        fontSizeFactor = .7;
+        widthFactor = .7;
+      }
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                applicantDetails(1, applicants[0], fontSizeFactor, widthFactor),
+                if (widget.myTabController.numberOfPersons > 1)
+                  applicantDetails(
+                      2, applicants[1], fontSizeFactor, widthFactor),
+                if (widget.myTabController.numberOfPersons > 2)
+                  applicantDetails(
+                      3, applicants[2], fontSizeFactor, widthFactor),
+                if (widget.myTabController.numberOfPersons > 3)
+                  applicantDetails(
+                      4, applicants[3], fontSizeFactor, widthFactor),
+                Row(
+                  children: [
+                    CustomText(
+                      text: 'Joint Application:',
+                      color: blackfont,
+                      fontSize: 15 * fontSizeFactor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Switch(
+                      activeColor: primary,
+                      value: widget.myTabController.numberOfPersons < 2
+                          ? isJointApplication
+                          : true,
+                      onChanged: (value) {
+                        setState(() {
+                          isJointApplication = value;
+                        });
+                      },
+                    ),
+                    SizedBox(
+                      width: 20 * widthFactor,
+                    ),
+                    isJointApplication ||
+                            widget.myTabController.numberOfPersons > 1
+                        ? Expanded(
+                            child: DropdownButtonFormField(
+                              focusColor: whitefont,
+                              dropdownColor: whitefont,
+                              value: numberOfPersons,
+                              iconEnabledColor: primary,
+                              items: [1, 2, 3, 4].map((int value) {
+                                return DropdownMenuItem(
+                                  value: value,
+                                  child: Text('$value'),
+                                );
+                              }).toList(),
+                              onChanged: (int? value) {
                                 setState(() {
-                                  widget.myTabController
-                                      .updateNumberOfPersons(value);
-                                  widget.myTabController.numberOfPersons =
-                                      value;
+                                  int previousNumberOfPersons = numberOfPersons;
+                                  numberOfPersons = value!;
+
+                                  if (numberOfPersons >
+                                      previousNumberOfPersons) {
+                                    // Generate new applicants only for the additional persons
+                                    applicants.addAll(List.generate(
+                                      numberOfPersons - previousNumberOfPersons,
+                                      (index) => ApplicantDetails(),
+                                    ));
+                                  } else {
+                                    // Trim the list if the number of persons is reduced
+                                    applicants.removeRange(
+                                        numberOfPersons, applicants.length);
+                                  }
+
+                                  setState(() {
+                                    widget.myTabController
+                                        .updateNumberOfPersons(value);
+                                    widget.myTabController.numberOfPersons =
+                                        value;
+                                  });
+                                  print(widget.myTabController.numberOfPersons);
                                 });
-                                print(widget.myTabController.numberOfPersons);
-                              });
-                            },
-                            style: GoogleFonts.dmSans(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4.0),
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 1.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(4),
-                                borderSide:
-                                    BorderSide(color: primary, width: 1.0),
-                              ),
-                              labelText: 'Number of Persons',
-                              labelStyle: GoogleFonts.dmSans(
+                              },
+                              style: GoogleFonts.dmSans(
                                 color: Colors.black,
-                                height: 0.5,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                               ),
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4.0),
+                                  borderSide: BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide:
+                                      BorderSide(color: primary, width: 1.0),
+                                ),
+                                labelText: 'Number of Persons',
+                                labelStyle: GoogleFonts.dmSans(
+                                  color: Colors.black,
+                                  height: 0.5,
+                                  fontSize: 15 * fontSizeFactor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
-                          ),
-                        )
-                      : SizedBox.shrink(),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(primary),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(15))),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, move to the next section
-                      if (validateGender(applicants) &&
-                          validateLocation(applicants)) {
-                        //printApplicantDetails();
+                          )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+                SizedBox(
+                  height: 20 * widthFactor,
+                ),
+                ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(primary),
+                        padding: MaterialStateProperty.all(EdgeInsets.all(15))),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // Form is valid, move to the next section
+                        if (validateGender(applicants) &&
+                            validateLocation(applicants)) {
+                          //printApplicantDetails();
 
-                        if (widget._tabController.index <
-                            widget._tabController.length - 1) {
-                          myTabController.applicants = applicants;
-                          myTabController.updateApplicants(applicants);
-                          widget._tabController
-                              .animateTo(widget._tabController.index + 1);
+                          if (widget._tabController.index <
+                              widget._tabController.length - 1) {
+                            myTabController.applicants = applicants;
+                            myTabController.updateApplicants(applicants);
+                            widget._tabController
+                                .animateTo(widget._tabController.index + 1);
 
-                          DefaultTabController.of(context)?.animateTo(1);
+                            DefaultTabController.of(context)?.animateTo(1);
+                          }
+                        } else {
+                          warning('Complete Details');
+                          // Handle the case when the last tab is reached
                         }
-                      } else {
-                        warning('Complete Details');
-                        // Handle the case when the last tab is reached
                       }
-                    }
-                  },
-                  child: CustomText(
-                    text: 'Next',
-                    color: whitefont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  )),
-            ],
+                    },
+                    child: CustomText(
+                      text: 'Next',
+                      color: whitefont,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    )),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Container applicantDetails(int title, ApplicantDetails applicant) {
+  Container applicantDetails(int title, ApplicantDetails applicant,
+      double fontSizefactor, double widthFactor) {
     return Container(
       margin: EdgeInsets.only(bottom: 30),
       padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
@@ -349,20 +363,24 @@ class _SectionOneState extends State<SectionOne>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 10,
+            height: 10 * widthFactor,
           ),
           Text(
             'Applicant $title',
             style: GoogleFonts.dmSans(
-                color: blackfont, fontSize: 14, fontWeight: FontWeight.w700),
+                color: blackfont,
+                fontSize: 14 * fontSizefactor,
+                fontWeight: FontWeight.w700),
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
           Row(
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.surnameController,
                 labelText: 'Surname',
                 validator: (value) {
@@ -375,9 +393,11 @@ class _SectionOneState extends State<SectionOne>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                 child: CustomTextFormField(
+                  fontSizeFactor: fontSizefactor,
+                  widthFactor: widthFactor,
                   controller: applicant.middleNameController,
                   labelText: 'Middle Name',
                   validator: (value) {
@@ -390,9 +410,11 @@ class _SectionOneState extends State<SectionOne>
                   },
                 ),
               ),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.firstNameController,
                 labelText: 'First Name',
                 validator: (value) {
@@ -408,18 +430,18 @@ class _SectionOneState extends State<SectionOne>
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 30 * widthFactor,
           ),
           Row(
             children: [
               CustomText(
                 text: 'Gender',
                 color: blackfont,
-                fontSize: 15,
+                fontSize: 15 * fontSizefactor,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(
-                width: 10,
+                width: 10 * widthFactor,
               ),
               Row(
                 children: genders.map((String value) {
@@ -438,14 +460,14 @@ class _SectionOneState extends State<SectionOne>
                       CustomText(
                         text: value,
                         color: blackfont,
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         fontWeight: FontWeight.w500,
                       ),
                     ],
                   );
                 }).toList(),
               ),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               Expanded(
                   child: GestureDetector(
                 onTap: () async {
@@ -460,7 +482,7 @@ class _SectionOneState extends State<SectionOne>
                       labelStyle: GoogleFonts.dmSans(
                         color: Colors.black,
                         height: 0.5,
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         fontWeight: FontWeight.w500,
                       ),
                       errorStyle: GoogleFonts.dmSans(color: Colors.red),
@@ -479,7 +501,7 @@ class _SectionOneState extends State<SectionOne>
                     ),
                     style: GoogleFonts.dmSans(
                       color: Colors.black,
-                      fontSize: 15,
+                      fontSize: 15 * fontSizefactor,
                       fontWeight: FontWeight.w500,
                     ),
                     validator: (value) {
@@ -491,9 +513,11 @@ class _SectionOneState extends State<SectionOne>
                   ),
                 ),
               )),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.nrcController,
                 labelText: 'NRC Number',
                 validator: (value) {
@@ -514,12 +538,14 @@ class _SectionOneState extends State<SectionOne>
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 30 * widthFactor,
           ),
           Row(
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.telephoneController,
                 labelText: 'Telephone',
                 validator: (value) {
@@ -531,9 +557,11 @@ class _SectionOneState extends State<SectionOne>
                   return null;
                 },
               )),
-              SizedBox(width: 40.0),
+              SizedBox(width: 40.0 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 prefix: '+260 ',
                 controller: applicant.mobileController,
                 labelText: 'Mobile',
@@ -553,10 +581,10 @@ class _SectionOneState extends State<SectionOne>
               )),
             ],
           ),
-          SizedBox(
-            height: 30,
-          ),
+          SizedBox(height: 30 * widthFactor),
           CustomTextFormField(
+            fontSizeFactor: fontSizefactor,
+            widthFactor: widthFactor,
             controller: applicant.emailController,
             labelText: 'Email Address',
             validator: (value) {
@@ -576,16 +604,18 @@ class _SectionOneState extends State<SectionOne>
             },
           ),
           SizedBox(
-            height: 30,
+            height: 30 * widthFactor,
           ),
           Row(
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.licenseNumberController,
                 labelText: 'Driver License Number',
               )),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               Expanded(
                   child: GestureDetector(
                 onTap: () async {
@@ -600,16 +630,18 @@ class _SectionOneState extends State<SectionOne>
                       labelStyle: GoogleFonts.dmSans(
                         color: Colors.black,
                         height: 0.5,
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         fontWeight: FontWeight.w500,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4.0),
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: BorderSide(
+                            color: Colors.grey, width: 1.0 * widthFactor),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(color: primary, width: 1.0),
+                        borderSide: BorderSide(
+                            color: primary, width: 1.0 * widthFactor),
                       ),
                     ),
                     style: GoogleFonts.dmSans(
@@ -623,12 +655,14 @@ class _SectionOneState extends State<SectionOne>
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 30 * widthFactor,
           ),
           Row(
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.residentialAddressController,
                 labelText: 'Residential Address',
                 validator: (value) {
@@ -638,15 +672,15 @@ class _SectionOneState extends State<SectionOne>
                   return null;
                 },
               )),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               CustomText(
                 text: 'Ownership',
                 color: blackfont,
-                fontSize: 15,
+                fontSize: 15 * fontSizefactor,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(
-                width: 10,
+                width: 10 * widthFactor,
               ),
               Row(
                 children: ownedorlease.map((String value) {
@@ -665,36 +699,40 @@ class _SectionOneState extends State<SectionOne>
                       CustomText(
                         text: value,
                         color: blackfont,
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         fontWeight: FontWeight.w500,
                       ),
                     ],
                   );
                 }).toList(),
               ),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.howlongthisplaceController,
                 labelText: 'How Long at this Place',
               )),
             ],
           ),
           SizedBox(
-            height: 30,
+            height: 30 * widthFactor,
           ),
           // Town and Province
           Row(
             children: [
               Expanded(
                   child: CustomTextFormField(
+                fontSizeFactor: fontSizefactor,
+                widthFactor: widthFactor,
                 controller: applicant.postalAddressController,
                 labelText: 'Postal Address',
                 validator: (value) {
                   return null;
                 },
               )),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               Expanded(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
@@ -704,7 +742,7 @@ class _SectionOneState extends State<SectionOne>
                           ? 'Select Province'
                           : applicant.provinceController.toString(),
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         color: blackfont,
                         height: .5,
                         fontWeight: FontWeight.w500,
@@ -743,7 +781,7 @@ class _SectionOneState extends State<SectionOne>
                   ),
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(width: 20 * widthFactor),
               Expanded(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2<String>(
@@ -753,7 +791,7 @@ class _SectionOneState extends State<SectionOne>
                           ? applicant.townController.toString()
                           : 'Select District',
                       style: GoogleFonts.dmSans(
-                        fontSize: 15,
+                        fontSize: 15 * fontSizefactor,
                         color: blackfont,
                         height: .5,
                         fontWeight: FontWeight.w500,
@@ -862,32 +900,6 @@ class _SectionOneState extends State<SectionOne>
           content: Text('Please select a date within the last 18 years.'),
         ),
       );
-    }
-  }
-
-  void printApplicantDetails() {
-    for (int i = 0; i < numberOfPersons; i++) {
-      print('Applicant ${i + 1} Details:');
-      print('Surname: ${applicants[i].surnameController.text}');
-      print('Middle Name: ${applicants[i].middleNameController.text}');
-      print('First Name: ${applicants[i].firstNameController.text}');
-      print('Gender: ${applicants[i].gender}');
-      print('Date of Birth: ${applicants[i].dobController}');
-      print('NRC Number: ${applicants[i].nrcController.text}');
-      print('Telephone: ${applicants[i].telephoneController.text}');
-      print('Mobile: ${applicants[i].mobileController.text}');
-      print('Email Address: ${applicants[i].emailController.text}');
-      print(
-          'Driver License Number: ${applicants[i].licenseNumberController.text}');
-      print('License Expiry Date: ${applicants[i].licenseExpiryController}');
-      print(
-          'Residential Address: ${applicants[i].residentialAddressController.text}');
-      print('Ownership: ${applicants[i].ownership}');
-
-      print('Postal Address: ${applicants[i].postalAddressController.text}');
-      print('Town: ${applicants[i].townController}');
-      print('Province: ${applicants[i].provinceController}');
-      print('\n');
     }
   }
 
