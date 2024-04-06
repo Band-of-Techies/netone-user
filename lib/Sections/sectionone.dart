@@ -198,7 +198,7 @@ class _SectionOneState extends State<SectionOne>
       }
       return Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0 * widthFactor),
           child: Form(
             key: _formKey,
             child: ListView(
@@ -222,7 +222,7 @@ class _SectionOneState extends State<SectionOne>
                       fontWeight: FontWeight.w500,
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 10 * widthFactor,
                     ),
                     Switch(
                       activeColor: primary,
@@ -249,7 +249,9 @@ class _SectionOneState extends State<SectionOne>
                               items: [1, 2, 3, 4].map((int value) {
                                 return DropdownMenuItem(
                                   value: value,
-                                  child: Text('$value'),
+                                  child: Text(
+                                    '$value',
+                                  ),
                                 );
                               }).toList(),
                               onChanged: (int? value) {
@@ -281,7 +283,7 @@ class _SectionOneState extends State<SectionOne>
                               },
                               style: GoogleFonts.dmSans(
                                 color: Colors.black,
-                                fontSize: 15,
+                                fontSize: 15 * fontSizeFactor,
                                 fontWeight: FontWeight.w500,
                               ),
                               decoration: InputDecoration(
@@ -354,11 +356,12 @@ class _SectionOneState extends State<SectionOne>
   Container applicantDetails(int title, ApplicantDetails applicant,
       double fontSizefactor, double widthFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(80, 252, 227, 194),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20 * widthFactor)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -375,212 +378,421 @@ class _SectionOneState extends State<SectionOne>
           SizedBox(
             height: 20 * widthFactor,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.surnameController,
-                labelText: 'Surname',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your Surname';
-                  }
-                  if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                    return 'Please enter only alphabets';
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                child: CustomTextFormField(
-                  fontSizeFactor: fontSizefactor,
-                  widthFactor: widthFactor,
-                  controller: applicant.middleNameController,
-                  labelText: 'Middle Name',
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                        return 'Please enter only alphabets';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.firstNameController,
-                labelText: 'First Name',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your First Name';
-                  }
-                  if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                    return 'Please enter only alphabets';
-                  }
-                  return null;
-                },
-              )),
-            ],
-          ),
-          SizedBox(
-            height: 30 * widthFactor,
-          ),
-          Row(
-            children: [
-              CustomText(
-                text: 'Gender',
-                color: blackfont,
-                fontSize: 15 * fontSizefactor,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(
-                width: 10 * widthFactor,
-              ),
-              Row(
-                children: genders.map((String value) {
-                  return Row(
-                    children: [
-                      Radio(
-                        activeColor: primary,
-                        value: value,
-                        groupValue: applicant.gender,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            applicant.gender = newValue!;
-                          });
+          widthFactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.surnameController,
+                      labelText: 'Surname',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Surname';
+                        }
+                        if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                          return 'Please enter only alphabets';
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                      child: CustomTextFormField(
+                        fontSizeFactor: fontSizefactor,
+                        widthFactor: widthFactor,
+                        controller: applicant.middleNameController,
+                        labelText: 'Middle Name',
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                              return 'Please enter only alphabets';
+                            }
+                          }
+                          return null;
                         },
                       ),
-                      CustomText(
-                        text: value,
-                        color: blackfont,
-                        fontSize: 15 * fontSizefactor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-              SizedBox(width: 20 * widthFactor),
-              Expanded(
-                  child: GestureDetector(
-                onTap: () async {
-                  await _selectDate(context, applicant);
-                },
-                child: AbsorbPointer(
-                  child: TextFormField(
-                    readOnly: true,
-                    controller: applicant.dobController,
-                    decoration: InputDecoration(
-                      labelText: 'Date of Birth',
-                      labelStyle: GoogleFonts.dmSans(
-                        color: Colors.black,
-                        height: 0.5,
-                        fontSize: 15 * fontSizefactor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      errorStyle: GoogleFonts.dmSans(color: Colors.red),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: BorderSide(color: Colors.red, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(color: primary, width: 1.0),
-                      ),
                     ),
-                    style: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      fontSize: 15 * fontSizefactor,
-                      fontWeight: FontWeight.w500,
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.firstNameController,
+                      labelText: 'First Name',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your First Name';
+                        }
+                        if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                          return 'Please enter only alphabets';
+                        }
+                        return null;
+                      },
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.surnameController,
+                      labelText: 'Surname',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Surname';
+                        }
+                        if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                          return 'Please enter only alphabets';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please choose Date of birth';
-                      }
-                      return null;
-                    },
-                  ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.middleNameController,
+                      labelText: 'Middle Name',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                            return 'Please enter only alphabets';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.firstNameController,
+                      labelText: 'First Name',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your First Name';
+                        }
+                        if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                          return 'Please enter only alphabets';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
-              )),
-              SizedBox(width: 20 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.nrcController,
-                labelText: 'NRC Number',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter NRC Number';
-                  }
-
-                  // Define a regex pattern for NRC validation
-                  RegExp nrcPattern = RegExp(r'^\d{6}/\d{2}/\d$');
-
-                  if (!nrcPattern.hasMatch(value)) {
-                    return 'Invalid NRC Number format (123456/78/9)';
-                  }
-
-                  return null;
-                },
-              )),
-            ],
-          ),
           SizedBox(
             height: 30 * widthFactor,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.telephoneController,
-                labelText: 'Telephone',
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'Please enter only numeric digits';
-                    }
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                prefix: '+260 ',
-                controller: applicant.mobileController,
-                labelText: 'Mobile',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your Mobile Number';
-                  }
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Row(
+                      children: [
+                        CustomText(
+                          text: 'Gender',
+                          color: blackfont,
+                          fontSize: 15 * fontSizefactor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          width: 10 * widthFactor,
+                        ),
+                        Row(
+                          children: genders.map((String value) {
+                            return Row(
+                              children: [
+                                Radio(
+                                  activeColor: primary,
+                                  value: value,
+                                  groupValue: applicant.gender,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      applicant.gender = newValue!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                  text: value,
+                                  color: blackfont,
+                                  fontSize: 15 * fontSizefactor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 20 * widthFactor),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () async {
+                        await _selectDate(context, applicant);
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: applicant.dobController,
+                          decoration: InputDecoration(
+                            labelText: 'Date of Birth',
+                            labelStyle: GoogleFonts.dmSans(
+                              color: Colors.black,
+                              height: 0.5,
+                              fontSize: 15 * fontSizefactor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            errorStyle: GoogleFonts.dmSans(color: Colors.red),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                              borderSide:
+                                  BorderSide(color: primary, width: 1.0),
+                            ),
+                          ),
+                          style: GoogleFonts.dmSans(
+                            color: Colors.black,
+                            fontSize: 15 * fontSizefactor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please choose Date of birth';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    )),
+                    SizedBox(width: 20 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.nrcController,
+                      labelText: 'NRC Number',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter NRC Number';
+                        }
 
-                  // Validate if the value starts with '+260' and contains only numeric digits afterwards
-                  RegExp mobilePattern = RegExp(r'^\d{9}$');
-                  if (!mobilePattern.hasMatch(value)) {
-                    return 'Please enter a valid Mobile Number';
-                  }
+                        // Define a regex pattern for NRC validation
+                        RegExp nrcPattern = RegExp(r'^\d{6}/\d{2}/\d$');
 
-                  return null;
-                },
-              )),
-            ],
+                        if (!nrcPattern.hasMatch(value)) {
+                          return 'Invalid NRC Number format (123456/78/9)';
+                        }
+
+                        return null;
+                      },
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Row(
+                      children: [
+                        CustomText(
+                          text: 'Gender',
+                          color: blackfont,
+                          fontSize: 15 * fontSizefactor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          width: 10 * widthFactor,
+                        ),
+                        Row(
+                          children: genders.map((String value) {
+                            return Row(
+                              children: [
+                                Radio(
+                                  activeColor: primary,
+                                  value: value,
+                                  groupValue: applicant.gender,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      applicant.gender = newValue!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                  text: value,
+                                  color: blackfont,
+                                  fontSize: 15 * fontSizefactor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15 * widthFactor),
+                    GestureDetector(
+                      onTap: () async {
+                        await _selectDate(context, applicant);
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: applicant.dobController,
+                          decoration: InputDecoration(
+                            labelText: 'Date of Birth',
+                            labelStyle: GoogleFonts.dmSans(
+                              color: Colors.black,
+                              height: 0.5,
+                              fontSize: 15 * fontSizefactor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            errorStyle: GoogleFonts.dmSans(color: Colors.red),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 1.0),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide:
+                                  BorderSide(color: Colors.grey, width: 1.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                              borderSide:
+                                  BorderSide(color: primary, width: 1.0),
+                            ),
+                          ),
+                          style: GoogleFonts.dmSans(
+                            color: Colors.black,
+                            fontSize: 15 * fontSizefactor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please choose Date of birth';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.nrcController,
+                      labelText: 'NRC Number',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter NRC Number';
+                        }
+
+                        // Define a regex pattern for NRC validation
+                        RegExp nrcPattern = RegExp(r'^\d{6}/\d{2}/\d$');
+
+                        if (!nrcPattern.hasMatch(value)) {
+                          return 'Invalid NRC Number format (123456/78/9)';
+                        }
+
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+          SizedBox(
+            height: 30 * widthFactor,
           ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.telephoneController,
+                      labelText: 'Telephone',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Please enter only numeric digits';
+                          }
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      prefix: '+260 ',
+                      controller: applicant.mobileController,
+                      labelText: 'Mobile',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Mobile Number';
+                        }
+
+                        // Validate if the value starts with '+260' and contains only numeric digits afterwards
+                        RegExp mobilePattern = RegExp(r'^\d{9}$');
+                        if (!mobilePattern.hasMatch(value)) {
+                          return 'Please enter a valid Mobile Number';
+                        }
+
+                        return null;
+                      },
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.telephoneController,
+                      labelText: 'Telephone',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Please enter only numeric digits';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      prefix: '+260 ',
+                      controller: applicant.mobileController,
+                      labelText: 'Mobile',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Mobile Number';
+                        }
+
+                        // Validate if the value starts with '+260' and contains only numeric digits afterwards
+                        RegExp mobilePattern = RegExp(r'^\d{9}$');
+                        if (!mobilePattern.hasMatch(value)) {
+                          return 'Please enter a valid Mobile Number';
+                        }
+
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
           SizedBox(height: 30 * widthFactor),
           CustomTextFormField(
             fontSizeFactor: fontSizefactor,
@@ -606,235 +818,460 @@ class _SectionOneState extends State<SectionOne>
           SizedBox(
             height: 30 * widthFactor,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.licenseNumberController,
-                labelText: 'Driver License Number',
-              )),
-              SizedBox(width: 20 * widthFactor),
-              Expanded(
-                  child: GestureDetector(
-                onTap: () async {
-                  await _selectLicenseExpiryDate(context, applicant);
-                },
-                child: AbsorbPointer(
-                  child: TextFormField(
-                    readOnly: true,
-                    controller: applicant.licenseExpiryController,
-                    decoration: InputDecoration(
-                      labelText: 'License Expiry Date',
-                      labelStyle: GoogleFonts.dmSans(
-                        color: Colors.black,
-                        height: 0.5,
-                        fontSize: 15 * fontSizefactor,
-                        fontWeight: FontWeight.w500,
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.licenseNumberController,
+                      labelText: 'Driver License Number',
+                    )),
+                    SizedBox(width: 20 * widthFactor),
+                    Expanded(
+                        child: GestureDetector(
+                      onTap: () async {
+                        await _selectLicenseExpiryDate(context, applicant);
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: applicant.licenseExpiryController,
+                          decoration: InputDecoration(
+                            labelText: 'License Expiry Date',
+                            labelStyle: GoogleFonts.dmSans(
+                              color: Colors.black,
+                              height: 0.5,
+                              fontSize: 15 * fontSizefactor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide: BorderSide(
+                                  color: Colors.grey, width: 1.0 * widthFactor),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                              borderSide: BorderSide(
+                                  color: primary, width: 1.0 * widthFactor),
+                            ),
+                          ),
+                          style: GoogleFonts.dmSans(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4.0),
-                        borderSide: BorderSide(
-                            color: Colors.grey, width: 1.0 * widthFactor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(
-                            color: primary, width: 1.0 * widthFactor),
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.licenseNumberController,
+                      labelText: 'Driver License Number',
+                    ),
+                    SizedBox(height: 15 * widthFactor),
+                    GestureDetector(
+                      onTap: () async {
+                        await _selectLicenseExpiryDate(context, applicant);
+                      },
+                      child: AbsorbPointer(
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: applicant.licenseExpiryController,
+                          decoration: InputDecoration(
+                            labelText: 'License Expiry Date',
+                            labelStyle: GoogleFonts.dmSans(
+                              color: Colors.black,
+                              height: 0.5,
+                              fontSize: 15 * fontSizefactor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4.0),
+                              borderSide: BorderSide(
+                                  color: Colors.grey, width: 1.0 * widthFactor),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                              borderSide: BorderSide(
+                                  color: primary, width: 1.0 * widthFactor),
+                            ),
+                          ),
+                          style: GoogleFonts.dmSans(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                       ),
                     ),
-                    style: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  ],
                 ),
-              )),
-            ],
-          ),
           SizedBox(
             height: 30 * widthFactor,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.residentialAddressController,
-                labelText: 'Residential Address',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Residential Address';
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 20 * widthFactor),
-              CustomText(
-                text: 'Ownership',
-                color: blackfont,
-                fontSize: 15 * fontSizefactor,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(
-                width: 10 * widthFactor,
-              ),
-              Row(
-                children: ownedorlease.map((String value) {
-                  return Row(
-                    children: [
-                      Radio(
-                        activeColor: primary,
-                        value: value,
-                        groupValue: applicant.ownership,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            applicant.ownership = newValue!;
-                          });
-                        },
-                      ),
-                      CustomText(
-                        text: value,
-                        color: blackfont,
-                        fontSize: 15 * fontSizefactor,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-              SizedBox(width: 20 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.howlongthisplaceController,
-                labelText: 'How Long at this Place',
-              )),
-            ],
-          ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.residentialAddressController,
+                      labelText: 'Residential Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Residential Address';
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 20 * widthFactor),
+                    CustomText(
+                      text: 'Ownership',
+                      color: blackfont,
+                      fontSize: 15 * fontSizefactor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      width: 10 * widthFactor,
+                    ),
+                    Row(
+                      children: ownedorlease.map((String value) {
+                        return Row(
+                          children: [
+                            Radio(
+                              activeColor: primary,
+                              value: value,
+                              groupValue: applicant.ownership,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  applicant.ownership = newValue!;
+                                });
+                              },
+                            ),
+                            CustomText(
+                              text: value,
+                              color: blackfont,
+                              fontSize: 12 * fontSizefactor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(width: 20 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.howlongthisplaceController,
+                      labelText: 'How Long at this Place',
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.residentialAddressController,
+                      labelText: 'Residential Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter Residential Address';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15 * widthFactor),
+                    Row(
+                      children: [
+                        CustomText(
+                          text: 'Ownership',
+                          color: blackfont,
+                          fontSize: 15 * fontSizefactor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        SizedBox(
+                          width: 10 * widthFactor,
+                        ),
+                        Row(
+                          children: ownedorlease.map((String value) {
+                            return Row(
+                              children: [
+                                Radio(
+                                  activeColor: primary,
+                                  value: value,
+                                  groupValue: applicant.ownership,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      applicant.ownership = newValue!;
+                                    });
+                                  },
+                                ),
+                                CustomText(
+                                  text: value,
+                                  color: blackfont,
+                                  fontSize: 12 * fontSizefactor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.howlongthisplaceController,
+                      labelText: 'How Long at this Place',
+                    ),
+                  ],
+                ),
           SizedBox(
             height: 30 * widthFactor,
           ),
           // Town and Province
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicant.postalAddressController,
-                labelText: 'Postal Address',
-                validator: (value) {
-                  return null;
-                },
-              )),
-              SizedBox(width: 20 * widthFactor),
-              Expanded(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    hint: Text(
-                      applicant.provinceController == null
-                          ? 'Select Province'
-                          : applicant.provinceController.toString(),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15 * fontSizefactor,
-                        color: blackfont,
-                        height: .5,
-                        fontWeight: FontWeight.w500,
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.postalAddressController,
+                      labelText: 'Postal Address',
+                      validator: (value) {
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 20 * widthFactor),
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: Text(
+                            applicant.provinceController == null
+                                ? 'Select Province'
+                                : applicant.provinceController.toString(),
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizefactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: provinces
+                              .map((String item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: GoogleFonts.dmSans(
+                                          fontWeight: FontWeight.w500,
+                                          height: .5,
+                                          fontSize: 15 * fontSizefactor,
+                                          color: blackfont),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: applicant.provinceController,
+                          onChanged: (String? value) {
+                            setState(() {
+                              applicant.provinceController = value;
+                              applicant.townController = null;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: applicant.provinceController == null
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16 * fontSizefactor),
+                          ),
+                        ),
                       ),
                     ),
-                    items: provinces
-                        .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: GoogleFonts.dmSans(
-                                    fontWeight: FontWeight.w500,
-                                    height: .5,
-                                    fontSize: 15,
-                                    color: blackfont),
-                              ),
-                            ))
-                        .toList(),
-                    value: applicant.provinceController,
-                    onChanged: (String? value) {
-                      setState(() {
-                        applicant.provinceController = value;
-                        applicant.townController = null;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: applicant.provinceController == null
-                                  ? Colors.red
-                                  : Colors.grey,
-                              width: 1),
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 20 * widthFactor),
-              Expanded(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    hint: Text(
-                      applicant.townController != null
-                          ? applicant.townController.toString()
-                          : 'Select District',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15 * fontSizefactor,
-                        color: blackfont,
-                        height: .5,
-                        fontWeight: FontWeight.w500,
+                    SizedBox(width: 20 * widthFactor),
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: Text(
+                            applicant.townController != null
+                                ? applicant.townController.toString()
+                                : 'Select District',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizefactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: applicant.provinceController != null
+                              ? townsByProvince[applicant.provinceController!]!
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: GoogleFonts.dmSans(
+                                                fontWeight: FontWeight.w500,
+                                                height: .5,
+                                                fontSize: 15 * fontSizefactor,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ))
+                                  .toList()
+                              : [],
+                          value: applicant.townController,
+                          onChanged: (String? value) {
+                            setState(() {
+                              applicant.townController = value;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: applicant.townController == null &&
+                                            applicant.townController == null
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    width: 1),
+                                borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16 * fontSizefactor),
+                          ),
+                        ),
                       ),
                     ),
-                    items: applicant.provinceController != null
-                        ? townsByProvince[applicant.provinceController!]!
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicant.postalAddressController,
+                      labelText: 'Postal Address',
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15 * widthFactor),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Text(
+                          applicant.provinceController == null
+                              ? 'Select Province'
+                              : applicant.provinceController.toString(),
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizefactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        items: provinces
                             .map((String item) => DropdownMenuItem<String>(
                                   value: item,
                                   child: Text(
                                     item,
                                     style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.w500,
-                                      height: .5,
-                                      fontSize: 15,
-                                      color: Colors.black,
-                                    ),
+                                        fontWeight: FontWeight.w500,
+                                        height: .5,
+                                        fontSize: 15 * fontSizefactor,
+                                        color: blackfont),
                                   ),
                                 ))
-                            .toList()
-                        : [],
-                    value: applicant.townController,
-                    onChanged: (String? value) {
-                      setState(() {
-                        applicant.townController = value;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: applicant.townController == null &&
-                                      applicant.townController == null
-                                  ? Colors.red
-                                  : Colors.grey,
-                              width: 1),
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                            .toList(),
+                        value: applicant.provinceController,
+                        onChanged: (String? value) {
+                          setState(() {
+                            applicant.provinceController = value;
+                            applicant.townController = null;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: applicant.provinceController == null
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16 * fontSizefactor),
+                        ),
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 15 * widthFactor),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Text(
+                          applicant.townController != null
+                              ? applicant.townController.toString()
+                              : 'Select District',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizefactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        items: applicant.provinceController != null
+                            ? townsByProvince[applicant.provinceController!]!
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: GoogleFonts.dmSans(
+                                          fontWeight: FontWeight.w500,
+                                          height: .5,
+                                          fontSize: 15 * fontSizefactor,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ))
+                                .toList()
+                            : [],
+                        value: applicant.townController,
+                        onChanged: (String? value) {
+                          setState(() {
+                            applicant.townController = value;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: applicant.townController == null &&
+                                          applicant.townController == null
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16 * fontSizefactor),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ],
       ),
     );

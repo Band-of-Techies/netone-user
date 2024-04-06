@@ -198,7 +198,7 @@ class _SectionTwoState extends State<SectionTwo>
       }
       return Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20 * widthFactor),
           child: Form(
             key: _formKey,
             child: ListView(
@@ -206,11 +206,11 @@ class _SectionTwoState extends State<SectionTwo>
                 CustomText(
                   text: 'Employment Details',
                   color: blackfont,
-                  fontSize: 15,
+                  fontSize: 15 * fontSizeFactor,
                   fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 20 * widthFactor,
                 ),
                 employmentDetails('Applicant 1', applicantDetailsLists[0],
                     fontSizeFactor, widthFactor),
@@ -246,80 +246,164 @@ class _SectionTwoState extends State<SectionTwo>
                 if (numberOfPersons > 3)
                   kinInformation('Applicant 4', applicantDetailsLists[3],
                       fontSizeFactor, widthFactor),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .48,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(buttondarkbg),
-                              padding: MaterialStateProperty.all(
-                                  EdgeInsets.all(15))),
-                          onPressed: () {
-                            if (widget._tabController.index <
-                                widget._tabController.length - 1) {
-                              widget._tabController
-                                  .animateTo(widget._tabController.index - 1);
-                            } else {
-                              // Handle the case when the last tab is reached
-                            }
-                            //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                            //  DefaultTabController.of(context)?.animateTo(1);
-                            // if (_formKey.currentState!.validate()) {
-                            //   // Form is valid, move to the next section
+                fontSizeFactor == 1
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .48,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(buttondarkbg),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(15))),
+                                onPressed: () {
+                                  if (widget._tabController.index <
+                                      widget._tabController.length - 1) {
+                                    widget._tabController.animateTo(
+                                        widget._tabController.index - 1);
+                                  } else {
+                                    // Handle the case when the last tab is reached
+                                  }
+                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                  //  DefaultTabController.of(context)?.animateTo(1);
+                                  // if (_formKey.currentState!.validate()) {
+                                  //   // Form is valid, move to the next section
 
-                            // }
-                          },
-                          child: CustomText(
-                            text: 'Previous',
-                            color: whitefont,
-                            fontSize: 16 * fontSizeFactor,
-                            fontWeight: FontWeight.w700,
-                          )),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * .48,
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(primary),
-                              padding: MaterialStateProperty.all(
-                                  EdgeInsets.all(15))),
-                          onPressed: () {
-                            //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                            //  DefaultTabController.of(context)?.animateTo(1);
-                            if (_formKey.currentState!.validate()) {
-                              // Form is valid, move to the next section
-                              if (validateLocation(applicantDetailsLists) &&
-                                  validateRetrirement(applicantDetailsLists) &&
-                                  validateEmploymentType(
-                                      applicantDetailsLists)) {
-                                myTabController.employmentDetailsList =
-                                    applicantDetailsLists;
-                                myTabController.updateEMplymentandKlin(
-                                    applicantDetailsLists);
-                                // printApplicantDetails();
-                                if (widget._tabController.index <
-                                    widget._tabController.length - 1) {
-                                  widget._tabController.animateTo(
-                                      widget._tabController.index + 1);
-                                }
-                              } else {
-                                warning('Complete Details', fontSizeFactor);
-                              }
-                            }
-                          },
-                          child: CustomText(
-                            text: 'Next',
-                            color: whitefont,
-                            fontSize: 16 * fontSizeFactor,
-                            fontWeight: FontWeight.w700,
-                          )),
-                    ),
-                  ],
-                ),
+                                  // }
+                                },
+                                child: CustomText(
+                                  text: 'Previous',
+                                  color: whitefont,
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .48,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(primary),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(15))),
+                                onPressed: () {
+                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                  //  DefaultTabController.of(context)?.animateTo(1);
+                                  if (_formKey.currentState!.validate()) {
+                                    // Form is valid, move to the next section
+                                    if (validateLocation(
+                                            applicantDetailsLists) &&
+                                        validateRetrirement(
+                                            applicantDetailsLists) &&
+                                        validateEmploymentType(
+                                            applicantDetailsLists)) {
+                                      myTabController.employmentDetailsList =
+                                          applicantDetailsLists;
+                                      myTabController.updateEMplymentandKlin(
+                                          applicantDetailsLists);
+                                      // printApplicantDetails();
+                                      if (widget._tabController.index <
+                                          widget._tabController.length - 1) {
+                                        widget._tabController.animateTo(
+                                            widget._tabController.index + 1);
+                                      }
+                                    } else {
+                                      warning(
+                                          'Complete Details', fontSizeFactor);
+                                    }
+                                  }
+                                },
+                                child: CustomText(
+                                  text: 'Next',
+                                  color: whitefont,
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .9,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(buttondarkbg),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(15))),
+                                onPressed: () {
+                                  if (widget._tabController.index <
+                                      widget._tabController.length - 1) {
+                                    widget._tabController.animateTo(
+                                        widget._tabController.index - 1);
+                                  } else {
+                                    // Handle the case when the last tab is reached
+                                  }
+                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                  //  DefaultTabController.of(context)?.animateTo(1);
+                                  // if (_formKey.currentState!.validate()) {
+                                  //   // Form is valid, move to the next section
+
+                                  // }
+                                },
+                                child: CustomText(
+                                  text: 'Previous',
+                                  color: whitefont,
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ),
+                          SizedBox(
+                            height: 10 * widthFactor,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .9,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(primary),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.all(15))),
+                                onPressed: () {
+                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                  //  DefaultTabController.of(context)?.animateTo(1);
+                                  if (_formKey.currentState!.validate()) {
+                                    // Form is valid, move to the next section
+                                    if (validateLocation(
+                                            applicantDetailsLists) &&
+                                        validateRetrirement(
+                                            applicantDetailsLists) &&
+                                        validateEmploymentType(
+                                            applicantDetailsLists)) {
+                                      myTabController.employmentDetailsList =
+                                          applicantDetailsLists;
+                                      myTabController.updateEMplymentandKlin(
+                                          applicantDetailsLists);
+                                      // printApplicantDetails();
+                                      if (widget._tabController.index <
+                                          widget._tabController.length - 1) {
+                                        widget._tabController.animateTo(
+                                            widget._tabController.index + 1);
+                                      }
+                                    } else {
+                                      warning(
+                                          'Complete Details', fontSizeFactor);
+                                    }
+                                  }
+                                },
+                                child: CustomText(
+                                  text: 'Next',
+                                  color: whitefont,
+                                  fontSize: 16 * fontSizeFactor,
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ),
+                        ],
+                      ),
               ],
             ),
           ),
@@ -370,16 +454,17 @@ class _SectionTwoState extends State<SectionTwo>
       double fontSizefactor,
       double widthFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(82, 240, 246, 156),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20 * widthFactor)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 10,
+            height: 10 * widthFactor,
           ),
           Text(
             message,
@@ -389,133 +474,246 @@ class _SectionTwoState extends State<SectionTwo>
                 fontWeight: FontWeight.w700),
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.nameController,
-                labelText: 'Name',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter name';
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.otherNamesController,
-                labelText: 'Other Names',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter other name';
-                  }
-                  return null;
-                },
-              )),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  fontSizeFactor: fontSizefactor,
-                  widthFactor: widthFactor,
-                  controller:
-                      applicantDetailsList.physicalAddressControllernextofkin,
-                  labelText: 'Physical Address',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return null;
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(
-                width: 40 * widthFactor,
-              ),
-              Expanded(
-                child: CustomTextFormField(
-                  fontSizeFactor: fontSizefactor,
-                  widthFactor: widthFactor,
-                  controller:
-                      applicantDetailsList.postalAddressControllerforKline,
-                  labelText: 'Postal Address',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return null;
-                    }
-                    return null;
-                  },
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: CustomTextFormField(
-                  fontSizeFactor: fontSizefactor,
-                  widthFactor: widthFactor,
-                  prefix: '+260 ',
-                  controller: applicantDetailsList.cellNumberController,
-                  labelText: 'Cell Number',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your Cell Number';
-                    }
-
-                    // Validate if the value starts with '+260' and contains only numeric digits afterwards
-                    RegExp mobilePattern = RegExp(r'^\d{9}$');
-                    if (!mobilePattern.hasMatch(value)) {
-                      return 'Please enter a valid Cell Number';
-                    }
-
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(
-                width: 40 * widthFactor,
-              ),
-              Expanded(
-                child: CustomTextFormField(
-                    fontSizeFactor: fontSizefactor,
-                    widthFactor: widthFactor,
-                    controller: applicantDetailsList.emailAddressController,
-                    labelText: 'Email Address',
-                    validator: (value) {
-                      // You might want to add more comprehensive email validation
-                      if (value!.isEmpty || value == null) {
-                        return null;
-                      }
-                      if (value != null || value!.isNotEmpty) {
-                        {
-                          if (!isValidEmail(value)) {
-                            return 'Please enter a valid Email Address';
-                          }
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.nameController,
+                      labelText: 'Name',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter name';
                         }
-                      }
-
-                      return null;
-                    }),
-              ),
-            ],
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.otherNamesController,
+                      labelText: 'Other Names',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter other name';
+                        }
+                        return null;
+                      },
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.nameController,
+                      labelText: 'Name',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter name';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.otherNamesController,
+                      labelText: 'Other Names',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter other name';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+          SizedBox(
+            height: 30 * widthFactor,
           ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFormField(
+                        fontSizeFactor: fontSizefactor,
+                        widthFactor: widthFactor,
+                        controller: applicantDetailsList
+                            .physicalAddressControllernextofkin,
+                        labelText: 'Physical Address',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return null;
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 40 * widthFactor,
+                    ),
+                    Expanded(
+                      child: CustomTextFormField(
+                        fontSizeFactor: fontSizefactor,
+                        widthFactor: widthFactor,
+                        controller: applicantDetailsList
+                            .postalAddressControllerforKline,
+                        labelText: 'Postal Address',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return null;
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList
+                          .physicalAddressControllernextofkin,
+                      labelText: 'Physical Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 15 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller:
+                          applicantDetailsList.postalAddressControllerforKline,
+                      labelText: 'Postal Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+          SizedBox(
+            height: 30,
+          ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFormField(
+                        fontSizeFactor: fontSizefactor,
+                        widthFactor: widthFactor,
+                        prefix: '+260 ',
+                        controller: applicantDetailsList.cellNumberController,
+                        labelText: 'Cell Number',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Cell Number';
+                          }
+
+                          // Validate if the value starts with '+260' and contains only numeric digits afterwards
+                          RegExp mobilePattern = RegExp(r'^\d{9}$');
+                          if (!mobilePattern.hasMatch(value)) {
+                            return 'Please enter a valid Cell Number';
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 40 * widthFactor,
+                    ),
+                    Expanded(
+                      child: CustomTextFormField(
+                          fontSizeFactor: fontSizefactor,
+                          widthFactor: widthFactor,
+                          controller:
+                              applicantDetailsList.emailAddressController,
+                          labelText: 'Email Address',
+                          validator: (value) {
+                            // You might want to add more comprehensive email validation
+                            if (value!.isEmpty || value == null) {
+                              return null;
+                            }
+                            if (value != null || value!.isNotEmpty) {
+                              {
+                                if (!isValidEmail(value)) {
+                                  return 'Please enter a valid Email Address';
+                                }
+                              }
+                            }
+
+                            return null;
+                          }),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      prefix: '+260 ',
+                      controller: applicantDetailsList.cellNumberController,
+                      labelText: 'Cell Number',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your Cell Number';
+                        }
+
+                        // Validate if the value starts with '+260' and contains only numeric digits afterwards
+                        RegExp mobilePattern = RegExp(r'^\d{9}$');
+                        if (!mobilePattern.hasMatch(value)) {
+                          return 'Please enter a valid Cell Number';
+                        }
+
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 15 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                        fontSizeFactor: fontSizefactor,
+                        widthFactor: widthFactor,
+                        controller: applicantDetailsList.emailAddressController,
+                        labelText: 'Email Address',
+                        validator: (value) {
+                          // You might want to add more comprehensive email validation
+                          if (value!.isEmpty || value == null) {
+                            return null;
+                          }
+                          if (value != null || value!.isNotEmpty) {
+                            {
+                              if (!isValidEmail(value)) {
+                                return 'Please enter a valid Email Address';
+                              }
+                            }
+                          }
+
+                          return null;
+                        }),
+                  ],
+                ),
         ],
       ),
     );
@@ -551,16 +749,17 @@ class _SectionTwoState extends State<SectionTwo>
       double fontSizefactor,
       double widthFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(80, 252, 227, 194),
-          borderRadius: BorderRadius.circular(20)),
+          borderRadius: BorderRadius.circular(20 * widthFactor)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 10,
+            height: 10 * widthFactor,
           ),
           Text(
             message,
@@ -572,458 +771,920 @@ class _SectionTwoState extends State<SectionTwo>
           SizedBox(
             height: 20,
           ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.jobTitleController,
-                labelText: 'Job Title',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return null; // Allow null values
-                  }
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.jobTitleController,
+                      labelText: 'Job Title',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null; // Allow null values
+                        }
 
-                  // Validate if the value contains only letters, digits, and hyphens
-                  RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
-                  if (!jobTitlePattern.hasMatch(value)) {
-                    return 'Can only contain letters, digits, and -';
-                  }
+                        // Validate if the value contains only letters, digits, and hyphens
+                        RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
+                        if (!jobTitlePattern.hasMatch(value)) {
+                          return 'Can only contain letters, digits, and -';
+                        }
 
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.ministryController,
-                labelText: 'Minsitry',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return null; // Allow null values
-                  }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.ministryController,
+                      labelText: 'Minsitry',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null; // Allow null values
+                        }
 
-                  // Validate if the value contains only letters, digits, and hyphens
-                  RegExp ministryPattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
-                  if (!ministryPattern.hasMatch(value)) {
-                    return 'Can only contain letters, digits, hyphens, and spaces';
-                  }
+                        // Validate if the value contains only letters, digits, and hyphens
+                        RegExp ministryPattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
+                        if (!ministryPattern.hasMatch(value)) {
+                          return 'Can only contain letters, digits, hyphens, and spaces';
+                        }
 
-                  return null;
-                },
-              )),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller:
-                    applicantDetailsList.physicalAddressControlleremployment,
-                labelText: 'Physical Address',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return null;
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller:
-                    applicantDetailsList.postalAddressControllerEmployment,
-                labelText: 'Postal Address',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter postal address';
-                  }
+                        return null;
+                      },
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.jobTitleController,
+                      labelText: 'Job Title',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null; // Allow null values
+                        }
 
-                  return null;
-                },
-              )),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    hint: Text(
-                      applicantDetailsList.provinceController == null
-                          ? 'Select Province'
-                          : applicantDetailsList.provinceController.toString(),
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15 * fontSizefactor,
-                        color: blackfont,
-                        height: .5,
-                        fontWeight: FontWeight.w500,
-                      ),
+                        // Validate if the value contains only letters, digits, and hyphens
+                        RegExp jobTitlePattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
+                        if (!jobTitlePattern.hasMatch(value)) {
+                          return 'Can only contain letters, digits, and -';
+                        }
+
+                        return null;
+                      },
                     ),
-                    items: provinces
-                        .map((String item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: GoogleFonts.dmSans(
-                                    fontWeight: FontWeight.w500,
-                                    height: .5,
-                                    fontSize: 15 * fontSizefactor,
-                                    color: blackfont),
-                              ),
-                            ))
-                        .toList(),
-                    value: applicantDetailsList.provinceController,
-                    onChanged: (String? value) {
-                      setState(() {
-                        applicantDetailsList.provinceController = value;
-                        print(applicantDetailsList.provinceController);
-                        applicantDetailsList.townController = null;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: applicantDetailsList.provinceController ==
-                                      null
-                                  ? Colors.red
-                                  : Colors.grey,
-                              width: 1 * widthFactor),
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.ministryController,
+                      labelText: 'Minsitry',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null; // Allow null values
+                        }
+
+                        // Validate if the value contains only letters, digits, and hyphens
+                        RegExp ministryPattern = RegExp(r'^[a-zA-Z0-9\- ]+$');
+                        if (!ministryPattern.hasMatch(value)) {
+                          return 'Can only contain letters, digits, hyphens, and spaces';
+                        }
+
+                        return null;
+                      },
                     ),
-                  ),
+                  ],
                 ),
-              ),
-              SizedBox(width: 40 * widthFactor),
-              Expanded(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    hint: Text(
-                      applicantDetailsList.townController != null
-                          ? applicantDetailsList.townController.toString()
-                          : 'Select Distric',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15 * fontSizefactor,
-                        color: blackfont,
-                        height: .5,
-                        fontWeight: FontWeight.w500,
+          SizedBox(
+            height: 30 * widthFactor,
+          ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList
+                          .physicalAddressControlleremployment,
+                      labelText: 'Physical Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList
+                          .postalAddressControllerEmployment,
+                      labelText: 'Postal Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter postal address';
+                        }
+
+                        return null;
+                      },
+                    )),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList
+                          .physicalAddressControlleremployment,
+                      labelText: 'Physical Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return null;
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList
+                          .postalAddressControllerEmployment,
+                      labelText: 'Postal Address',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter postal address';
+                        }
+
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
+          SizedBox(
+            height: 30 * widthFactor,
+          ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: Text(
+                            applicantDetailsList.provinceController == null
+                                ? 'Select Province'
+                                : applicantDetailsList.provinceController
+                                    .toString(),
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizefactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: provinces
+                              .map((String item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: GoogleFonts.dmSans(
+                                          fontWeight: FontWeight.w500,
+                                          height: .5,
+                                          fontSize: 15 * fontSizefactor,
+                                          color: blackfont),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: applicantDetailsList.provinceController,
+                          onChanged: (String? value) {
+                            setState(() {
+                              applicantDetailsList.provinceController = value;
+                              print(applicantDetailsList.provinceController);
+                              applicantDetailsList.townController = null;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: applicantDetailsList
+                                                .provinceController ==
+                                            null
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    width: 1 * widthFactor),
+                                borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                        ),
                       ),
                     ),
-                    items: applicantDetailsList.provinceController != null
-                        ? townsByProvince[
-                                applicantDetailsList.provinceController!]!
+                    SizedBox(width: 40 * widthFactor),
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: Text(
+                            applicantDetailsList.townController != null
+                                ? applicantDetailsList.townController.toString()
+                                : 'Select Distric',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizefactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: applicantDetailsList.provinceController != null
+                              ? townsByProvince[
+                                      applicantDetailsList.provinceController!]!
+                                  .map(
+                                      (String item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: GoogleFonts.dmSans(
+                                                fontWeight: FontWeight.w500,
+                                                height: .5,
+                                                fontSize: 15 * fontSizefactor,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ))
+                                  .toList()
+                              : [],
+                          value: applicantDetailsList.townController,
+                          onChanged: (String? value) {
+                            setState(() {
+                              applicantDetailsList.townController = value;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color:
+                                        applicantDetailsList.townController ==
+                                                null
+                                            ? Colors.red
+                                            : Colors.grey,
+                                    width: 1 * widthFactor),
+                                borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Text(
+                          applicantDetailsList.provinceController == null
+                              ? 'Select Province'
+                              : applicantDetailsList.provinceController
+                                  .toString(),
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizefactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        items: provinces
                             .map((String item) => DropdownMenuItem<String>(
                                   value: item,
                                   child: Text(
                                     item,
                                     style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.w500,
-                                      height: .5,
-                                      fontSize: 15 * fontSizefactor,
-                                      color: Colors.black,
-                                    ),
+                                        fontWeight: FontWeight.w500,
+                                        height: .5,
+                                        fontSize: 15 * fontSizefactor,
+                                        color: blackfont),
                                   ),
                                 ))
-                            .toList()
-                        : [],
-                    value: applicantDetailsList.townController,
-                    onChanged: (String? value) {
-                      setState(() {
-                        applicantDetailsList.townController = value;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: applicantDetailsList.townController == null
-                                  ? Colors.red
-                                  : Colors.grey,
-                              width: 1 * widthFactor),
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.grossSalaryController,
-                labelText: 'Gross Salary',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter gross salary';
-                  }
-                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please enter only digits';
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.currentNetSalaryController,
-                labelText: 'Current Net Salary',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter current net salary';
-                  }
-                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                    return 'Please enter only digits';
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                child: DropdownButtonFormField2<String>(
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    labelText: 'Salary Scale',
-                    labelStyle: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      height: 0.5,
-                      fontSize: 15 * fontSizefactor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    focusColor: blackfont,
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackfont, width: .5)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackfont, width: .5)),
-                    // Add Horizontal padding using menuItemStyleData.padding so it matches
-                    // the menu padding when button's width is not specified.
-                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: blackfont,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    // Add more decoration..
-                  ),
-                  hint: Text(
-                    applicantDetailsList.salaryScaleController == null
-                        ? 'Salary Scale'
-                        : applicantDetailsList.salaryScaleController.toString(),
-                    style: GoogleFonts.dmSans(
-                        fontSize: 14 * fontSizefactor,
-                        color: blackfont,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  items: letters.map((letter) {
-                    return DropdownMenuItem(
-                      value: letter,
-                      child: Text(letter),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      applicantDetailsList.salaryScaleController =
-                          value.toString();
-                      selectedLetter = value;
-                    });
-                  },
-                  buttonStyleData: const ButtonStyleData(
-                    padding: EdgeInsets.only(right: 8),
-                  ),
-                  iconStyleData: IconStyleData(
-                    icon: Icon(Icons.arrow_drop_down, color: blackfont),
-                    iconSize: 24,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<String>(
-                    isExpanded: true,
-                    hint: Text(
-                      applicantDetailsList
-                                  .preferredYearOfRetirementController !=
-                              null
-                          ? applicantDetailsList
-                              .preferredYearOfRetirementController
-                              .toString()
-                          : 'Preferred Year of Retirement',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15 * fontSizefactor,
-                        color: blackfont,
-                        height: .5,
-                        fontWeight: FontWeight.w500,
+                            .toList(),
+                        value: applicantDetailsList.provinceController,
+                        onChanged: (String? value) {
+                          setState(() {
+                            applicantDetailsList.provinceController = value;
+                            print(applicantDetailsList.provinceController);
+                            applicantDetailsList.townController = null;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      applicantDetailsList.provinceController ==
+                                              null
+                                          ? Colors.red
+                                          : Colors.grey,
+                                  width: 1 * widthFactor),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
                       ),
                     ),
-                    items: List.generate(
-                      61,
-                      (index) {
-                        final currentYear = DateTime.now().year;
-                        final year = currentYear + index;
-                        return DropdownMenuItem<String>(
-                          value: year.toString(),
-                          child: Text(
-                            year.toString(),
-                            style: GoogleFonts.dmSans(
-                              fontWeight: FontWeight.w500,
-                              height: .5,
-                              fontSize: 15 * fontSizefactor,
-                              color: Colors.black,
-                            ),
+                    SizedBox(height: 15 * widthFactor),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Text(
+                          applicantDetailsList.townController != null
+                              ? applicantDetailsList.townController.toString()
+                              : 'Select Distric',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizefactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
                           ),
-                        );
+                        ),
+                        items: applicantDetailsList.provinceController != null
+                            ? townsByProvince[
+                                    applicantDetailsList.provinceController!]!
+                                .map((String item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: GoogleFonts.dmSans(
+                                          fontWeight: FontWeight.w500,
+                                          height: .5,
+                                          fontSize: 15 * fontSizefactor,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ))
+                                .toList()
+                            : [],
+                        value: applicantDetailsList.townController,
+                        onChanged: (String? value) {
+                          setState(() {
+                            applicantDetailsList.townController = value;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: applicantDetailsList.townController ==
+                                          null
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width: 1 * widthFactor),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+          SizedBox(
+            height: 30 * widthFactor,
+          ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.grossSalaryController,
+                      labelText: 'Gross Salary',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter gross salary';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits';
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller:
+                          applicantDetailsList.currentNetSalaryController,
+                      labelText: 'Current Net Salary',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter current net salary';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits';
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                          labelText: 'Salary Scale',
+                          labelStyle: GoogleFonts.dmSans(
+                            color: Colors.black,
+                            height: 0.5,
+                            fontSize: 15 * fontSizefactor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          focusColor: blackfont,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: blackfont, width: .5)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: blackfont, width: .5)),
+                          // Add Horizontal padding using menuItemStyleData.padding so it matches
+                          // the menu padding when button's width is not specified.
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: blackfont,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          // Add more decoration..
+                        ),
+                        hint: Text(
+                          applicantDetailsList.salaryScaleController == null
+                              ? 'Salary Scale'
+                              : applicantDetailsList.salaryScaleController
+                                  .toString(),
+                          style: GoogleFonts.dmSans(
+                              fontSize: 14 * fontSizefactor,
+                              color: blackfont,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        items: letters.map((letter) {
+                          return DropdownMenuItem(
+                            value: letter,
+                            child: Text(letter),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            applicantDetailsList.salaryScaleController =
+                                value.toString();
+                            selectedLetter = value;
+                          });
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: IconStyleData(
+                          icon: Icon(Icons.arrow_drop_down, color: blackfont),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.grossSalaryController,
+                      labelText: 'Gross Salary',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter gross salary';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits';
+                        }
+                        return null;
                       },
                     ),
-                    value: applicantDetailsList
-                        .preferredYearOfRetirementController,
-                    onChanged: (String? value) {
-                      setState(() {
-                        applicantDetailsList
-                            .preferredYearOfRetirementController = value;
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: applicantDetailsList
-                                          .preferredYearOfRetirementController ==
-                                      null
-                                  ? Colors.red
-                                  : Colors.grey,
-                              width: 1 * widthFactor),
-                          borderRadius: BorderRadius.circular(4)),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller:
+                          applicantDetailsList.currentNetSalaryController,
+                      labelText: 'Current Net Salary',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter current net salary';
+                        }
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Please enter only digits';
+                        }
+                        return null;
+                      },
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                  child: CustomTextFormField(
-                fontSizeFactor: fontSizefactor,
-                widthFactor: widthFactor,
-                controller: applicantDetailsList.employeeNumberController,
-                labelText: 'Employee Number',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter employee number';
-                  }
-                  if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
-                    return 'Only letters and numbers are allowed';
-                  }
-                  return null;
-                },
-              )),
-              SizedBox(width: 40.0 * widthFactor),
-              Expanded(
-                child: DropdownButtonFormField2<String>(
-                  isExpanded: true,
-                  decoration: InputDecoration(
-                    labelText: 'Years in Employment',
-                    labelStyle: GoogleFonts.dmSans(
-                      color: Colors.black,
-                      height: 0.5,
-                      fontSize: 15 * fontSizefactor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    focusColor: blackfont,
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackfont, width: .5)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: blackfont, width: .5)),
-                    // Add Horizontal padding using menuItemStyleData.padding so it matches
-                    // the menu padding when button's width is not specified.
-                    contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: blackfont,
+                    SizedBox(height: 15.0 * widthFactor),
+                    DropdownButtonFormField2<String>(
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        labelText: 'Salary Scale',
+                        labelStyle: GoogleFonts.dmSans(
+                          color: Colors.black,
+                          height: 0.5,
+                          fontSize: 15 * fontSizefactor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        focusColor: blackfont,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: blackfont, width: .5)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: blackfont, width: .5)),
+                        // Add Horizontal padding using menuItemStyleData.padding so it matches
+                        // the menu padding when button's width is not specified.
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 16 * widthFactor),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: blackfont,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        // Add more decoration..
                       ),
-                      borderRadius: BorderRadius.circular(8),
+                      hint: Text(
+                        applicantDetailsList.salaryScaleController == null
+                            ? 'Salary Scale'
+                            : applicantDetailsList.salaryScaleController
+                                .toString(),
+                        style: GoogleFonts.dmSans(
+                            fontSize: 14 * fontSizefactor,
+                            color: blackfont,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      items: letters.map((letter) {
+                        return DropdownMenuItem(
+                          value: letter,
+                          child: Text(
+                            letter,
+                            style: TextStyle(fontSize: 15 * fontSizefactor),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          applicantDetailsList.salaryScaleController =
+                              value.toString();
+                          selectedLetter = value;
+                        });
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.only(right: 8),
+                      ),
+                      iconStyleData: IconStyleData(
+                        icon: Icon(Icons.arrow_drop_down, color: blackfont),
+                        iconSize: 24,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      menuItemStyleData: MenuItemStyleData(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16 * widthFactor),
+                      ),
                     ),
-                    // Add more decoration..
-                  ),
-                  hint: Text(
-                    applicantDetailsList.yearsInEmploymentController == null
-                        ? 'Years in Employment'
-                        : applicantDetailsList.yearsInEmploymentController
-                            .toString(),
-                    style: GoogleFonts.dmSans(
-                        fontSize: 14 * fontSizefactor,
-                        color: blackfont,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  items: yearsList.map((letter) {
-                    return DropdownMenuItem(
-                      value: letter,
-                      child: Text(letter),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      applicantDetailsList.yearsInEmploymentController =
-                          value.toString();
-                    });
-                  },
-                  buttonStyleData: const ButtonStyleData(
-                    padding: EdgeInsets.only(right: 8),
-                  ),
-                  iconStyleData: IconStyleData(
-                    icon: Icon(Icons.arrow_drop_down, color: blackfont),
-                    iconSize: 24,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                  ),
+                  ],
                 ),
-              ),
-            ],
+          SizedBox(
+            height: 30 * widthFactor,
           ),
+          fontSizefactor == 1
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          hint: Text(
+                            applicantDetailsList
+                                        .preferredYearOfRetirementController !=
+                                    null
+                                ? applicantDetailsList
+                                    .preferredYearOfRetirementController
+                                    .toString()
+                                : 'Preferred Year of Retirement',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizefactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: List.generate(
+                            61,
+                            (index) {
+                              final currentYear = DateTime.now().year;
+                              final year = currentYear + index;
+                              return DropdownMenuItem<String>(
+                                value: year.toString(),
+                                child: Text(
+                                  year.toString(),
+                                  style: GoogleFonts.dmSans(
+                                    fontWeight: FontWeight.w500,
+                                    height: .5,
+                                    fontSize: 15 * fontSizefactor,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          value: applicantDetailsList
+                              .preferredYearOfRetirementController,
+                          onChanged: (String? value) {
+                            setState(() {
+                              applicantDetailsList
+                                  .preferredYearOfRetirementController = value;
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: applicantDetailsList
+                                                .preferredYearOfRetirementController ==
+                                            null
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    width: 1 * widthFactor),
+                                borderRadius: BorderRadius.circular(4)),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16 * widthFactor),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                        child: CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.employeeNumberController,
+                      labelText: 'Employee Number',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter employee number';
+                        }
+                        if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+                          return 'Only letters and numbers are allowed';
+                        }
+                        return null;
+                      },
+                    )),
+                    SizedBox(width: 40.0 * widthFactor),
+                    Expanded(
+                      child: DropdownButtonFormField2<String>(
+                        isExpanded: true,
+                        decoration: InputDecoration(
+                          labelText: 'Years in Employment',
+                          labelStyle: GoogleFonts.dmSans(
+                            color: Colors.black,
+                            height: 0.5,
+                            fontSize: 15 * fontSizefactor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          focusColor: blackfont,
+                          enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: blackfont, width: .5)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: blackfont, width: .5)),
+                          // Add Horizontal padding using menuItemStyleData.padding so it matches
+                          // the menu padding when button's width is not specified.
+                          contentPadding:
+                              const EdgeInsets.symmetric(vertical: 16),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: blackfont,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          // Add more decoration..
+                        ),
+                        hint: Text(
+                          applicantDetailsList.yearsInEmploymentController ==
+                                  null
+                              ? 'Years in Employment'
+                              : applicantDetailsList.yearsInEmploymentController
+                                  .toString(),
+                          style: GoogleFonts.dmSans(
+                              fontSize: 14 * fontSizefactor,
+                              color: blackfont,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        items: yearsList.map((letter) {
+                          return DropdownMenuItem(
+                            value: letter,
+                            child: Text(letter),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            applicantDetailsList.yearsInEmploymentController =
+                                value.toString();
+                          });
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          padding: EdgeInsets.only(right: 8),
+                        ),
+                        iconStyleData: IconStyleData(
+                          icon: Icon(Icons.arrow_drop_down, color: blackfont),
+                          iconSize: 24,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        menuItemStyleData: const MenuItemStyleData(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Text(
+                          applicantDetailsList
+                                      .preferredYearOfRetirementController !=
+                                  null
+                              ? applicantDetailsList
+                                  .preferredYearOfRetirementController
+                                  .toString()
+                              : 'Preferred Year of Retirement',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizefactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        items: List.generate(
+                          61,
+                          (index) {
+                            final currentYear = DateTime.now().year;
+                            final year = currentYear + index;
+                            return DropdownMenuItem<String>(
+                              value: year.toString(),
+                              child: Text(
+                                year.toString(),
+                                style: GoogleFonts.dmSans(
+                                  fontWeight: FontWeight.w500,
+                                  height: .5,
+                                  fontSize: 15 * fontSizefactor,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        value: applicantDetailsList
+                            .preferredYearOfRetirementController,
+                        onChanged: (String? value) {
+                          setState(() {
+                            applicantDetailsList
+                                .preferredYearOfRetirementController = value;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: applicantDetailsList
+                                              .preferredYearOfRetirementController ==
+                                          null
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width: 1 * widthFactor),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16 * widthFactor),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizefactor,
+                      widthFactor: widthFactor,
+                      controller: applicantDetailsList.employeeNumberController,
+                      labelText: 'Employee Number',
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter employee number';
+                        }
+                        if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(value)) {
+                          return 'Only letters and numbers are allowed';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15.0 * widthFactor),
+                    DropdownButtonFormField2<String>(
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        labelText: 'Years in Employment',
+                        labelStyle: GoogleFonts.dmSans(
+                          color: Colors.black,
+                          height: 0.5,
+                          fontSize: 15 * fontSizefactor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        focusColor: blackfont,
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: blackfont, width: .5)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: blackfont, width: .5)),
+                        // Add Horizontal padding using menuItemStyleData.padding so it matches
+                        // the menu padding when button's width is not specified.
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 16 * widthFactor),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: blackfont,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        // Add more decoration..
+                      ),
+                      hint: Text(
+                        applicantDetailsList.yearsInEmploymentController == null
+                            ? 'Years in Employment'
+                            : applicantDetailsList.yearsInEmploymentController
+                                .toString(),
+                        style: GoogleFonts.dmSans(
+                            fontSize: 14 * fontSizefactor,
+                            color: blackfont,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      items: yearsList.map((letter) {
+                        return DropdownMenuItem(
+                          value: letter,
+                          child: Text(
+                            letter,
+                            style: TextStyle(fontSize: 14 * fontSizefactor),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          applicantDetailsList.yearsInEmploymentController =
+                              value.toString();
+                        });
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.only(right: 8),
+                      ),
+                      iconStyleData: IconStyleData(
+                        icon: Icon(Icons.arrow_drop_down, color: blackfont),
+                        iconSize: 24,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                    ),
+                  ],
+                ),
           SizedBox(
             height: 30,
           ),

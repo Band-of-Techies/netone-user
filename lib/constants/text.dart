@@ -7,12 +7,14 @@ class CustomText extends StatelessWidget {
   final Color color;
   final double fontSize;
   final FontWeight fontWeight;
+  final double fontSizeFactor;
 
   const CustomText({
     required this.text,
     this.color = Colors.black,
     this.fontSize = 15,
     this.fontWeight = FontWeight.w500,
+    this.fontSizeFactor = 1,
   });
 
   @override
@@ -21,7 +23,7 @@ class CustomText extends StatelessWidget {
       text,
       style: GoogleFonts.dmSans(
         color: color,
-        fontSize: fontSize,
+        fontSize: fontSize * fontSizeFactor,
         fontWeight: fontWeight,
       ),
     );

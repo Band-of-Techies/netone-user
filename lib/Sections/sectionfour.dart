@@ -44,166 +44,251 @@ class _SectionFourState extends State<SectionFour>
   Widget build(BuildContext context) {
     final myTabController = Provider.of<MyTabController>(context);
     final numberOfPersons = widget.myTabController.numberOfPersons;
+    double fontSizeFactor = 1.0;
+    double widthFactor = 1.0;
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth <= 600) {
+        fontSizeFactor = .7;
+        widthFactor = .7;
+      }
+      return Scaffold(
+        body: isloadiing == false
+            ? Padding(
+                padding: EdgeInsets.all(20 * widthFactor),
+                child: ListView(
+                  children: [
+                    CustomText(
+                      text: 'Part 1 ',
+                      color: blackfont,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 5 * widthFactor,
+                    ),
+                    CustomText(
+                      text: 'Applicant Details',
+                      color: primary,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    applicantDetails(
+                        myTabController, 0, widthFactor, fontSizeFactor),
 
-    return Scaffold(
-      body: isloadiing == false
-          ? Padding(
-              padding: EdgeInsets.all(20),
-              child: ListView(
-                children: [
-                  CustomText(
-                    text: 'Part 1 ',
-                    color: blackfont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CustomText(
-                    text: 'Applicant Details',
-                    color: primary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  applicantDetails(myTabController, 0),
+                    if (numberOfPersons > 1)
+                      applicantDetails(
+                          myTabController, 1, widthFactor, fontSizeFactor),
 
-                  if (numberOfPersons > 1) applicantDetails(myTabController, 1),
+                    if (numberOfPersons > 2)
+                      applicantDetails(
+                          myTabController, 2, widthFactor, fontSizeFactor),
 
-                  if (numberOfPersons > 2) applicantDetails(myTabController, 2),
+                    if (numberOfPersons > 3)
+                      applicantDetails(
+                          myTabController, 3, widthFactor, fontSizeFactor),
 
-                  if (numberOfPersons > 3) applicantDetails(myTabController, 3),
+                    // Display other details as needed
 
-                  // Display other details as needed
+                    // Display details from Section Two
+                    CustomText(
+                      text: 'Part 2',
+                      color: blackfont,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 5 * widthFactor,
+                    ),
+                    CustomText(
+                      text: 'Employment Details',
+                      color: primary,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    employmentDetals(
+                        myTabController, 0, widthFactor, fontSizeFactor),
+                    if (numberOfPersons > 1)
+                      employmentDetals(
+                          myTabController, 1, widthFactor, fontSizeFactor),
+                    if (numberOfPersons > 2)
+                      employmentDetals(
+                          myTabController, 2, widthFactor, fontSizeFactor),
+                    if (numberOfPersons > 3)
+                      employmentDetals(
+                          myTabController, 3, widthFactor, fontSizeFactor),
+                    CustomText(
+                      text: 'Part 3',
+                      color: blackfont,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 5 * widthFactor,
+                    ),
+                    CustomText(
+                      text: 'Loan Details',
+                      color: primary,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    loanDetails(myTabController, widthFactor, fontSizeFactor),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    CustomText(
+                      text: 'Bank Details - Applicant 1',
+                      color: primary,
+                      fontSize: 16 * fontSizeFactor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    bankdetails(myTabController, widthFactor, fontSizeFactor),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    fontSizeFactor == 1
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .48,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                buttondarkbg),
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.all(15))),
+                                    onPressed: () {
+                                      //printApplicantDetails();
 
-                  // Display details from Section Two
-                  CustomText(
-                    text: 'Part 2',
-                    color: blackfont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CustomText(
-                    text: 'Employment Details',
-                    color: primary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  employmentDetals(myTabController, 0),
-                  if (numberOfPersons > 1) employmentDetals(myTabController, 1),
-                  if (numberOfPersons > 2) employmentDetals(myTabController, 2),
-                  if (numberOfPersons > 3) employmentDetals(myTabController, 3),
-                  CustomText(
-                    text: 'Part 3',
-                    color: blackfont,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CustomText(
-                    text: 'Loan Details',
-                    color: primary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  loanDetails(myTabController),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomText(
-                    text: 'Bank Details - Applicant 1',
-                    color: primary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  bankdetails(myTabController),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .48,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(buttondarkbg),
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.all(15))),
-                            onPressed: () {
-                              //printApplicantDetails();
+                                      widget._tabController.animateTo(
+                                          widget._tabController.index - 1);
 
-                              widget._tabController
-                                  .animateTo(widget._tabController.index - 1);
+                                      //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                      //  DefaultTabController.of(context)?.animateTo(1);
+                                      // if (_formKey.currentState!.validate()) {
+                                      //   // Form is valid, move to the next section
 
-                              //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                              //  DefaultTabController.of(context)?.animateTo(1);
-                              // if (_formKey.currentState!.validate()) {
-                              //   // Form is valid, move to the next section
+                                      // }
+                                    },
+                                    child: CustomText(
+                                      text: 'Previous',
+                                      color: whitefont,
+                                      fontSize: 16 * fontSizeFactor,
+                                      fontWeight: FontWeight.w700,
+                                    )),
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .48,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(primary),
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.all(15))),
+                                    onPressed: () {
+                                      // submitsForm(widget.myTabController);
+                                      sendLoanRequest(
+                                          widget
+                                              .myTabController.numberOfPersons,
+                                          myTabController);
+                                    },
+                                    child: CustomText(
+                                      text: 'Submit',
+                                      color: whitefont,
+                                      fontSize: 16 * fontSizeFactor,
+                                      fontWeight: FontWeight.w700,
+                                    )),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .9,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                buttondarkbg),
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.all(15))),
+                                    onPressed: () {
+                                      //printApplicantDetails();
 
-                              // }
-                            },
-                            child: CustomText(
-                              text: 'Previous',
-                              color: whitefont,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            )),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * .48,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(primary),
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.all(15))),
-                            onPressed: () {
-                              // submitsForm(widget.myTabController);
-                              sendLoanRequest(
-                                  widget.myTabController.numberOfPersons,
-                                  myTabController);
-                            },
-                            child: CustomText(
-                              text: 'Submit',
-                              color: whitefont,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            )),
-                      ),
-                    ],
-                  ),
-                ],
+                                      widget._tabController.animateTo(
+                                          widget._tabController.index - 1);
+
+                                      //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                      //  DefaultTabController.of(context)?.animateTo(1);
+                                      // if (_formKey.currentState!.validate()) {
+                                      //   // Form is valid, move to the next section
+
+                                      // }
+                                    },
+                                    child: CustomText(
+                                      text: 'Previous',
+                                      color: whitefont,
+                                      fontSize: 16 * fontSizeFactor,
+                                      fontWeight: FontWeight.w700,
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 10 * widthFactor,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .9,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(primary),
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.all(15))),
+                                    onPressed: () {
+                                      // submitsForm(widget.myTabController);
+                                      sendLoanRequest(
+                                          widget
+                                              .myTabController.numberOfPersons,
+                                          myTabController);
+                                    },
+                                    child: CustomText(
+                                      text: 'Submit',
+                                      color: whitefont,
+                                      fontSize: 16 * fontSizeFactor,
+                                      fontWeight: FontWeight.w700,
+                                    )),
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+              )
+            : Center(
+                child: CircularProgressIndicator(color: primary),
               ),
-            )
-          : Center(
-              child: CircularProgressIndicator(color: primary),
-            ),
-    );
+      );
+    });
   }
 
-  Container applicantDetails(MyTabController myTabController, int i) {
+  Container applicantDetails(MyTabController myTabController, int i,
+      double widthFactor, double fontSizeFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(80, 252, 227, 194),
           borderRadius: BorderRadius.circular(20)),
@@ -213,14 +298,16 @@ class _SectionFourState extends State<SectionFour>
           children: [
             CustomText(
               text: 'Applicant ${i + 1}',
+              fontSize: 18 * fontSizeFactor,
               fontWeight: FontWeight.w700,
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Surname: ${myTabController.applicants[i].surnameController.text}',
                 ),
@@ -228,6 +315,7 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Middle Name: ${myTabController.applicants[i].middleNameController.text}',
                 ),
@@ -235,17 +323,19 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'First Name: ${myTabController.applicants[i].firstNameController.text}',
                 )
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text: myTabController.applicants[i].gender == null
                       ? 'Gender:'
                       : 'Gender: ${myTabController.applicants[i].gender}',
@@ -254,6 +344,7 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Date of Birth: ${myTabController.applicants[i].dobController.text}',
                 ),
@@ -261,17 +352,19 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'NRC Number: ${myTabController.applicants[i].nrcController.text}',
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Telephone: ${myTabController.applicants[i].telephoneController.text}',
                 ),
@@ -279,6 +372,7 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Mobile: ${myTabController.applicants[i].mobileController.text}',
                 ),
@@ -286,17 +380,19 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Email: ${myTabController.applicants[i].emailController.text}',
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Driving Licnese Number: ${myTabController.applicants[i].licenseNumberController.text}',
                 ),
@@ -304,17 +400,19 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Licnese Exp Date: ${myTabController.applicants[i].licenseExpiryController.text}',
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Resedential Address: ${myTabController.applicants[i].residentialAddressController.text}',
                 ),
@@ -322,6 +420,7 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text: myTabController.applicants[i].ownership == null
                       ? 'Ownership:'
                       : 'Ownership: ${myTabController.applicants[i].ownership}',
@@ -330,17 +429,19 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'How long this place: ${myTabController.applicants[i].howlongthisplaceController.text}',
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Postal Address: ${myTabController.applicants[i].postalAddressController.text}',
                 ),
@@ -348,6 +449,7 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text: myTabController.applicants[i].townController == null
                       ? 'Town:'
                       : 'Town: ${myTabController.applicants[i].townController}',
@@ -356,6 +458,7 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text: myTabController.applicants[i].provinceController == null
                       ? 'Province'
                       : 'Province: ${myTabController.applicants[i].provinceController}',
@@ -479,36 +582,51 @@ class _SectionFourState extends State<SectionFour>
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'Signature'),
+                  CustomText(
+                    text: 'Signature',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].signature,
-                      widget.myTabController.applicants[i].signatureName),
+                      widget.myTabController.applicants[i].signatureName,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
             if (widget.myTabController.applicants[i].paysliponeFiles.isNotEmpty)
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'Payslip - 1'),
+                  CustomText(
+                    text: 'Payslip - 1',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].paysliponeFiles,
-                      widget.myTabController.applicants[i].paysliponeFileNames),
+                      widget.myTabController.applicants[i].paysliponeFileNames,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
             if (widget.myTabController.applicants[i].paysliptwoFiles.isNotEmpty)
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'Payslip - 2'),
+                  CustomText(
+                    text: 'Payslip - 2',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].paysliptwoFiles,
-                      widget.myTabController.applicants[i].paysliptwoFileNames),
+                      widget.myTabController.applicants[i].paysliptwoFileNames,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
             if (widget
@@ -516,13 +634,18 @@ class _SectionFourState extends State<SectionFour>
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'Payslip - 3'),
+                  CustomText(
+                    text: 'Payslip - 3',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].payslipthreeFiles,
                       widget
-                          .myTabController.applicants[i].payslipthreeFileNames),
+                          .myTabController.applicants[i].payslipthreeFileNames,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
             if (widget
@@ -530,13 +653,17 @@ class _SectionFourState extends State<SectionFour>
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'Introductory Letter from Employer'),
+                  CustomText(
+                    text: 'Introductory Letter from Employer',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].intodletterFiles,
-                      widget
-                          .myTabController.applicants[i].introletterFileNames),
+                      widget.myTabController.applicants[i].introletterFileNames,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
             if (widget
@@ -544,35 +671,47 @@ class _SectionFourState extends State<SectionFour>
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'Bank Statement'),
+                  CustomText(
+                    text: 'Bank Statement',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].bankStatementFiles,
-                      widget.myTabController.applicants[i]
-                          .bankStatementFileNames),
+                      widget
+                          .myTabController.applicants[i].bankStatementFileNames,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
             if (widget.myTabController.applicants[i].nrcFiles.isNotEmpty)
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  CustomText(text: 'NRC'),
+                  CustomText(
+                    text: 'NRC',
+                    fontSizeFactor: fontSizeFactor,
+                  ),
                   attachedDocs(
                       myTabController,
                       i,
                       widget.myTabController.applicants[i].nrcFiles,
-                      widget.myTabController.applicants[i].nrcFileNames),
+                      widget.myTabController.applicants[i].nrcFileNames,
+                      fontSizeFactor,
+                      widthFactor),
                 ],
               ),
           ]),
     );
   }
 
-  Container employmentDetals(MyTabController myTabController, int i) {
+  Container employmentDetals(MyTabController myTabController, int i,
+      double widthFactor, double fontSizeFactor) {
     return Container(
-        margin: EdgeInsets.only(bottom: 30),
-        padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+        margin: EdgeInsets.only(bottom: 30 * widthFactor),
+        padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+            20 * widthFactor, 25 * widthFactor),
         decoration: BoxDecoration(
             color: Color.fromARGB(80, 242, 254, 187),
             borderRadius: BorderRadius.circular(20)),
@@ -581,15 +720,17 @@ class _SectionFourState extends State<SectionFour>
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CustomText(
+                fontSize: 16 * fontSizeFactor,
                 text: 'Employment Details Applicant: ${i + 1}',
                 fontWeight: FontWeight.w700,
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               Wrap(
                 children: [
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Job Title: ${myTabController.employmentDetailsList[i].jobTitleController.text}',
                   ),
@@ -597,17 +738,19 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Ministry: ${myTabController.employmentDetailsList[i].ministryController.text}',
                   ),
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               Wrap(
                 children: [
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Physical Address: ${myTabController.employmentDetailsList[i].physicalAddressControlleremployment.text}',
                   ),
@@ -615,17 +758,19 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Postal Address: ${myTabController.employmentDetailsList[i].postalAddressControllerEmployment.text}',
                   ),
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               Wrap(
                 children: [
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text: myTabController
                                 .employmentDetailsList[i].townController ==
                             null
@@ -636,6 +781,7 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text: myTabController
                                 .employmentDetailsList[i].provinceController ==
                             null
@@ -645,18 +791,20 @@ class _SectionFourState extends State<SectionFour>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               Wrap(
                 children: [
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Gross Salary: ${myTabController.employmentDetailsList[i].grossSalaryController.text}',
                   ),
                   SizedBox(
-                    width: 30,
+                    width: 30 * widthFactor,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text: myTabController.employmentDetailsList[i]
                                 .currentNetSalaryController.text ==
                             null
@@ -667,6 +815,7 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text: myTabController.employmentDetailsList[i]
                                 .salaryScaleController ==
                             null
@@ -676,11 +825,12 @@ class _SectionFourState extends State<SectionFour>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               Wrap(
                 children: [
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text: myTabController.employmentDetailsList[i]
                                 .preferredYearOfRetirementController ==
                             null
@@ -691,6 +841,7 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Employee Number: ${myTabController.employmentDetailsList[i].employeeNumberController.text}',
                   ),
@@ -698,6 +849,7 @@ class _SectionFourState extends State<SectionFour>
                     width: 30,
                   ),
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text: myTabController.employmentDetailsList[i]
                                 .yearsInEmploymentController ==
                             null
@@ -707,11 +859,12 @@ class _SectionFourState extends State<SectionFour>
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 20 * widthFactor,
               ),
               Wrap(
                 children: [
                   CustomText(
+                    fontSize: 15 * fontSizeFactor,
                     text:
                         'Employemnt Type: ${myTabController.employmentDetailsList[i].employmentType}',
                   ),
@@ -721,6 +874,7 @@ class _SectionFourState extends State<SectionFour>
                   if (myTabController.employmentDetailsList[i].employmentType ==
                       'contract')
                     CustomText(
+                      fontSize: 15 * fontSizeFactor,
                       text:
                           'Expiry Date: ${myTabController.employmentDetailsList[i].expiryDateController.text}',
                     ),
@@ -729,10 +883,12 @@ class _SectionFourState extends State<SectionFour>
             ]));
   }
 
-  Container loanDetails(MyTabController myTabController) {
+  Container loanDetails(MyTabController myTabController, double widthFactor,
+      double fontSizeFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(80, 199, 193, 185),
           borderRadius: BorderRadius.circular(20)),
@@ -741,40 +897,45 @@ class _SectionFourState extends State<SectionFour>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
+            fontSize: 15 * fontSizeFactor,
             text: myTabController.loanDetails.loancategory == null
                 ? 'Loan Product Applied for:'
                 : 'Loan  Applied for: ${myTabController.loanDetails.loancategory}',
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
           Wrap(
             children: [
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text: 'Products',
               ),
               for (int i = 0;
                   i < myTabController.loanDetails.chosenProductIds.length;
                   i++)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       '${myTabController.loanDetails.chosenProductNames[i]}(${myTabController.loanDetails.quantity[i]})',
                 ),
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
           CustomText(
+            fontSize: 15 * fontSizeFactor,
             text:
                 'Description: ${myTabController.loanDetails.descriptionController.text}',
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
           Wrap(
             children: [
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text:
                     'Total cost of asset: ${myTabController.loanDetails.costofasset.text}',
               ),
@@ -782,6 +943,7 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text:
                     'Total Insurance Cost: ${myTabController.loanDetails.insurancecost.text}',
               ),
@@ -789,6 +951,7 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text:
                     'Less Advance Payment: ${myTabController.loanDetails.advancepayment.text}',
               ),
@@ -796,6 +959,7 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text:
                     'Loan Amount Applied for: ${myTabController.loanDetails.loanamaountapplied.text}',
               ),
@@ -803,6 +967,7 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text: myTabController.loanDetails.tenure == null
                     ? 'Tenure:'
                     : 'Tenure: ${myTabController.loanDetails.tenure}',
@@ -810,11 +975,12 @@ class _SectionFourState extends State<SectionFour>
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
           Wrap(
             children: [
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text:
                     'First Applicant: ${myTabController.applicants[0].loanapplicantname.text}',
               ),
@@ -822,6 +988,7 @@ class _SectionFourState extends State<SectionFour>
                 width: 30,
               ),
               CustomText(
+                fontSize: 15 * fontSizeFactor,
                 text:
                     'First Applicant Loan Propotion: ${myTabController.applicants[0].loanapplicantpercentage.text}',
               ),
@@ -830,6 +997,7 @@ class _SectionFourState extends State<SectionFour>
               ),
               if (myTabController.numberOfPersons > 1)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Second Applicant: ${myTabController.applicants[1].loanapplicantname.text}',
                 ),
@@ -838,18 +1006,20 @@ class _SectionFourState extends State<SectionFour>
               ),
               if (myTabController.numberOfPersons > 1)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Second Applicant Loan Propotion: ${myTabController.applicants[1].loanapplicantpercentage.text}',
                 ),
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 20 * widthFactor,
           ),
           Wrap(
             children: [
               if (myTabController.numberOfPersons > 2)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Third Applicant: ${myTabController.applicants[2].loanapplicantname.text}',
                 ),
@@ -858,6 +1028,7 @@ class _SectionFourState extends State<SectionFour>
               ),
               if (myTabController.numberOfPersons > 2)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Third Applicant Loan Propotion: ${myTabController.applicants[2].loanapplicantpercentage.text}',
                 ),
@@ -866,6 +1037,7 @@ class _SectionFourState extends State<SectionFour>
               ),
               if (myTabController.numberOfPersons > 3)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Fourth Applicant: ${myTabController.applicants[3].loanapplicantname.text}',
                 ),
@@ -874,6 +1046,7 @@ class _SectionFourState extends State<SectionFour>
               ),
               if (myTabController.numberOfPersons > 3)
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Fourth Applicant Loan Propotion: ${myTabController.applicants[3].loanapplicantpercentage.text}',
                 ),
@@ -884,10 +1057,12 @@ class _SectionFourState extends State<SectionFour>
     );
   }
 
-  Container bankdetails(MyTabController myTabController) {
+  Container bankdetails(MyTabController myTabController, double widthFactor,
+      double fontSizeFactor) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      padding: EdgeInsets.fromLTRB(20, 25, 20, 25),
+      margin: EdgeInsets.only(bottom: 30 * widthFactor),
+      padding: EdgeInsets.fromLTRB(20 * widthFactor, 25 * widthFactor,
+          20 * widthFactor, 25 * widthFactor),
       decoration: BoxDecoration(
           color: Color.fromARGB(80, 199, 193, 185),
           borderRadius: BorderRadius.circular(20)),
@@ -901,6 +1076,7 @@ class _SectionFourState extends State<SectionFour>
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Bank Name: ${myTabController.loanDetails.bankname.text}',
                 ),
@@ -908,17 +1084,19 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Branch Name: ${myTabController.loanDetails.branchname.text}',
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             Wrap(
               children: [
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Sortcode: ${myTabController.loanDetails.sortcode.text}',
                 ),
@@ -926,15 +1104,17 @@ class _SectionFourState extends State<SectionFour>
                   width: 30,
                 ),
                 CustomText(
+                  fontSize: 15 * fontSizeFactor,
                   text:
                       'Branch Acc No: ${myTabController.loanDetails.accountnumber.text}',
                 ),
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 20 * widthFactor,
             ),
             CustomText(
+              fontSize: 15 * fontSizeFactor,
               text:
                   'Bank Name and Full Address: ${myTabController.loanDetails.nameandbankaddress.text}',
             ),
@@ -942,11 +1122,16 @@ class _SectionFourState extends State<SectionFour>
     );
   }
 
-  Container attachedDocs(MyTabController myTabController, int i,
-      List<Uint8List> files, List<String> filenames) {
+  Container attachedDocs(
+      MyTabController myTabController,
+      int i,
+      List<Uint8List> files,
+      List<String> filenames,
+      double fontsizefactor,
+      double widthfactor) {
     print(files.length);
     return Container(
-        width: MediaQuery.of(context).size.width * .7,
+        width: MediaQuery.of(context).size.width * .7 * widthfactor,
         child: Wrap(
           children: List.generate(
             files.length,
@@ -958,8 +1143,8 @@ class _SectionFourState extends State<SectionFour>
 
               return Container(
                 margin: EdgeInsets.all(10),
-                width: 300,
-                height: 60,
+                width: 300 * widthfactor,
+                height: 60 * widthfactor,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -976,8 +1161,8 @@ class _SectionFourState extends State<SectionFour>
                               html.window.open(url, '_blank');
                             },
                             child: Container(
-                              width: 300,
-                              height: 50,
+                              width: 300 * widthfactor,
+                              height: 50 * widthfactor,
                               decoration: BoxDecoration(
                                 border: Border.all(color: blackfont),
                                 borderRadius: BorderRadius.circular(5),
@@ -985,10 +1170,10 @@ class _SectionFourState extends State<SectionFour>
                               ),
                               child: Image.memory(
                                 fileBytes,
-                                width:
-                                    300, // Set the width of the image as per your requirement
-                                height:
-                                    50, // Set the height of the image as per your requirement
+                                width: 300 *
+                                    widthfactor, // Set the width of the image as per your requirement
+                                height: 50 *
+                                    widthfactor, // Set the height of the image as per your requirement
                                 fit: BoxFit
                                     .cover, // Adjust this based on your image requirements
                               ),
@@ -1005,8 +1190,8 @@ class _SectionFourState extends State<SectionFour>
                               html.window.open(url, '_blank');
                             },
                             child: Container(
-                              width: 300,
-                              height: 50,
+                              width: 300 * widthfactor,
+                              height: 50 * widthfactor,
                               decoration: BoxDecoration(
                                 border: Border.all(color: blackfont),
                                 borderRadius: BorderRadius.circular(5),
@@ -1015,7 +1200,7 @@ class _SectionFourState extends State<SectionFour>
                               child: Row(
                                 children: [
                                   SizedBox(
-                                    width: 20,
+                                    width: 20 * widthfactor,
                                   ),
                                   Icon(
                                     Icons.picture_as_pdf,
@@ -1025,7 +1210,9 @@ class _SectionFourState extends State<SectionFour>
                               ),
                             ),
                           ),
-                    SizedBox(height: 8.0), // Add spacing between image and text
+                    SizedBox(
+                        height: 8.0 *
+                            widthfactor), // Add spacing between image and text
 
                     // Display file name with overflow handling
                     Flexible(
@@ -1034,7 +1221,7 @@ class _SectionFourState extends State<SectionFour>
                         overflow: TextOverflow.ellipsis,
                         // Adjust the maximum lines based on your UI requirements
                         style: GoogleFonts.dmSans(
-                          fontSize: 14,
+                          fontSize: 14 * fontsizefactor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -1531,7 +1718,9 @@ class _SectionFourState extends State<SectionFour>
   //   }
   // }
 
-  warning(String message) {
+  warning(
+    String message,
+  ) {
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         width: MediaQuery.of(context).size.width * .7,
         backgroundColor: whitefont,

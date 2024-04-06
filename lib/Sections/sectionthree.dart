@@ -131,119 +131,292 @@ class _SectionThreeState extends State<SectionThree>
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * .48,
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(buttondarkbg),
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.all(15 * widthFactor))),
-                                onPressed: () {
-                                  myTabController.loanDetails = loadndetails;
-                                  //printApplicantDetails();
-                                  if (widget._tabController.index <
-                                      widget._tabController.length - 1) {
-                                    widget._tabController.animateTo(
-                                        widget._tabController.index - 1);
-                                  } else {
-                                    // Handle the case when the last tab is reached
-                                  }
-                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                                  //  DefaultTabController.of(context)?.animateTo(1);
-                                  // if (_formKey.currentState!.validate()) {
-                                  //   // Form is valid, move to the next section
-
-                                  // }
-                                },
-                                child: CustomText(
-                                  text: 'Previous',
-                                  color: whitefont,
-                                  fontSize: 16 * fontSizeFactor,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * .48,
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(primary),
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.all(15))),
-                                onPressed: () {
-                                  bool attatchment = false;
-                                  for (int i = 0;
-                                      i <
-                                          widget
-                                              .myTabController.numberOfPersons;
-                                      i++) {
-                                    if (widget.myTabController.applicants[i]
-                                            .paysliponeFiles.isNotEmpty &&
-                                        widget.myTabController.applicants[i]
-                                            .paysliptwoFiles.isNotEmpty &&
-                                        widget.myTabController.applicants[i]
-                                            .paysliponeFiles.isNotEmpty &&
-                                        widget.myTabController.applicants[i]
-                                            .intodletterFiles.isNotEmpty &&
-                                        widget.myTabController.applicants[i]
-                                            .bankStatementFiles.isNotEmpty &&
-                                        widget.myTabController.applicants[i]
-                                            .nrcFiles.isNotEmpty) {
-                                      setState(() {
-                                        attatchment = true;
-                                      });
-                                    }
-                                  }
-                                  if (_formKey.currentState!.validate()) {
-                                    if (validateTenure(loadndetails)) {
-                                      if (loadndetails
-                                          .chosenProductIds.isNotEmpty) {
-                                        if (attatchment == true) {
-                                          myTabController.loanDetails =
-                                              loadndetails;
-                                          //printApplicantDetails();
-                                          if (widget._tabController.index <
-                                              widget._tabController.length -
-                                                  1) {
-                                            widget._tabController.animateTo(
-                                                widget._tabController.index +
-                                                    1);
-                                          } else {
-                                            // Handle the case when the last tab is reached
-                                          }
+                      fontSizeFactor == 1
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * .48,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  buttondarkbg),
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.all(
+                                                  15 * widthFactor))),
+                                      onPressed: () {
+                                        myTabController.loanDetails =
+                                            loadndetails;
+                                        //printApplicantDetails();
+                                        if (widget._tabController.index <
+                                            widget._tabController.length - 1) {
+                                          widget._tabController.animateTo(
+                                              widget._tabController.index - 1);
                                         } else {
-                                          warning('Attatch all documents',
-                                              fontSizeFactor);
+                                          // Handle the case when the last tab is reached
                                         }
-                                      } else {
-                                        warning(
-                                            'Choose a product', fontSizeFactor);
-                                      }
-                                    } else {
-                                      warning('Select Tenure', fontSizeFactor);
-                                    }
-                                  }
+                                        //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                        //  DefaultTabController.of(context)?.animateTo(1);
+                                        // if (_formKey.currentState!.validate()) {
+                                        //   // Form is valid, move to the next section
 
-                                  //widget.myTabController.updateNumberOfPersons(numberOfPersons);
-                                  //  DefaultTabController.of(context)?.animateTo(1);
-                                  // if (_formKey.currentState!.validate()) {
-                                  //   // Form is valid, move to the next section
+                                        // }
+                                      },
+                                      child: CustomText(
+                                        text: 'Previous',
+                                        color: whitefont,
+                                        fontSize: 16 * fontSizeFactor,
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * .48,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  primary),
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.all(15))),
+                                      onPressed: () {
+                                        bool attatchment = false;
+                                        for (int i = 0;
+                                            i <
+                                                widget.myTabController
+                                                    .numberOfPersons;
+                                            i++) {
+                                          if (widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .paysliponeFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .paysliptwoFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .paysliponeFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .intodletterFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .bankStatementFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .nrcFiles
+                                                  .isNotEmpty) {
+                                            setState(() {
+                                              attatchment = true;
+                                            });
+                                          }
+                                        }
+                                        if (_formKey.currentState!.validate()) {
+                                          if (validateTenure(loadndetails)) {
+                                            if (loadndetails
+                                                .chosenProductIds.isNotEmpty) {
+                                              if (attatchment == true) {
+                                                myTabController.loanDetails =
+                                                    loadndetails;
+                                                //printApplicantDetails();
+                                                if (widget
+                                                        ._tabController.index <
+                                                    widget._tabController
+                                                            .length -
+                                                        1) {
+                                                  widget._tabController
+                                                      .animateTo(widget
+                                                              ._tabController
+                                                              .index +
+                                                          1);
+                                                } else {
+                                                  // Handle the case when the last tab is reached
+                                                }
+                                              } else {
+                                                warning('Attatch all documents',
+                                                    fontSizeFactor);
+                                              }
+                                            } else {
+                                              warning('Choose a product',
+                                                  fontSizeFactor);
+                                            }
+                                          } else {
+                                            warning('Select Tenure',
+                                                fontSizeFactor);
+                                          }
+                                        }
 
-                                  // }
-                                },
-                                child: CustomText(
-                                  text: 'Next',
-                                  color: whitefont,
-                                  fontSize: 16 * fontSizeFactor,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                          ),
-                        ],
-                      ),
+                                        //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                        //  DefaultTabController.of(context)?.animateTo(1);
+                                        // if (_formKey.currentState!.validate()) {
+                                        //   // Form is valid, move to the next section
+
+                                        // }
+                                      },
+                                      child: CustomText(
+                                        text: 'Next',
+                                        color: whitefont,
+                                        fontSize: 16 * fontSizeFactor,
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
+                              ],
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * .9,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  buttondarkbg),
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.all(
+                                                  15 * widthFactor))),
+                                      onPressed: () {
+                                        myTabController.loanDetails =
+                                            loadndetails;
+                                        //printApplicantDetails();
+                                        if (widget._tabController.index <
+                                            widget._tabController.length - 1) {
+                                          widget._tabController.animateTo(
+                                              widget._tabController.index - 1);
+                                        } else {
+                                          // Handle the case when the last tab is reached
+                                        }
+                                        //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                        //  DefaultTabController.of(context)?.animateTo(1);
+                                        // if (_formKey.currentState!.validate()) {
+                                        //   // Form is valid, move to the next section
+
+                                        // }
+                                      },
+                                      child: CustomText(
+                                        text: 'Previous',
+                                        color: whitefont,
+                                        fontSize: 16 * fontSizeFactor,
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: 10 * widthFactor,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * .9,
+                                  child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  primary),
+                                          padding: MaterialStateProperty.all(
+                                              EdgeInsets.all(15))),
+                                      onPressed: () {
+                                        bool attatchment = false;
+                                        for (int i = 0;
+                                            i <
+                                                widget.myTabController
+                                                    .numberOfPersons;
+                                            i++) {
+                                          if (widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .paysliponeFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .paysliptwoFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .paysliponeFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .intodletterFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .bankStatementFiles
+                                                  .isNotEmpty &&
+                                              widget
+                                                  .myTabController
+                                                  .applicants[i]
+                                                  .nrcFiles
+                                                  .isNotEmpty) {
+                                            setState(() {
+                                              attatchment = true;
+                                            });
+                                          }
+                                        }
+                                        if (_formKey.currentState!.validate()) {
+                                          if (validateTenure(loadndetails)) {
+                                            if (loadndetails
+                                                .chosenProductIds.isNotEmpty) {
+                                              if (attatchment == true) {
+                                                myTabController.loanDetails =
+                                                    loadndetails;
+                                                //printApplicantDetails();
+                                                if (widget
+                                                        ._tabController.index <
+                                                    widget._tabController
+                                                            .length -
+                                                        1) {
+                                                  widget._tabController
+                                                      .animateTo(widget
+                                                              ._tabController
+                                                              .index +
+                                                          1);
+                                                } else {
+                                                  // Handle the case when the last tab is reached
+                                                }
+                                              } else {
+                                                warning('Attatch all documents',
+                                                    fontSizeFactor);
+                                              }
+                                            } else {
+                                              warning('Choose a product',
+                                                  fontSizeFactor);
+                                            }
+                                          } else {
+                                            warning('Select Tenure',
+                                                fontSizeFactor);
+                                          }
+                                        }
+
+                                        //widget.myTabController.updateNumberOfPersons(numberOfPersons);
+                                        //  DefaultTabController.of(context)?.animateTo(1);
+                                        // if (_formKey.currentState!.validate()) {
+                                        //   // Form is valid, move to the next section
+
+                                        // }
+                                      },
+                                      child: CustomText(
+                                        text: 'Next',
+                                        color: whitefont,
+                                        fontSize: 16 * fontSizeFactor,
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -296,96 +469,178 @@ class _SectionThreeState extends State<SectionThree>
             SizedBox(
               height: 20 * widthFactor,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextFormField(
-                    fontSizeFactor: fontSizeFactor,
-                    widthFactor: widthFactor,
-                    controller: loadndetails.bankname,
-                    labelText: 'Bank Name',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Bank Name';
-                      }
-                      if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
-                        return 'Invalid Bank Name';
-                      }
-                      return null;
-                    },
+            fontSizeFactor == 1
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextFormField(
+                          fontSizeFactor: fontSizeFactor,
+                          widthFactor: widthFactor,
+                          controller: loadndetails.bankname,
+                          labelText: 'Bank Name',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Bank Name';
+                            }
+                            if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                              return 'Invalid Bank Name';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40 * widthFactor,
+                      ),
+                      Expanded(
+                        child: CustomTextFormField(
+                          fontSizeFactor: fontSizeFactor,
+                          widthFactor: widthFactor,
+                          controller: loadndetails.branchname,
+                          labelText: 'Branch Name',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Branch Name';
+                            }
+                            if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                              return 'Invalid Branch Name';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: loadndetails.bankname,
+                        labelText: 'Bank Name',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Bank Name';
+                          }
+                          if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                            return 'Invalid Bank Name';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 15 * widthFactor,
+                      ),
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: loadndetails.branchname,
+                        labelText: 'Branch Name',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Branch Name';
+                          }
+                          if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                            return 'Invalid Branch Name';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  width: 40 * widthFactor,
-                ),
-                Expanded(
-                  child: CustomTextFormField(
-                    fontSizeFactor: fontSizeFactor,
-                    widthFactor: widthFactor,
-                    controller: loadndetails.branchname,
-                    labelText: 'Branch Name',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Branch Name';
-                      }
-                      if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
-                        return 'Invalid Branch Name';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ],
-            ),
             SizedBox(
               height: 30 * widthFactor,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextFormField(
-                    fontSizeFactor: fontSizeFactor,
-                    widthFactor: widthFactor,
-                    controller: loadndetails.sortcode,
-                    labelText: 'Sortcode',
-                    validator: (value) {
-                      if (value != null && value.isNotEmpty) {
-                        if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
-                          return 'Invalid Sortcode';
-                        }
-                        if (value.length > 6) {
-                          return 'Maximum length is 6 digits';
-                        }
-                      }
-                      return null;
-                    },
+            fontSizeFactor == 1
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: CustomTextFormField(
+                          fontSizeFactor: fontSizeFactor,
+                          widthFactor: widthFactor,
+                          controller: loadndetails.sortcode,
+                          labelText: 'Sortcode',
+                          validator: (value) {
+                            if (value != null && value.isNotEmpty) {
+                              if (!RegExp(r'^[a-zA-Z0-9\s]+$')
+                                  .hasMatch(value)) {
+                                return 'Invalid Sortcode';
+                              }
+                              if (value.length > 6) {
+                                return 'Maximum length is 6 digits';
+                              }
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 40 * widthFactor,
+                      ),
+                      Expanded(
+                        child: CustomTextFormField(
+                          widthFactor: widthFactor,
+                          fontSizeFactor: fontSizeFactor,
+                          controller: loadndetails.accountnumber,
+                          labelText: 'Bank Account Number',
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Bank Acc No';
+                            }
+                            if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                              return 'Invalid Account Number';
+                            }
+                            if (value.length > 13) {
+                              return 'Maximum length is 13 digits';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: loadndetails.sortcode,
+                        labelText: 'Sortcode',
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                              return 'Invalid Sortcode';
+                            }
+                            if (value.length > 6) {
+                              return 'Maximum length is 6 digits';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 15 * widthFactor,
+                      ),
+                      CustomTextFormField(
+                        widthFactor: widthFactor,
+                        fontSizeFactor: fontSizeFactor,
+                        controller: loadndetails.accountnumber,
+                        labelText: 'Bank Account Number',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Bank Acc No';
+                          }
+                          if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
+                            return 'Invalid Account Number';
+                          }
+                          if (value.length > 13) {
+                            return 'Maximum length is 13 digits';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(
-                  width: 40 * widthFactor,
-                ),
-                Expanded(
-                  child: CustomTextFormField(
-                    widthFactor: widthFactor,
-                    fontSizeFactor: fontSizeFactor,
-                    controller: loadndetails.accountnumber,
-                    labelText: 'Bank Account Number',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Bank Acc No';
-                      }
-                      if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(value)) {
-                        return 'Invalid Account Number';
-                      }
-                      if (value.length > 13) {
-                        return 'Maximum length is 13 digits';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ],
-            ),
             SizedBox(
               height: 30 * widthFactor,
             ),
@@ -539,7 +794,7 @@ class _SectionThreeState extends State<SectionThree>
           children: [
             if (widget.myTabController.applicants[i].selectedFiles.isNotEmpty)
               Container(
-                  width: MediaQuery.of(context).size.width * .9,
+                  width: MediaQuery.of(context).size.width * .9 * widthFactor,
                   child: Wrap(
                     children: List.generate(
                       widget.myTabController.applicants[i].selectedFiles.length,
@@ -574,8 +829,8 @@ class _SectionThreeState extends State<SectionThree>
                                             html.window.open(url, '_blank');
                                           },
                                           child: Container(
-                                            width: 300,
-                                            height: 50,
+                                            width: 300 * widthFactor,
+                                            height: 50 * widthFactor,
                                             decoration: BoxDecoration(
                                               border:
                                                   Border.all(color: blackfont),
@@ -585,10 +840,10 @@ class _SectionThreeState extends State<SectionThree>
                                             ),
                                             child: Image.memory(
                                               fileBytes,
-                                              width:
-                                                  300, // Set the width of the image as per your requirement
-                                              height:
-                                                  50, // Set the height of the image as per your requirement
+                                              width: 300 *
+                                                  widthFactor, // Set the width of the image as per your requirement
+                                              height: 50 *
+                                                  widthFactor, // Set the height of the image as per your requirement
                                               fit: BoxFit
                                                   .cover, // Adjust this based on your image requirements
                                             ),
@@ -605,8 +860,8 @@ class _SectionThreeState extends State<SectionThree>
                                             html.window.open(url, '_blank');
                                           },
                                           child: Container(
-                                            width: 300,
-                                            height: 50,
+                                            width: 300 * widthFactor,
+                                            height: 50 * widthFactor,
                                             decoration: BoxDecoration(
                                               border:
                                                   Border.all(color: blackfont),
@@ -745,8 +1000,11 @@ class _SectionThreeState extends State<SectionThree>
             Wrap(
               children: [
                 if (widget.myTabController.applicants[i].signature.isNotEmpty)
-                  viewFiles(widget.myTabController.applicants[i].signature,
-                      widget.myTabController.applicants[i].signatureName),
+                  viewFiles(
+                      widget.myTabController.applicants[i].signature,
+                      widget.myTabController.applicants[i].signatureName,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             SizedBox(
@@ -768,7 +1026,9 @@ class _SectionThreeState extends State<SectionThree>
                     .myTabController.applicants[i].paysliponeFiles.isNotEmpty)
                   viewFiles(
                       widget.myTabController.applicants[i].paysliponeFiles,
-                      widget.myTabController.applicants[i].paysliponeFileNames),
+                      widget.myTabController.applicants[i].paysliponeFileNames,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             SizedBox(
@@ -795,7 +1055,9 @@ class _SectionThreeState extends State<SectionThree>
                     .myTabController.applicants[i].paysliptwoFiles.isNotEmpty)
                   viewFiles(
                       widget.myTabController.applicants[i].paysliptwoFiles,
-                      widget.myTabController.applicants[i].paysliptwoFileNames),
+                      widget.myTabController.applicants[i].paysliptwoFileNames,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             pickFilesWidget(
@@ -818,7 +1080,9 @@ class _SectionThreeState extends State<SectionThree>
                   viewFiles(
                       widget.myTabController.applicants[i].payslipthreeFiles,
                       widget
-                          .myTabController.applicants[i].payslipthreeFileNames),
+                          .myTabController.applicants[i].payslipthreeFileNames,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             pickFilesWidget(
@@ -840,8 +1104,9 @@ class _SectionThreeState extends State<SectionThree>
                     .myTabController.applicants[i].intodletterFiles.isNotEmpty)
                   viewFiles(
                       widget.myTabController.applicants[i].intodletterFiles,
-                      widget
-                          .myTabController.applicants[i].introletterFileNames),
+                      widget.myTabController.applicants[i].introletterFileNames,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             pickFilesWidget(
@@ -863,8 +1128,10 @@ class _SectionThreeState extends State<SectionThree>
                     .isNotEmpty)
                   viewFiles(
                       widget.myTabController.applicants[i].bankStatementFiles,
-                      widget.myTabController.applicants[i]
-                          .bankStatementFileNames),
+                      widget
+                          .myTabController.applicants[i].bankStatementFileNames,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             pickFilesWidget(
@@ -883,8 +1150,11 @@ class _SectionThreeState extends State<SectionThree>
             Wrap(
               children: [
                 if (widget.myTabController.applicants[i].nrcFiles.isNotEmpty)
-                  viewFiles(widget.myTabController.applicants[i].nrcFiles,
-                      widget.myTabController.applicants[i].nrcFileNames),
+                  viewFiles(
+                      widget.myTabController.applicants[i].nrcFiles,
+                      widget.myTabController.applicants[i].nrcFileNames,
+                      fontSizeFactor,
+                      widthFactor),
               ],
             ),
             pickFilesWidget(
@@ -909,9 +1179,10 @@ class _SectionThreeState extends State<SectionThree>
     );
   }
 
-  Container viewFiles(List<Uint8List> files, List<String> fileNames) {
+  Container viewFiles(List<Uint8List> files, List<String> fileNames,
+      double widthFactor, double fontFactor) {
     return Container(
-        width: MediaQuery.of(context).size.width * .9,
+        width: MediaQuery.of(context).size.width * .9 * widthFactor,
         child: Wrap(
           children: List.generate(
             files.length,
@@ -921,9 +1192,9 @@ class _SectionThreeState extends State<SectionThree>
               String fileExtension = fileName.split('.').last.toLowerCase();
 
               return Container(
-                margin: EdgeInsets.all(10),
-                width: 300,
-                height: 60,
+                margin: EdgeInsets.all(10 * widthFactor),
+                width: 300 * widthFactor,
+                height: 60 * widthFactor,
                 child: Stack(
                   children: [
                     Column(
@@ -943,8 +1214,8 @@ class _SectionThreeState extends State<SectionThree>
                                   html.window.open(url, '_blank');
                                 },
                                 child: Container(
-                                  width: 300,
-                                  height: 50,
+                                  width: 300 * widthFactor,
+                                  height: 50 * widthFactor,
                                   decoration: BoxDecoration(
                                     border: Border.all(color: blackfont),
                                     borderRadius: BorderRadius.circular(5),
@@ -972,8 +1243,8 @@ class _SectionThreeState extends State<SectionThree>
                                   html.window.open(url, '_blank');
                                 },
                                 child: Container(
-                                  width: 300,
-                                  height: 50,
+                                  width: 300 * widthFactor,
+                                  height: 50 * widthFactor,
                                   decoration: BoxDecoration(
                                     border: Border.all(color: blackfont),
                                     borderRadius: BorderRadius.circular(5),
@@ -982,7 +1253,7 @@ class _SectionThreeState extends State<SectionThree>
                                   child: Row(
                                     children: [
                                       SizedBox(
-                                        width: 20,
+                                        width: 20 * widthFactor,
                                       ),
                                       Icon(
                                         Icons.picture_as_pdf,
@@ -993,7 +1264,8 @@ class _SectionThreeState extends State<SectionThree>
                                 ),
                               ),
                         SizedBox(
-                            height: 8.0), // Add spacing between image and text
+                            height: 8.0 *
+                                widthFactor), // Add spacing between image and text
 
                         // Display file name with overflow handling
                         Flexible(
@@ -1002,7 +1274,7 @@ class _SectionThreeState extends State<SectionThree>
                             overflow: TextOverflow.ellipsis,
                             // Adjust the maximum lines based on your UI requirements
                             style: GoogleFonts.dmSans(
-                              fontSize: 14,
+                              fontSize: 14 * fontFactor,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -1025,7 +1297,7 @@ class _SectionThreeState extends State<SectionThree>
                           backgroundColor: primary,
                           child: Icon(
                             Icons.close,
-                            size: 15,
+                            size: 15 * widthFactor,
                             color: whitefont,
                           ),
                         ),
@@ -1109,11 +1381,7 @@ class _SectionThreeState extends State<SectionThree>
           if (imageBytes != null) {
             final croppedImage = await cropImage(imageBytes, context);
             if (croppedImage != null) {
-              print('Start');
-
-              print('End');
               if (croppedImage != null) {
-                print(12);
                 setState(() {
                   selectedFiles.add(croppedImage);
                   selectedFilesnames.add('Signature');
@@ -1178,308 +1446,608 @@ class _SectionThreeState extends State<SectionThree>
     );
   }
 
-  Row loandetails(List<ApplicantDetails> applicants, double fontSizeFactor,
+  loandetails(List<ApplicantDetails> applicants, double fontSizeFactor,
       double widthFactor) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
+    return fontSizeFactor == 1
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Loan Amount applied',
-                style: GoogleFonts.dmSans(
-                    color: blackfont,
-                    fontSize: 14 * fontSizeFactor,
-                    fontWeight: FontWeight.w700),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Loan Amount applied',
+                      style: GoogleFonts.dmSans(
+                          color: blackfont,
+                          fontSize: 14 * fontSizeFactor,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      isEnabled: false,
+                      controller: loadndetails.costofasset,
+                      labelText: 'Total cost of asset',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          // Validate if the value contains only numbers
+                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Can only contain numbers';
+                          }
+                        }
+                        return null; // Return null to indicate no error
+                      },
+                    ),
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: loadndetails.insurancecost,
+                      labelText: 'Total Insurance cost',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          // Validate if the value contains only numbers
+                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Can contain only digits';
+                          }
+                        }
+                        return null; // Return null to indicate no error
+                      },
+                    ),
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: loadndetails.advancepayment,
+                      labelText: 'Less advance payment',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          // Validate if the value contains only numbers
+                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Can contain only digits';
+                          }
+                        }
+                        return null; // Return null to indicate no error
+                      },
+                    ),
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: loadndetails.loanamaountapplied,
+                      labelText: 'Loan amount applied for',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          // Validate if the value contains only numbers
+                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Can contain only digits';
+                          }
+                        }
+                        return null; // Return null to indicate no error
+                      },
+                    ),
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2<String>(
+                        isExpanded: true,
+                        hint: Text(
+                          loadndetails.tenure != null
+                              ? loadndetails.tenure.toString()
+                              : 'Loan Tenure',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * widthFactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        items: tenureOptions.map((letter) {
+                          return DropdownMenuItem(
+                            value: letter,
+                            child: Text(
+                              letter,
+                              style: GoogleFonts.dmSans(color: blackfont),
+                            ),
+                          );
+                        }).toList(),
+                        value: loadndetails.tenure,
+                        onChanged: (String? value) {
+                          setState(() {
+                            loadndetails.tenure = value;
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: loadndetails.tenure == null
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(4)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16 * widthFactor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
-                height: 20 * widthFactor,
+                width: 15 * widthFactor,
               ),
-              CustomTextFormField(
-                fontSizeFactor: fontSizeFactor,
-                widthFactor: widthFactor,
-                isEnabled: false,
-                controller: loadndetails.costofasset,
-                labelText: 'Total cost of asset',
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    // Validate if the value contains only numbers
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'Can only contain numbers';
-                    }
-                  }
-                  return null; // Return null to indicate no error
-                },
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    Text(
+                      'Share of loan applied (only asset and agriclute loan)',
+                      style: GoogleFonts.dmSans(
+                          color: blackfont,
+                          fontSize: 14 * fontSizeFactor,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 15 * widthFactor,
+                    ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[0].loanapplicantname,
+                      labelText: 'First Applicant',
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 30,
+                      width: widthFactor,
+                    ),
+                    if (widget.myTabController.numberOfPersons > 2)
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: applicants[2].loanapplicantname,
+                        labelText: 'Third Applicant (Agric Asset ONLY)',
+                        validator: (value) {
+                          return null;
+                        },
+                      ),
+                    if (widget.myTabController.numberOfPersons > 2)
+                      SizedBox(
+                        height: 15 * widthFactor,
+                      ),
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[0].loanapplicantpercentage,
+                      labelText: 'First Applicant Proportion of loan (%)',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                          if (!percentagePattern.hasMatch(value)) {
+                            return 'Please enter a valid numeric value';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 15 * widthFactor,
+                    ),
+                    if (widget.myTabController.numberOfPersons > 2)
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: applicants[2].loanapplicantpercentage,
+                        labelText: 'Third Applicant Proportion of loan (%))',
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                            if (!percentagePattern.hasMatch(value)) {
+                              return 'Please enter a valid numeric value';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                  ],
+                ),
               ),
               SizedBox(
-                height: 30 * widthFactor,
+                width: 40 * widthFactor,
               ),
-              CustomTextFormField(
-                fontSizeFactor: fontSizeFactor,
-                widthFactor: widthFactor,
-                controller: loadndetails.insurancecost,
-                labelText: 'Total Insurance cost',
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    // Validate if the value contains only numbers
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'Can contain only digits';
-                    }
-                  }
-                  return null; // Return null to indicate no error
-                },
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '',
+                      style: GoogleFonts.dmSans(
+                          color: blackfont,
+                          fontSize: 14 * fontSizeFactor,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(
+                      height: 20 * widthFactor,
+                    ),
+                    if (widget.myTabController.numberOfPersons > 1)
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: applicants[1].loanapplicantname,
+                        labelText: 'Second Applicant',
+                        validator: (value) {
+                          return null;
+                        },
+                      ),
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                    if (widget.myTabController.numberOfPersons > 3)
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: applicants[3].loanapplicantname,
+                        labelText: 'Fourth Applicant (Agric Asset ONLY)',
+                        validator: (value) {
+                          return null;
+                        },
+                      ),
+                    if (widget.myTabController.numberOfPersons > 3)
+                      SizedBox(
+                        height: 30 * widthFactor,
+                      ),
+                    if (widget.myTabController.numberOfPersons > 1)
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: applicants[1].loanapplicantpercentage,
+                        labelText: 'Second Applicant Proportion of loan (%)',
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                            if (!percentagePattern.hasMatch(value)) {
+                              return 'Please enter a valid numeric value';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                    if (widget.myTabController.numberOfPersons > 3)
+                      CustomTextFormField(
+                        fontSizeFactor: fontSizeFactor,
+                        widthFactor: widthFactor,
+                        controller: applicants[3].loanapplicantpercentage,
+                        labelText: 'Fourth Applicant Proportion of loan (%)',
+                        validator: (value) {
+                          if (value != null && value.isNotEmpty) {
+                            RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                            if (!percentagePattern.hasMatch(value)) {
+                              return 'Please enter a valid numeric value';
+                            }
+                          }
+                          return null;
+                        },
+                      ),
+                  ],
+                ),
               ),
-              SizedBox(
-                height: 30 * widthFactor,
-              ),
-              CustomTextFormField(
-                fontSizeFactor: fontSizeFactor,
-                widthFactor: widthFactor,
-                controller: loadndetails.advancepayment,
-                labelText: 'Less advance payment',
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    // Validate if the value contains only numbers
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'Can contain only digits';
-                    }
-                  }
-                  return null; // Return null to indicate no error
-                },
-              ),
-              SizedBox(
-                height: 30 * widthFactor,
-              ),
-              CustomTextFormField(
-                fontSizeFactor: fontSizeFactor,
-                widthFactor: widthFactor,
-                controller: loadndetails.loanamaountapplied,
-                labelText: 'Loan amount applied for',
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    // Validate if the value contains only numbers
-                    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'Can contain only digits';
-                    }
-                  }
-                  return null; // Return null to indicate no error
-                },
-              ),
-              SizedBox(
-                height: 30 * widthFactor,
-              ),
-              DropdownButtonHideUnderline(
-                child: DropdownButton2<String>(
-                  isExpanded: true,
-                  hint: Text(
-                    loadndetails.tenure != null
-                        ? loadndetails.tenure.toString()
-                        : 'Loan Tenure',
+            ],
+          )
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Loan Amount applied',
                     style: GoogleFonts.dmSans(
-                      fontSize: 15 * widthFactor,
-                      color: blackfont,
-                      height: .5,
-                      fontWeight: FontWeight.w500,
+                        color: blackfont,
+                        fontSize: 14 * fontSizeFactor,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    height: 20 * widthFactor,
+                  ),
+                  CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
+                    isEnabled: false,
+                    controller: loadndetails.costofasset,
+                    labelText: 'Total cost of asset',
+                    validator: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        // Validate if the value contains only numbers
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Can only contain numbers';
+                        }
+                      }
+                      return null; // Return null to indicate no error
+                    },
+                  ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
+                    controller: loadndetails.insurancecost,
+                    labelText: 'Total Insurance cost',
+                    validator: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        // Validate if the value contains only numbers
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Can contain only digits';
+                        }
+                      }
+                      return null; // Return null to indicate no error
+                    },
+                  ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
+                    controller: loadndetails.advancepayment,
+                    labelText: 'Less advance payment',
+                    validator: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        // Validate if the value contains only numbers
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Can contain only digits';
+                        }
+                      }
+                      return null; // Return null to indicate no error
+                    },
+                  ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
+                    controller: loadndetails.loanamaountapplied,
+                    labelText: 'Loan amount applied for',
+                    validator: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        // Validate if the value contains only numbers
+                        if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          return 'Can contain only digits';
+                        }
+                      }
+                      return null; // Return null to indicate no error
+                    },
+                  ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      hint: Text(
+                        loadndetails.tenure != null
+                            ? loadndetails.tenure.toString()
+                            : 'Loan Tenure',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 15 * widthFactor,
+                          color: blackfont,
+                          height: .5,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      items: tenureOptions.map((letter) {
+                        return DropdownMenuItem(
+                          value: letter,
+                          child: Text(
+                            letter,
+                            style: GoogleFonts.dmSans(color: blackfont),
+                          ),
+                        );
+                      }).toList(),
+                      value: loadndetails.tenure,
+                      onChanged: (String? value) {
+                        setState(() {
+                          loadndetails.tenure = value;
+                        });
+                      },
+                      buttonStyleData: ButtonStyleData(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: loadndetails.tenure == null
+                                    ? Colors.red
+                                    : Colors.grey,
+                                width: 1),
+                            borderRadius: BorderRadius.circular(4)),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16 * widthFactor),
+                      ),
                     ),
                   ),
-                  items: tenureOptions.map((letter) {
-                    return DropdownMenuItem(
-                      value: letter,
-                      child: Text(
-                        letter,
-                        style: GoogleFonts.dmSans(color: blackfont),
-                      ),
-                    );
-                  }).toList(),
-                  value: loadndetails.tenure,
-                  onChanged: (String? value) {
-                    setState(() {
-                      loadndetails.tenure = value;
-                    });
-                  },
-                  buttonStyleData: ButtonStyleData(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: loadndetails.tenure == null
-                                ? Colors.red
-                                : Colors.grey,
-                            width: 1),
-                        borderRadius: BorderRadius.circular(4)),
-                    padding: EdgeInsets.symmetric(horizontal: 16 * widthFactor),
+                ],
+              ),
+              SizedBox(
+                width: 40 * widthFactor,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Share of loan applied (only asset and agriclute loan)',
+                    style: GoogleFonts.dmSans(
+                        color: blackfont,
+                        fontSize: 14 * fontSizeFactor,
+                        fontWeight: FontWeight.w700),
                   ),
-                ),
+                  SizedBox(
+                    height: 20 * widthFactor,
+                  ),
+                  CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
+                    controller: applicants[0].loanapplicantname,
+                    labelText: 'First Applicant',
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 30,
+                    width: widthFactor,
+                  ),
+                  if (widget.myTabController.numberOfPersons > 2)
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[2].loanapplicantname,
+                      labelText: 'Third Applicant (Agric Asset ONLY)',
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
+                  if (widget.myTabController.numberOfPersons > 2)
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                  CustomTextFormField(
+                    fontSizeFactor: fontSizeFactor,
+                    widthFactor: widthFactor,
+                    controller: applicants[0].loanapplicantpercentage,
+                    labelText: 'First Applicant Proportion of loan (%)',
+                    validator: (value) {
+                      if (value != null && value.isNotEmpty) {
+                        RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                        if (!percentagePattern.hasMatch(value)) {
+                          return 'Please enter a valid numeric value';
+                        }
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  if (widget.myTabController.numberOfPersons > 2)
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[2].loanapplicantpercentage,
+                      labelText: 'Third Applicant Proportion of loan (%))',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                          if (!percentagePattern.hasMatch(value)) {
+                            return 'Please enter a valid numeric value';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                ],
+              ),
+              SizedBox(
+                width: 40 * widthFactor,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '',
+                    style: GoogleFonts.dmSans(
+                        color: blackfont,
+                        fontSize: 14 * fontSizeFactor,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    height: 20 * widthFactor,
+                  ),
+                  if (widget.myTabController.numberOfPersons > 1)
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[1].loanapplicantname,
+                      labelText: 'Second Applicant',
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  if (widget.myTabController.numberOfPersons > 3)
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[3].loanapplicantname,
+                      labelText: 'Fourth Applicant (Agric Asset ONLY)',
+                      validator: (value) {
+                        return null;
+                      },
+                    ),
+                  if (widget.myTabController.numberOfPersons > 3)
+                    SizedBox(
+                      height: 30 * widthFactor,
+                    ),
+                  if (widget.myTabController.numberOfPersons > 1)
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[1].loanapplicantpercentage,
+                      labelText: 'Second Applicant Proportion of loan (%)',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                          if (!percentagePattern.hasMatch(value)) {
+                            return 'Please enter a valid numeric value';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                  SizedBox(
+                    height: 30 * widthFactor,
+                  ),
+                  if (widget.myTabController.numberOfPersons > 3)
+                    CustomTextFormField(
+                      fontSizeFactor: fontSizeFactor,
+                      widthFactor: widthFactor,
+                      controller: applicants[3].loanapplicantpercentage,
+                      labelText: 'Fourth Applicant Proportion of loan (%)',
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
+                          if (!percentagePattern.hasMatch(value)) {
+                            return 'Please enter a valid numeric value';
+                          }
+                        }
+                        return null;
+                      },
+                    ),
+                ],
               ),
             ],
-          ),
-        ),
-        SizedBox(
-          width: 40 * widthFactor,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Share of loan applied (only asset and agriclute loan)',
-                style: GoogleFonts.dmSans(
-                    color: blackfont,
-                    fontSize: 14 * fontSizeFactor,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 20 * widthFactor,
-              ),
-              CustomTextFormField(
-                fontSizeFactor: fontSizeFactor,
-                widthFactor: widthFactor,
-                controller: applicants[0].loanapplicantname,
-                labelText: 'First Applicant',
-                validator: (value) {
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 30,
-                width: widthFactor,
-              ),
-              if (widget.myTabController.numberOfPersons > 2)
-                CustomTextFormField(
-                  fontSizeFactor: fontSizeFactor,
-                  widthFactor: widthFactor,
-                  controller: applicants[2].loanapplicantname,
-                  labelText: 'Third Applicant (Agric Asset ONLY)',
-                  validator: (value) {
-                    return null;
-                  },
-                ),
-              if (widget.myTabController.numberOfPersons > 2)
-                SizedBox(
-                  height: 30 * widthFactor,
-                ),
-              CustomTextFormField(
-                fontSizeFactor: fontSizeFactor,
-                widthFactor: widthFactor,
-                controller: applicants[0].loanapplicantpercentage,
-                labelText: 'First Applicant Proportion of loan (%)',
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                    if (!percentagePattern.hasMatch(value)) {
-                      return 'Please enter a valid numeric value';
-                    }
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 30 * widthFactor,
-              ),
-              if (widget.myTabController.numberOfPersons > 2)
-                CustomTextFormField(
-                  fontSizeFactor: fontSizeFactor,
-                  widthFactor: widthFactor,
-                  controller: applicants[2].loanapplicantpercentage,
-                  labelText: 'Third Applicant Proportion of loan (%))',
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                      if (!percentagePattern.hasMatch(value)) {
-                        return 'Please enter a valid numeric value';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 40 * widthFactor,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '',
-                style: GoogleFonts.dmSans(
-                    color: blackfont,
-                    fontSize: 14 * fontSizeFactor,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 20 * widthFactor,
-              ),
-              if (widget.myTabController.numberOfPersons > 1)
-                CustomTextFormField(
-                  fontSizeFactor: fontSizeFactor,
-                  widthFactor: widthFactor,
-                  controller: applicants[1].loanapplicantname,
-                  labelText: 'Second Applicant',
-                  validator: (value) {
-                    return null;
-                  },
-                ),
-              SizedBox(
-                height: 30 * widthFactor,
-              ),
-              if (widget.myTabController.numberOfPersons > 3)
-                CustomTextFormField(
-                  fontSizeFactor: fontSizeFactor,
-                  widthFactor: widthFactor,
-                  controller: applicants[3].loanapplicantname,
-                  labelText: 'Fourth Applicant (Agric Asset ONLY)',
-                  validator: (value) {
-                    return null;
-                  },
-                ),
-              if (widget.myTabController.numberOfPersons > 3)
-                SizedBox(
-                  height: 30 * widthFactor,
-                ),
-              if (widget.myTabController.numberOfPersons > 1)
-                CustomTextFormField(
-                  fontSizeFactor: fontSizeFactor,
-                  widthFactor: widthFactor,
-                  controller: applicants[1].loanapplicantpercentage,
-                  labelText: 'Second Applicant Proportion of loan (%)',
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                      if (!percentagePattern.hasMatch(value)) {
-                        return 'Please enter a valid numeric value';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-              SizedBox(
-                height: 30 * widthFactor,
-              ),
-              if (widget.myTabController.numberOfPersons > 3)
-                CustomTextFormField(
-                  fontSizeFactor: fontSizeFactor,
-                  widthFactor: widthFactor,
-                  controller: applicants[3].loanapplicantpercentage,
-                  labelText: 'Fourth Applicant Proportion of loan (%)',
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      RegExp percentagePattern = RegExp(r'^\d+(\.\d+)?$');
-                      if (!percentagePattern.hasMatch(value)) {
-                        return 'Please enter a valid numeric value';
-                      }
-                    }
-                    return null;
-                  },
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
+          );
   }
 
   Column section3A(double fontSizeFactor, double widthfactor) {
@@ -1496,129 +2064,267 @@ class _SectionThreeState extends State<SectionThree>
         SizedBox(
           height: 20 * widthfactor,
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: 400 * widthfactor,
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton2<Categories>(
-                  isExpanded: true,
-                  hint: Text(
-                    categoryName ?? 'Choose Category',
-                    style: GoogleFonts.dmSans(
-                      fontSize: 15 * fontSizeFactor,
-                      color: blackfont,
-                      height: .5,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  items: categories.map((category) {
-                    return DropdownMenuItem(
-                      value: category,
-                      child: Text(
-                        category.name,
-                        style: GoogleFonts.dmSans(color: blackfont),
-                      ),
-                    );
-                  }).toList(),
-                  value: categoryName != null
-                      ? categories.firstWhere(
-                          (element) => element.name == categoryName,
-                          orElse: () => categories.first,
-                        )
-                      : null,
-                  onChanged: (Categories? value) {
-                    setState(() {
-                      loadndetails.loancategory = value!.name;
-                      categoryName = value.name;
-                      categoryId = value.id.toString();
-                      loadndetails.chosenProductPrice.clear();
-                      loadndetails.totalcost = 0;
-                      loadndetails.costofasset.text =
-                          loadndetails.totalcost.toString();
-                      loadndetails.chosenProductIds = [];
-                      loadndetails.chosenProductNames = [];
-                      loadndetails.quantity = [];
-                      fetchProducts(categoryId!);
-                    });
-                  },
-                  buttonStyleData: ButtonStyleData(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: categoryName == null ? Colors.red : Colors.grey,
-                        width: 1 * widthfactor,
-                      ),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 20 * widthfactor,
-            ),
-            if (products.isNotEmpty)
-              SizedBox(
-                width: 400 * widthfactor,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton2<Product>(
-                    isExpanded: true,
-                    hint: Text(
-                      prodcutname ?? 'Choose Product',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 15 * fontSizeFactor,
-                        color: blackfont,
-                        height: .5,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    items: products.map((product) {
-                      return DropdownMenuItem(
-                        value: product,
-                        child: Text(
-                          product.name,
-                          style: GoogleFonts.dmSans(color: blackfont),
+        fontSizeFactor == 1
+            ? Row(
+                children: [
+                  SizedBox(
+                    width: 400 * widthfactor,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<Categories>(
+                        isExpanded: true,
+                        hint: Text(
+                          categoryName ?? 'Choose Category',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizeFactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      );
-                    }).toList(),
-                    value: prodcutname != null
-                        ? products.firstWhere(
-                            (element) => element.name == prodcutname,
-                            orElse: () => products.first,
-                          )
-                        : null,
-                    onChanged: (Product? value) {
-                      setState(() {
-                        if (!loadndetails.chosenProductIds
-                            .contains(value!.id)) {
-                          loadndetails.chosenProductIds.add(value.id);
-                          loadndetails.chosenProductNames.add(value.name);
-                          loadndetails.quantity.add(1);
-                          loadndetails.chosenProductPrice.add(value.price);
-                          loadndetails.totalcost =
-                              loadndetails.totalcost! + value.price;
-                          loadndetails.costofasset.text =
-                              loadndetails.totalcost.toString();
-                        }
-                      });
-                    },
-                    buttonStyleData: ButtonStyleData(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color:
-                              categoryName == null ? Colors.red : Colors.grey,
-                          width: 1 * widthfactor,
+                        items: categories.map((category) {
+                          return DropdownMenuItem(
+                            value: category,
+                            child: Text(
+                              category.name,
+                              style: GoogleFonts.dmSans(color: blackfont),
+                            ),
+                          );
+                        }).toList(),
+                        value: categoryName != null
+                            ? categories.firstWhere(
+                                (element) => element.name == categoryName,
+                                orElse: () => categories.first,
+                              )
+                            : null,
+                        onChanged: (Categories? value) {
+                          setState(() {
+                            loadndetails.loancategory = value!.name;
+                            categoryName = value.name;
+                            categoryId = value.id.toString();
+                            loadndetails.chosenProductPrice.clear();
+                            loadndetails.totalcost = 0;
+                            loadndetails.costofasset.text =
+                                loadndetails.totalcost.toString();
+                            loadndetails.chosenProductIds = [];
+                            loadndetails.chosenProductNames = [];
+                            loadndetails.quantity = [];
+                            fetchProducts(categoryId!);
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: categoryName == null
+                                  ? Colors.red
+                                  : Colors.grey,
+                              width: 1 * widthfactor,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
                         ),
-                        borderRadius: BorderRadius.circular(4),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: 20 * widthfactor,
+                  ),
+                  if (products.isNotEmpty)
+                    SizedBox(
+                      width: 400 * widthfactor,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<Product>(
+                          isExpanded: true,
+                          hint: Text(
+                            prodcutname ?? 'Choose Product',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizeFactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: products.map((product) {
+                            return DropdownMenuItem(
+                              value: product,
+                              child: Text(
+                                product.name,
+                                style: GoogleFonts.dmSans(color: blackfont),
+                              ),
+                            );
+                          }).toList(),
+                          value: prodcutname != null
+                              ? products.firstWhere(
+                                  (element) => element.name == prodcutname,
+                                  orElse: () => products.first,
+                                )
+                              : null,
+                          onChanged: (Product? value) {
+                            setState(() {
+                              if (!loadndetails.chosenProductIds
+                                  .contains(value!.id)) {
+                                loadndetails.chosenProductIds.add(value.id);
+                                loadndetails.chosenProductNames.add(value.name);
+                                loadndetails.quantity.add(1);
+                                loadndetails.chosenProductPrice
+                                    .add(value.price);
+                                loadndetails.totalcost =
+                                    loadndetails.totalcost! + value.price;
+                                loadndetails.costofasset.text =
+                                    loadndetails.totalcost.toString();
+                              }
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: categoryName == null
+                                    ? Colors.red
+                                    : Colors.grey,
+                                width: 1 * widthfactor,
+                              ),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              )
+            : Column(
+                children: [
+                  SizedBox(
+                    width: 400 * widthfactor,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton2<Categories>(
+                        isExpanded: true,
+                        hint: Text(
+                          categoryName ?? 'Choose Category',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 15 * fontSizeFactor,
+                            color: blackfont,
+                            height: .5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        items: categories.map((category) {
+                          return DropdownMenuItem(
+                            value: category,
+                            child: Text(
+                              category.name,
+                              style: GoogleFonts.dmSans(
+                                  color: blackfont,
+                                  fontSize: 14 * fontSizeFactor),
+                            ),
+                          );
+                        }).toList(),
+                        value: categoryName != null
+                            ? categories.firstWhere(
+                                (element) => element.name == categoryName,
+                                orElse: () => categories.first,
+                              )
+                            : null,
+                        onChanged: (Categories? value) {
+                          setState(() {
+                            loadndetails.loancategory = value!.name;
+                            categoryName = value.name;
+                            categoryId = value.id.toString();
+                            loadndetails.chosenProductPrice.clear();
+                            loadndetails.totalcost = 0;
+                            loadndetails.costofasset.text =
+                                loadndetails.totalcost.toString();
+                            loadndetails.chosenProductIds = [];
+                            loadndetails.chosenProductNames = [];
+                            loadndetails.quantity = [];
+                            fetchProducts(categoryId!);
+                          });
+                        },
+                        buttonStyleData: ButtonStyleData(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: categoryName == null
+                                  ? Colors.red
+                                  : Colors.grey,
+                              width: 1 * widthfactor,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16 * widthfactor),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15 * widthfactor,
+                  ),
+                  if (products.isNotEmpty)
+                    SizedBox(
+                      width: 400 * widthfactor,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<Product>(
+                          isExpanded: true,
+                          hint: Text(
+                            prodcutname ?? 'Choose Product',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 15 * fontSizeFactor,
+                              color: blackfont,
+                              height: .5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          items: products.map((product) {
+                            return DropdownMenuItem(
+                              value: product,
+                              child: Text(
+                                product.name,
+                                style: GoogleFonts.dmSans(
+                                    color: blackfont,
+                                    fontSize: 14 * fontSizeFactor),
+                              ),
+                            );
+                          }).toList(),
+                          value: prodcutname != null
+                              ? products.firstWhere(
+                                  (element) => element.name == prodcutname,
+                                  orElse: () => products.first,
+                                )
+                              : null,
+                          onChanged: (Product? value) {
+                            setState(() {
+                              if (!loadndetails.chosenProductIds
+                                  .contains(value!.id)) {
+                                loadndetails.chosenProductIds.add(value.id);
+                                loadndetails.chosenProductNames.add(value.name);
+                                loadndetails.quantity.add(1);
+                                loadndetails.chosenProductPrice
+                                    .add(value.price);
+                                loadndetails.totalcost =
+                                    loadndetails.totalcost! + value.price;
+                                loadndetails.costofasset.text =
+                                    loadndetails.totalcost.toString();
+                              }
+                            });
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: categoryName == null
+                                    ? Colors.red
+                                    : Colors.grey,
+                                width: 1 * widthfactor,
+                              ),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16 * widthfactor),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
-          ],
-        ),
         SizedBox(
           height: 20,
         ),
