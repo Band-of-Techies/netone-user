@@ -1476,7 +1476,7 @@ class _SectionThreeState extends State<SectionThree>
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
                           // Validate if the value contains only numbers
-                          if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                          if (!RegExp(r'^\d*\.?\d+$').hasMatch(value)) {
                             return 'Can only contain numbers';
                           }
                         }
@@ -2104,7 +2104,7 @@ class _SectionThreeState extends State<SectionThree>
                             loadndetails.chosenProductPrice.clear();
                             loadndetails.totalcost = 0;
                             loadndetails.costofasset.text =
-                                loadndetails.totalcost.toString();
+                                loadndetails.totalcost!.toStringAsFixed(2);
                             loadndetails.chosenProductIds = [];
                             loadndetails.chosenProductNames = [];
                             loadndetails.quantity = [];
@@ -2171,7 +2171,7 @@ class _SectionThreeState extends State<SectionThree>
                                 loadndetails.totalcost =
                                     loadndetails.totalcost! + value.price;
                                 loadndetails.costofasset.text =
-                                    loadndetails.totalcost.toString();
+                                    loadndetails.totalcost!.toStringAsFixed(2);
                               }
                             });
                           },
@@ -2233,7 +2233,7 @@ class _SectionThreeState extends State<SectionThree>
                             loadndetails.chosenProductPrice.clear();
                             loadndetails.totalcost = 0;
                             loadndetails.costofasset.text =
-                                loadndetails.totalcost.toString();
+                                loadndetails.totalcost!.toStringAsFixed(2);
                             loadndetails.chosenProductIds = [];
                             loadndetails.chosenProductNames = [];
                             loadndetails.quantity = [];
@@ -2303,7 +2303,7 @@ class _SectionThreeState extends State<SectionThree>
                                 loadndetails.totalcost =
                                     loadndetails.totalcost! + value.price;
                                 loadndetails.costofasset.text =
-                                    loadndetails.totalcost.toString();
+                                    loadndetails.totalcost!.toStringAsFixed(2);
                               }
                             });
                           },
@@ -2356,7 +2356,7 @@ class _SectionThreeState extends State<SectionThree>
                                     loadndetails.totalcost! -
                                         loadndetails.chosenProductPrice[i];
                                 loadndetails.costofasset.text =
-                                    loadndetails.totalcost.toString();
+                                    loadndetails.totalcost!.toStringAsFixed(2);
                               }
                             });
                           },
@@ -2388,7 +2388,7 @@ class _SectionThreeState extends State<SectionThree>
                                     loadndetails.totalcost! +
                                         loadndetails.chosenProductPrice[i];
                                 loadndetails.costofasset.text =
-                                    loadndetails.totalcost.toString();
+                                    loadndetails.totalcost!.toStringAsFixed(2);
                               }
                             });
                           },
@@ -2404,7 +2404,8 @@ class _SectionThreeState extends State<SectionThree>
                                   loadndetails.quantity[i];
 
                           loadndetails.costofasset.text =
-                              (loadndetails.totalcost! - approxcost).toString();
+                              (loadndetails.totalcost! - approxcost)
+                                  .toStringAsFixed(2);
                           loadndetails.chosenProductNames.removeAt(i);
                           loadndetails.quantity.removeAt(i);
                           loadndetails.chosenProductIds.removeAt(i);
