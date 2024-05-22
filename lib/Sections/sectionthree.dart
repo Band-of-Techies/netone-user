@@ -664,7 +664,7 @@ class _SectionThreeState extends State<SectionThree>
   }
 
   void fetchCategories() async {
-    final String apiUrl = 'https://loan-managment.onrender.com/categories';
+    final String apiUrl = 'http://localhost:3000/categories';
 
     try {
       final dio = Dio();
@@ -701,8 +701,7 @@ class _SectionThreeState extends State<SectionThree>
   }
 
   void fetchProducts(String id) async {
-    final String apiUrl =
-        'https://loan-managment.onrender.com/products?category_id=$id';
+    final String apiUrl = 'http://localhost:3000/products?category_id=$id';
 
     try {
       final dio = Dio();
