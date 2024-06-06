@@ -93028,7 +93028,7 @@ ti(a,b){return this.a0i(a,b)},
 a0i(b4,b5){var s=0,r=A.O(t.z),q=1,p,o=this,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,b0,b1,b2,b3
 var $async$ti=A.K(function(b6,b7){if(b6===1){p=b7
 s=q}while(true)switch(s){case 0:o.O(new A.asF(o))
-n="http://localhost:3000/loan_requests"
+n="http://41.77.146.116:5434/loan_requests"
 q=3
 m=A.aTG("POST",A.hu(n,0,null))
 a=m.x
@@ -93980,7 +93980,7 @@ d=d?A.bA(A.a([A.bG(A.aH(r,a1,!0,n,"",new A.atS(),a0),1),A.v(q,q,40*a0),A.bG(A.aH
 return A.bD(q,A.bn(A.a([g,f,e,b,a,d,A.v(q,l,q),A.aH(this.d.fy,a1,!0,"Bank Name and Full Address","",new A.atW(),a0)],c),B.a9,B.n,B.m),B.o,q,q,new A.bb(i,q,q,h,q,q,q,B.E),q,q,new A.Z(0,0,0,l),new A.Z(k,j,k,j),q,q,q)},
 B1(){var s=0,r=A.O(t.z),q=1,p,o=this,n,m,l,k,j,i,h,g
 var $async$B1=A.K(function(a,b){if(a===1){p=b
-s=q}while(true)switch(s){case 0:h="http://localhost:3000/categories"
+s=q}while(true)switch(s){case 0:h="http://41.77.146.116:5434/categories"
 q=3
 n=A.aFV(null)
 j=t.z
@@ -94006,7 +94006,7 @@ return A.N($async$B1,r)},
 vy(a){return this.ao3(a)},
 ao3(a1){var s=0,r=A.O(t.z),q=1,p,o=this,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0
 var $async$vy=A.K(function(a2,a3){if(a2===1){p=a3
-s=q}while(true)switch(s){case 0:a="http://localhost:3000/products?category_id="+a1
+s=q}while(true)switch(s){case 0:a="http://41.77.146.116:5434/products?category_id="+a1
 q=3
 n=A.aFV(null)
 h=t.z
